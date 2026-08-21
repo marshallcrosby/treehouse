@@ -31,7 +31,7 @@ An elevated fort on six buried 6x6 posts:
 | Enclosed room | 144½ × 120 in, at the back of the platform |
 | Open landing | 46 in deep, at the front, under the gable overhang |
 | Roof | gable, 8.91:12, ridge runs the long axis |
-| Grade to peak | 250¼ in (20 ft 10¼ in) |
+| Grade to peak | 251¼ in (20 ft 11¼ in) |
 | Total pieces | 163 boards + panels |
 
 The front gable wall has a 62 × 50 in window and a 34 in doorway opening onto
@@ -101,12 +101,13 @@ Key elevations:
 | 59.34 | foot of the knee braces |
 | 100 – 107.25 | deck 2x8 rim and joists |
 | 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
-| 107.25 | deck surface / room floor level |
-| 108.75 – 195.75 | side wall studs (87 in) |
-| 108.75 – 190.25 | gable wall studs (81½ in) |
-| 197.25 – 200.75 | 4x4 eave beams |
-| 238.75 – 244.25 | 4x6 ridge beam |
-| 250.25 | roof peak |
+| 107.25 – 108.25 | 1 in OSB room floor, full footprint |
+| 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
+| 109.75 – 196.75 | side wall studs (87 in) |
+| 109.75 – 191.25 | gable wall studs (81½ in) |
+| 198.25 – 201.75 | 4x4 eave beams |
+| 239.75 – 245.25 | 4x6 ridge beam |
+| 251.25 | roof peak |
 
 Post centres: **X = 2.75, 96.5, 186.25** · **Z = 4.5, 115.5**
 
@@ -175,25 +176,30 @@ third of the 5½ in depth:
 | Seat over the 4x6 ridge | 2.14 in | 1.75 in | 1.71 in — 31% |
 
 The ½ in lift is the only invented number in the model. Without it the ridge
-notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25.
+notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25 (now
+251.25 — see the floor/wall decision below).
 
 **Joist depth = 2x8.** A top-down view cannot show depth and there are no labels.
 Chosen because they frame into 2x8 rims and 2x8 at 16 in o.c. is comfortable
 over 9 ft 8 in, where 2x6 would be at its limit. **Confirm before buying.**
 
-**Floor runs inside the walls, not under them.** The elevations put the wall
-bottom plates directly on the rim at 107.25 with nothing beneath, so the room
-floor is laid between the walls. Result: the 1 in floor material sits ½ in
-below the top of the 1½ in bottom plate — a small lip around the room
-perimeter. If Marshall would rather deck the whole platform first and stand
-walls on top, everything above moves up 1 in.
-
 **Room floor is 1 in OSB, not decking** (changed 2026-08-21, Marshall's call).
-The landing keeps its 1x5½ decking boards; the enclosed room now gets 1 in OSB
-sheathing instead, at the same thickness and elevation, so nothing else in the
-model moved. Laid as real 4x8 sheets — three courses, seams staggered, long
-edge perpendicular to the joists the same way the decking it replaces was.
-Six cut pieces come out of four sheets; see §6 and §7.
+The landing keeps its 1x5½ decking boards; the enclosed room gets 1 in OSB
+sheathing instead. Laid as real 4x8 sheets — three courses, seams staggered,
+long edge perpendicular to the joists the same way the decking it replaces
+was. Six cut pieces come out of five sheets; see §6 and §7.
+
+**The walls stand on top of the floor, not beside it** (changed 2026-08-21,
+Marshall's call — this replaces the original "decking runs inside the walls"
+read of the elevations). The OSB now runs the full 144.5 × 120 room footprint,
+under the wall lines too, and the wall bottom plates land on top of it
+(108.25) instead of on the bare rim (107.25). That is a clean deck-first,
+walls-second build, and it removes the ½ in lip that used to show around the
+room perimeter where the 1 in floor sat below the top of the 1½ in bottom
+plate. Consequence: everything from the studs up — plates, eave beams, ridge,
+peak — moved up 1 in (the floor thickness). The rafter notch geometry itself
+is untouched; the whole roof just translated up with the walls. See §3 for
+the new elevations.
 
 **¼ in OSB is thin for this frame.** Studs and rafters are both 24 in o.c.,
 where sheathing is normally 7/16 in. Drawn at ¼ as requested. Sheet count is
@@ -232,7 +238,7 @@ Framing, as drawn:
 | 2x4x4.5 | 1 | front plate corner stub |
 | 1x5.5x120 | 9 | landing boards, turned 90° |
 | OSB ¼ | 22 sheets | walls, gables, roof |
-| OSB 1 | 6 panels, cut from 4 sheets | room floor sheathing (was 1x5.5x137.5 decking) |
+| OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
 
 Layout positions:
 
@@ -244,7 +250,7 @@ Layout positions:
   plus a doubled carrier at 46.0 / 47.5
 - Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 112.07 (16 o.c.,
   last bay is a 7 in half-bay)
-- Window opening Z 8.5 – 70.5, sill at 137.25 – 140.25
+- Window opening Z 8.5 – 70.5, sill at 138.25 – 141.25
 - Doorway opening Z 78 – 112
 
 ---
@@ -270,12 +276,14 @@ floor is OSB now, see below — it used to be 20 more boards at 12 ft.
 **Sheathing — 614½ sq ft:** 22 sheets by layout, buy 23. Straight area is 19.2;
 the gable triangles are where the waste goes.
 
-**Room floor — 1 in OSB, 4 sheets:** cuts to six pieces (one full 96×48, plus
-48×48, 41.5×48, 89.5×48, 96×17, 41.5×17) covering 107.9 sq ft of the actual
-137.5 × 113 in room floor. 128 sq ft bought against that — about 16% waste,
-mostly a 6½ in offcut strip and the leftover from ripping the two 17 in
-pieces. This is a different product than the ¼ in wall/roof sheathing above —
-don't combine the two on the lumber order.
+**Room floor — 1 in OSB, 5 sheets:** the floor now runs the full 144.5 × 120
+room footprint (walls stand on top of it, see §5), so it's six pieces instead
+of the smaller inside-the-walls version: one full 96×48, one 96×48, two
+48.5×48, one 96×24, one 48.5×24 — 120.4 sq ft actual. 160 sq ft bought against
+that, about 25% waste — the room's 144.5 in length doesn't divide evenly by
+the 96 in sheet, so every course leaves a 48.5 in offcut. This is a different
+product than the ¼ in wall/roof sheathing above — don't combine the two on
+the lumber order.
 
 Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
 
@@ -337,9 +345,7 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
    the air. Nothing in any drawing or cut list.
 4. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
-5. **Decide the floor build-up** — decking between the walls as modelled, or a
-   full-platform subfloor with walls on top, which raises everything 1 in (§5)
-6. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
+5. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
    source drawing (§4.2, §4.3)
 
 ---
@@ -365,4 +371,8 @@ Built over one session, in this order:
 10. Inlined Three.js so the file has no network dependency
 11. Swapped the room floor from 1x5½ decking to 1 in OSB, laid as real 4x8
     sheets with staggered seams — the landing kept its decking (2026-08-21,
+    Marshall's request)
+12. Moved the walls onto the top of that floor instead of beside it — the OSB
+    now runs the full room footprint, and everything from the wall plates up
+    (studs, eaves, ridge, peak) moved up 1 in to sit on top of it (2026-08-21,
     Marshall's request)
