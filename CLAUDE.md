@@ -31,8 +31,8 @@ An elevated fort on six buried 6x6 posts:
 | Enclosed room | 144½ × 120 in, at the back of the platform |
 | Open landing | 46 in deep, at the front, under the gable overhang |
 | Roof | gable, 8.91:12, ridge runs the long axis |
-| Grade to peak | 251¼ in (20 ft 11¼ in) |
-| Total pieces | 163 boards + panels |
+| Grade to peak | 250¼ in (20 ft 10¼ in) |
+| Total pieces | 177 boards + panels |
 
 The front gable wall has a 62 × 50 in window and a 34 in doorway opening onto
 the landing. The roof overhangs the landing end by 34½ in and the back by 13 in.
@@ -101,15 +101,15 @@ Key elevations:
 | 59.34 | foot of the knee braces |
 | 100 – 107.25 | deck 2x8 rim and joists |
 | 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
-| 107.25 – 108.25 | 1 in OSB room floor, full footprint |
-| 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
-| 109.75 – 196.75 | side wall studs (87 in) |
-| 109.75 – 191.25 | gable wall studs (81½ in) |
-| 198.25 – 201.75 | 4x4 eave beams |
-| 239.75 – 245.25 | 4x6 ridge beam |
-| 251.25 | roof peak |
+| 107.25 | deck surface / room floor level |
+| 108.75 – 195.75 | side wall studs (87 in) |
+| 108.75 – 190.25 | gable wall studs (81½ in) |
+| 197.25 – 200.75 | 4x4 eave beams |
+| 238.75 – 244.25 | 4x6 ridge beam |
+| 250.25 | roof peak |
 
-Post centres: **X = 2.75, 96.5, 186.25** · **Z = 4.5, 115.5**
+Post centres: **X = 2.75, 94.5, 186.25** · **Z = 4.5, 115.5**
+(middle post centred — equal 91¾ in spans; see §4.1)
 
 ---
 
@@ -118,19 +118,22 @@ Post centres: **X = 2.75, 96.5, 186.25** · **Z = 4.5, 115.5**
 **These are unresolved and matter. Do not silently "fix" them — they need
 Marshall's call.**
 
-### 4.1 The middle posts, 4 in apart between drawings
+### 4.1 The middle posts — resolved by centring
 
-The floor plan puts the middle posts **96½ in** from the landing end. The side
-elevation puts them **92½ in**. Both agree the post is off-centre by 4 in; they
-disagree about which direction, because **the side elevation is mirrored**
-relative to the plan.
+The two source drawings disagreed by 4 in. The floor plan put the middle posts
+**96½ in** from the landing end; the side elevation put them **92½ in**. Both
+agreed the post was off-centre by 4 in but disagreed on the direction, because
+**the side elevation is mirrored** relative to the plan.
 
-The model follows the plan (96.5), on the grounds that a top-down view is harder
-to flip by accident. The knee braces were mirrored to match. **Still needs
-confirming against the real layout.**
+**Resolved: the posts are now dead centre at X = 94.5**, giving equal 91¾ in
+spans. That is exactly halfway between the two conflicting values, so it is
+consistent with both drawings being 2 in off in opposite directions.
 
-To see it: select the two posts along one side. Near pair reads 93¾, far pair
-89¾.
+Alternative reading, if it ever matters: centring on the *overall* deck
+(X −3 to 190.5) would put them at 93.75, but that gives unequal spans of 91.0
+and 92.5. Equal spans is the structurally meaningful choice.
+
+**Consequence — see §4.6.**
 
 ### 4.2 Three 113 in plates missing from the cut list
 
@@ -159,6 +162,52 @@ that number is arithmetic (120 − 1.75 − 1.75), not a measurement.
 
 Not an error — it is the notch, drawn un-notched. See §5.
 
+### 4.6 A room joist on the centre-post line — resolved
+
+The 16 in o.c. room joist run put a joist at X 93.05 – 94.55, and the centred
+posts occupy X 91.75 – 97.25. The joist sat inside the post, overlapping 5½ in
+vertically (post tops out at 105.5; the joist zone is 100 – 107.25).
+
+The clash existed at every candidate post position:
+
+| Post position | Overlap |
+|---|---|
+| elevation, 92.5 | 1.50 in |
+| plan, 96.5 | 0.80 in |
+| plan as measured, 97.2 | 0.10 in |
+| centred, 94.5 | 1.50 in |
+
+**Resolved by hanging that joist off the posts.** Both centre posts sit on the
+same line (X 94.5, Z 4.5 and 115.5), so the joist was shifted onto the post
+centreline and cut to the clear span between their inner faces:
+
+- **2x8x105.5**, spanning Z 7.25 → 112.75, at X 93.75 – 95.25
+- Both ends bear on 6x6 rather than a hanger on a rim — the strongest joist in
+  the deck
+- Still cut from a 10 ft board, so the purchase list is unchanged
+- Bays either side become 16.6 and 15.3 in (were 15.9 and 16.0)
+
+Two options that do *not* work, for the record: trimming the post tops to 100
+leaves the 2x8 rim with no bolting surface, and notching the joist means
+removing 5½ in from a 7¼ in member.
+
+**Confirmed by the revised plan** (`drawings/floor-plan-rev2.png`), which draws
+the centre posts dead centre and the 2x8 running between them. Measured against
+the model: posts within **0.16 in** on both axes, room joists within **0.22 in**,
+landing joists within **0.14 in**. Two deliberate differences remain:
+
+- The revised plan draws the centre joist at X 93.92; the model puts it at
+  **94.5**, exactly on the post centreline. That alignment is the whole point of
+  hanging it off the posts, so the model's value is the intentional one.
+- The doubled carrier — see §4.4, unchanged.
+
+Note the drawing's own centre post is 0.31 in off equal spans (91.99 / 91.68).
+The model is exactly equal at 91.75 / 91.75.
+
+A landing joist was also grazing the far post by 1/16 in. That is inside the
+plan's 0.22 in error bar, so it was nudged from Z 112.07 to 111.9 to clear.
+The model now has **zero** joist/post clashes.
+
 ---
 
 ## 5. Decisions and assumptions made
@@ -176,30 +225,18 @@ third of the 5½ in depth:
 | Seat over the 4x6 ridge | 2.14 in | 1.75 in | 1.71 in — 31% |
 
 The ½ in lift is the only invented number in the model. Without it the ridge
-notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25 (now
-251.25 — see the floor/wall decision below).
+notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25.
 
 **Joist depth = 2x8.** A top-down view cannot show depth and there are no labels.
 Chosen because they frame into 2x8 rims and 2x8 at 16 in o.c. is comfortable
 over 9 ft 8 in, where 2x6 would be at its limit. **Confirm before buying.**
 
-**Room floor is 1 in OSB, not decking** (changed 2026-08-21, Marshall's call).
-The landing keeps its 1x5½ decking boards; the enclosed room gets 1 in OSB
-sheathing instead. Laid as real 4x8 sheets — three courses, seams staggered,
-long edge perpendicular to the joists the same way the decking it replaces
-was. Six cut pieces come out of five sheets; see §6 and §7.
-
-**The walls stand on top of the floor, not beside it** (changed 2026-08-21,
-Marshall's call — this replaces the original "decking runs inside the walls"
-read of the elevations). The OSB now runs the full 144.5 × 120 room footprint,
-under the wall lines too, and the wall bottom plates land on top of it
-(108.25) instead of on the bare rim (107.25). That is a clean deck-first,
-walls-second build, and it removes the ½ in lip that used to show around the
-room perimeter where the 1 in floor sat below the top of the 1½ in bottom
-plate. Consequence: everything from the studs up — plates, eave beams, ridge,
-peak — moved up 1 in (the floor thickness). The rafter notch geometry itself
-is untouched; the whole roof just translated up with the walls. See §3 for
-the new elevations.
+**Decking runs inside the walls, not under them.** The elevations put the wall
+bottom plates directly on the rim at 107.25 with nothing beneath, so the room
+floor is laid between the walls. Result: the 1 in decking sits ½ in below the
+top of the 1½ in bottom plate — a small lip around the room perimeter. If
+Marshall would rather deck the whole platform first and stand walls on top,
+everything above moves up 1 in.
 
 **¼ in OSB is thin for this frame.** Studs and rafters are both 24 in o.c.,
 where sheathing is normally 7/16 in. Drawn at ¼ as requested. Sheet count is
@@ -222,7 +259,8 @@ Framing, as drawn:
 | 4x4x41.5 | 2 | king posts under the ridge |
 | 2x8x189 | 4 | side rims, deck and lower level |
 | 2x8x120 | 5 | cross rims — front pair, back, two low |
-| 2x8x116.5 | 10 | room floor joists + doubled wall carrier |
+| 2x8x116.5 | 9 | room floor joists + doubled wall carrier |
+| 2x8x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
 | 2x8x46 | 7 | landing joists, turned 90° |
 | 2x6x113 | 4 | doubled gable headers |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
@@ -236,9 +274,9 @@ Framing, as drawn:
 | 2x4x33 | 4 | rake-ladder blocks |
 | 2x4x28.5 | 3 | cripples under the window |
 | 2x4x4.5 | 1 | front plate corner stub |
+| 1x5.5x137.5 | 20 | room floor boards |
 | 1x5.5x120 | 9 | landing boards, turned 90° |
 | OSB ¼ | 22 sheets | walls, gables, roof |
-| OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
 
 Layout positions:
 
@@ -246,11 +284,11 @@ Layout positions:
 - Side wall studs, X: 46, 70, 94, 118, 142, 166, 189 (24 o.c.)
 - Front gable studs, Z: 3.5, 7, 70.5, 75, 76.5, 112, 115
 - Back gable studs, Z: 3.5, 27.5, 51.5, 75.5, 99.5, 115 (24 o.c.)
-- Room joists, X: 61.9, 77.9, 93.8, 109.8, 125.8, 141.8, 157.7, 173.6 (16 o.c.)
-  plus a doubled carrier at 46.0 / 47.5
-- Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 112.07 (16 o.c.,
+- Room joists, X: 61.9, 77.9, 109.8, 125.8, 141.8, 157.7, 173.6 (16 o.c.), the
+  hung centre joist at 94.5, plus a doubled carrier at 46.0 / 47.5
+- Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9 (16 o.c.,
   last bay is a 7 in half-bay)
-- Window opening Z 8.5 – 70.5, sill at 138.25 – 141.25
+- Window opening Z 8.5 – 70.5, sill at 137.25 – 140.25
 - Doorway opening Z 78 – 112
 
 ---
@@ -270,20 +308,10 @@ Layout positions:
 
 *(An earlier message in the conversation said 93 boards. It is 90.)*
 
-**Decking — 9 boards, 90 linear feet:** 9 @ 10 ft, landing only. The room
-floor is OSB now, see below — it used to be 20 more boards at 12 ft.
+**Decking — 29 boards, 330 linear feet:** 9 @ 10 ft + 20 @ 12 ft
 
 **Sheathing — 614½ sq ft:** 22 sheets by layout, buy 23. Straight area is 19.2;
 the gable triangles are where the waste goes.
-
-**Room floor — 1 in OSB, 5 sheets:** the floor now runs the full 144.5 × 120
-room footprint (walls stand on top of it, see §5), so it's six pieces instead
-of the smaller inside-the-walls version: one full 96×48, one 96×48, two
-48.5×48, one 96×24, one 48.5×24 — 120.4 sq ft actual. 160 sq ft bought against
-that, about 25% waste — the room's 144.5 in length doesn't divide evenly by
-the 96 in sheet, so every course leaves a 48.5 in offcut. This is a different
-product than the ¼ in wall/roof sheathing above — don't combine the two on
-the lumber order.
 
 Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
 
@@ -339,12 +367,13 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
 
 ## 9. Still open
 
-1. **Confirm the middle post position** — 92½ or 96½ from the landing end (§4.1)
-2. **Confirm joist depth** — modelled as 2x8, unstated in the drawings (§5)
-3. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
+1. **Confirm joist depth** — modelled as 2x8, unstated in the drawings (§5)
+2. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
    the air. Nothing in any drawing or cut list.
-4. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
+3. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
+4. **Decide the floor build-up** — decking between the walls as modelled, or a
+   full-platform subfloor with walls on top, which raises everything 1 in (§5)
 5. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
    source drawing (§4.2, §4.3)
 
@@ -369,10 +398,5 @@ Built over one session, in this order:
 8. Skinned it in ¼ in OSB, laid out as real 4x8 sheets with staggered joints
 9. Added 1 × 5½ decking, running perpendicular to the joists in each bay
 10. Inlined Three.js so the file has no network dependency
-11. Swapped the room floor from 1x5½ decking to 1 in OSB, laid as real 4x8
-    sheets with staggered seams — the landing kept its decking (2026-08-21,
-    Marshall's request)
-12. Moved the walls onto the top of that floor instead of beside it — the OSB
-    now runs the full room footprint, and everything from the wall plates up
-    (studs, eaves, ridge, peak) moved up 1 in to sit on top of it (2026-08-21,
-    Marshall's request)
+11. Centred the middle posts on equal spans, resolving §4.1
+12. Hung the centre joist off the posts, resolving §4.6

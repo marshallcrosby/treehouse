@@ -159,9 +159,9 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
       <div class="dims">
         <b>190½ × 120 in</b> deck footprint<br>
         <b>144½ × 120 in</b> enclosed room<br>
-        <b>20 ft 11¼ in</b> grade to peak<br>
+        <b>20 ft 10¼ in</b> grade to peak<br>
         <b>107¼ in</b> deck height · <b>8.9:12</b> pitch<br>
-        <b>16 in o.c.</b> joists · <b>1 in OSB</b> room floor · <b>1x5½</b> landing decking · <b>¼</b> OSB skin
+        <b>16 in o.c.</b> joists · <b>1x5½</b> decking · <b>¼</b> OSB
       </div>
     </div>
 
@@ -171,12 +171,11 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 
       <div class="notes">
         <p><b>Bar length is true scale</b> — the longest stick is the 4x6x192 ridge; the stub is a 4½ in plate offcut. Tap any line to isolate it in the model.</p>
-        <p><b>Room floor is 1 in OSB, not decking.</b> The landing keeps its decking boards.</p>
-        <p><b>The walls stand on top of the floor, not beside it.</b> Sheathing runs the full room footprint first, wall plates land on it — everything above (studs, plates, eaves, ridge, peak) moved up 1 in as a result.</p>
         <p><b>¼ in OSB is thin for this frame.</b> Studs and rafters are 24 in o.c., where sheathing is normally 7/16 in. The skin is drawn at ¼ as asked — the panel count barely changes if you step up.</p>
         <p><b>Rafters are notched at both bearings.</b> 1½ in birdsmouth on the 4x4 eave beams, 1¾ in seat over the 4x6 ridge — both under a third of the rafter depth. That was the reason the rafters ran through the ridge in the elevation.</p>
         <p><b>Joists are added from the plan, sized as 2x8.</b> A top-down view can't show depth. They frame into 2x8 rims, so 2x8 is the sensible read — but confirm it before you buy.</p>
-        <p><b>The middle posts moved 4 in.</b> The plan puts them 96½ in from the landing end; the side elevation had them 92½ in. The elevation is mirrored. The plan wins here.</p>
+        <p><b>The centre joist is hung off the posts.</b> On the post centreline it would clash, so it stops at their inner faces — 105½ in, both ends bearing on 6x6 rather than a hanger on a rim.</p>
+        <p><b>The middle posts are centred.</b> Equal 91¾ in spans. The plan and the mirrored side elevation disagreed by 4 in — 92½ against 96½ — and dead centre splits them exactly.</p>
         <p><b>Three plates aren't on the cut list.</b> 2x4 top plates at both gable walls plus the back bottom plate — three 113 in pieces, and the list calls out one.</p>
         <p><b>Still missing:</b> a way up to a platform nearly 9 ft in the air.</p>
       </div>
@@ -247,12 +246,10 @@ var COLOR = {
 };
 function nominalOf(sz){ return sz.indexOf("OSB")===0 ? "OSB" : sz.split("x").slice(0,2).join("x"); }
 
-var DECK_TOP = 107.25;   // top of 2x8 rim, where the room floor starts
+var DECK_TOP = 107.25;   // top of 2x8 rim = floor of the room
 var POST_TOP = 105.5;
-var FLOOR_T = 1.0;                    // 1 in OSB room floor
-var WALL_BASE = DECK_TOP + FLOOR_T;   // walls stand on top of the floor, not beside it
 var PITCH = 36.6 * Math.PI/180;
-var RIDGE_BOT = 238.75 + FLOOR_T, RIDGE_TOP = 244.25 + FLOOR_T;
+var RIDGE_BOT = 238.75, RIDGE_TOP = 244.25;
 
 var pieces = [];
 function P(o){ pieces.push(o); return o; }
@@ -294,7 +291,7 @@ function prism(size, role, layer, pts, axis, at, dir){
 }
 
 /* ---------- 1. posts : 6 @ 6x6x144 ---------- */
-var POST_X = [2.75, 96.5, 186.25], POST_Z = [4.5, 115.5];
+var POST_X = [2.75, 94.5, 186.25], POST_Z = [4.5, 115.5];
 POST_X.forEach(function(px){ POST_Z.forEach(function(pz){
   box("6x6x144","Post — 38½ in below grade, 105½ in above","posts",
       px-2.75, -38.5, pz-2.75, 5.5, 144, 5.5);
@@ -329,7 +326,7 @@ function braceProfile(f, s){
 var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x8";
 /* long sides: feet at the outer post faces and back-to-back at the middle post */
 [0.25, 118.25].forEach(function(z){
-  [[0,1],[96.5,-1],[96.5,1],[189,-1]].forEach(function(b){
+  [[0,1],[94.5,-1],[94.5,1],[189,-1]].forEach(function(b){
     prism("2x6x57.5", BR_ROLE, "braces", braceProfile(b[0], b[1]), "z", z, [b[1],1,0]);
   });
 });
@@ -342,15 +339,19 @@ var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x8";
 
 /* ---------- 3b. floor joists, from the plan view : 16 in o.c. ---------- */
 /* room bay — joists span between the side rims, 116.5 in clear */
-[173.6,157.7,141.8,125.8,109.8,93.8,77.9,61.9].forEach(function(jx){
+[173.6,157.7,141.8,125.8,109.8,77.9,61.9].forEach(function(jx){
   box("2x8x116.5","Room floor joist — 16 in o.c.","joists",
       jx-0.75, 100.0, 1.75, 1.5, 7.25, 116.5);
 });
+/* the joist on the centre-post line would run straight through both posts,
+   so it shifts to X 94.5 and is cut to the clear span between their faces */
+box("2x8x105.5","Room floor joist — hung off the centre posts, both ends on 6x6",
+    "joists", 93.75, 100.0, 7.25, 1.5, 7.25, 105.5);
 box("2x8x116.5","Doubled joist under the front wall (outer)","joists", 46.0, 100.0, 1.75, 1.5, 7.25, 116.5);
 box("2x8x116.5","Doubled joist under the front wall (inner)","joists", 47.5, 100.0, 1.75, 1.5, 7.25, 116.5);
 
 /* landing bay — joists turn 90 deg and run the length, 16 in o.c. */
-[16.87,32.79,48.72,64.64,80.65,96.66,112.07].forEach(function(jz){
+[16.87,32.79,48.72,64.64,80.65,96.66,111.9].forEach(function(jz){
   box("2x8x46","Landing joist — runs the length, 16 in o.c.","joists",
       0, 100.0, jz-0.75, 46.0, 7.25, 1.5);
 });
@@ -358,11 +359,11 @@ box("2x8x116.5","Doubled joist under the front wall (inner)","joists", 47.5, 100
 
 /* ---------- 4. side walls : 4 @ 2x4x144.5, 14 @ 2x4x87 ---------- */
 var RM_X0 = 46.0, RM_X1 = 190.5;             // room runs 46 -> 190.5
-var STUD_BOT = WALL_BASE + 1.5;               // 109.75 — plate sits on the floor, studs sit on the plate
-var STUD_TOP = STUD_BOT + 87;                 // 196.75
-var PLATE_TOP = STUD_TOP + 1.5;               // 198.25
+var STUD_BOT = DECK_TOP + 1.5;                // 108.75
+var STUD_TOP = STUD_BOT + 87;                 // 195.75
+var PLATE_TOP = STUD_TOP + 1.5;               // 197.25
 [0, 116.5].forEach(function(z){
-  box("2x4x144.5","Side wall bottom plate","walls", RM_X0, WALL_BASE, z, 144.5, 1.5, 3.5);
+  box("2x4x144.5","Side wall bottom plate","walls", RM_X0, DECK_TOP, z, 144.5, 1.5, 3.5);
   box("2x4x144.5","Side wall top plate","walls",   RM_X0, STUD_TOP, z, 144.5, 1.5, 3.5);
   [46,70,94,118,142,166,189].forEach(function(sx){
     box("2x4x87","Side wall stud — 24 in o.c.","walls", sx, STUD_BOT, z, 1.5, 87, 3.5);
@@ -379,18 +380,18 @@ function gable(x, isFront){
   box("4x4x41.5","King post carrying the ridge beam","walls", x, PLATE_TOP, 58.25, 3.5, 41.5, 3.5);
 
   if(isFront){
-    box("2x4x74.5","Front bottom plate — runs to the doorway","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 74.5);
-    box("2x4x4.5","Front bottom plate — corner stub","walls", x, WALL_BASE, 112.0, 3.5, 1.5, 4.5);
+    box("2x4x74.5","Front bottom plate — runs to the doorway","walls", x, DECK_TOP, 3.5, 3.5, 1.5, 74.5);
+    box("2x4x4.5","Front bottom plate — corner stub","walls", x, DECK_TOP, 112.0, 3.5, 1.5, 4.5);
     [3.5,7.0,70.5,75.0,76.5,112.0,115.0].forEach(function(sz){
       box("2x4x81.5","Front wall stud","walls", x, STUD_BOT, sz, 3.5, 81.5, 1.5);
     });
-    box("2x4x62","Window sill (lower)","walls", x, STUD_BOT+28.5, 8.5, 3.5, 1.5, 62);
-    box("2x4x62","Window sill (upper)","walls", x, STUD_BOT+30.0, 8.5, 3.5, 1.5, 62);
+    box("2x4x62","Window sill (lower)","walls", x, 137.25, 8.5, 3.5, 1.5, 62);
+    box("2x4x62","Window sill (upper)","walls", x, 138.75, 8.5, 3.5, 1.5, 62);
     [23.0,39.0,55.0].forEach(function(sz){
       box("2x4x28.5","Cripple stud under the window","walls", x, STUD_BOT, sz, 3.5, 28.5, 1.5);
     });
   } else {
-    box("2x4x113","Back wall bottom plate","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 113);
+    box("2x4x113","Back wall bottom plate","walls", x, DECK_TOP, 3.5, 3.5, 1.5, 113);
     [3.5,27.5,51.5,75.5,99.5,115.0].forEach(function(sz){
       box("2x4x81.5","Back wall stud — 24 in o.c.","walls", x, STUD_BOT, sz, 3.5, 81.5, 1.5);
     });
@@ -408,10 +409,10 @@ box("4x4x192","Eave beam / wall top beam","roof", ROOF_X0, PLATE_TOP, 116.5, ROO
 var CT = Math.cos(PITCH), ST = Math.sin(PITCH), TT = Math.tan(PITCH);
 /* underside of the rafter, raised 0.5 in off the drawn line so both notches
    land inside the 1/3-of-depth rule */
-function U(z){ return 198.854 + FLOOR_T + TT*z; }
+function U(z){ return 198.854 + TT*z; }
 function T(z){ return U(z) + 5.5/CT; }     // +6.850
-var EAVE_TOP = PLATE_TOP + 3.5;            // 201.75, top of the 4x4
-var SEAT_END = (EAVE_TOP - (198.854 + FLOOR_T))/TT;    // 2.554, where the seat meets the underside
+var EAVE_TOP = PLATE_TOP + 3.5;            // 200.75, top of the 4x4
+var SEAT_END = (EAVE_TOP - 198.854)/TT;    // 2.554, where the seat meets the underside
 
 /* left slope, walked as a closed outline in (Z, y) */
 var RAFT = [
@@ -440,10 +441,9 @@ RAFT_X.forEach(function(rx){
      layer:"roof", kind:"rotX", c:[29.5, y, 120-z], s:[33, 1.5, 3.5], rot:-PITCH});
 });
 
-/* ---------- 8. decking : 1 x 5.5 boards, 1/4 in gaps (landing only) ----------
+/* ---------- 8. decking : 1 x 5.5 boards, 1/4 in gaps ----------
    Boards run perpendicular to the joists in each bay, which is why the
-   plan turns the joists 90 deg at the landing. The room floor is 1 in OSB
-   instead \u2014 see 8b \u2014 swapped from decking boards at Marshall's request. */
+   plan turns the joists 90 deg at the landing. */
 var DK_T = 1.0, DK_W = 5.5, DK_GAP = 0.25, DK_P = DK_W + DK_GAP;
 
 /* landing: joists run the length, so boards run across the width */
@@ -454,28 +454,15 @@ for(var dx = -3; dx < RM_X0 - 0.01; dx += DK_P){
                 : "Landing deck board \u2014 \u00BC in gap",
       "decking", dx, DECK_TOP, 0, dw, DK_T, 120);
 }
-
-/* ---------- 8b. room floor : 1 in OSB, real 4x8 sheets, staggered joints ----------
-   Decked before the walls stand: the sheathing runs the full 144.5 x 120 room
-   footprint, under the wall lines too, and the wall plates land on top of it
-   (WALL_BASE = DECK_TOP + FLOOR_T) instead of on the bare rim. That is what
-   pushed the whole wall/roof stack up by FLOOR_T (1 in) \u2014 see WALL_BASE above.
-   The 96 in edge runs perpendicular to the room joists, same logic as the
-   decking boards this replaced. Courses stagger their seams the way the
-   wall/roof OSB skin does. */
-var FL_COURSE = [
-  [0,   48,  [RM_X0, RM_X0+96,   RM_X1]],   // 48 in wide course
-  [48,  96,  [RM_X0, RM_X0+48.5, RM_X1]],   // 48 in wide course, seam staggered
-  [96,  120, [RM_X0, RM_X0+96,   RM_X1]]    // 24 in wide course, back to the first break
-];
-FL_COURSE.forEach(function(c){
-  var z0=c[0], z1=c[1], brk=c[2];
-  for(var k=0;k<brk.length-1;k++){
-    var x0=brk[k], x1=brk[k+1], dx=x1-x0, dz=z1-z0;
-    box("OSB 1", "Room floor sheathing \u2014 cut "+q8(dx)+" \u00D7 "+q8(dz)+" in",
-        "decking", x0, DECK_TOP, z0, dx, FLOOR_T, dz);
-  }
-});
+/* room floor: joists run across, so boards run the length, wall to wall */
+var RF0 = RM_X0 + 3.5, RF1 = RM_X1 - 3.5;
+for(var dz = 3.5; dz < 116.5 - 0.01; dz += DK_P){
+  var dw2 = Math.min(DK_W, 116.5 - dz);
+  box("1x5.5x137.5",
+      dw2 < DK_W ? "Room floor board \u2014 rip to " + q8(dw2) + " in"
+                 : "Room floor board \u2014 \u00BC in gap",
+      "decking", RF0, DECK_TOP, dz, RF1-RF0, DK_T, dw2);
+}
 
 /* ---------- 7. OSB skin : 1/4 in sheathing ---------- */
 var OSB = 0.25;
@@ -524,18 +511,18 @@ function sheet(outline, axis, at, courses, tag){
   });
 }
 
-/* --- side walls: X 46 to 190.5, wall base (on top of the floor) up to the 4x4 --- */
-var SW = [[46,WALL_BASE],[190.5,WALL_BASE],[190.5,EAVE_TOP],[46,EAVE_TOP]];
-var SW_C = [[WALL_BASE, WALL_BASE+48, [46,142,190.5]],
-            [WALL_BASE+48, EAVE_TOP, [46,94.5,190.5]]];
+/* --- side walls: X 46 to 190.5, deck 107.25 up to the top of the 4x4 --- */
+var SW = [[46,DECK_TOP],[190.5,DECK_TOP],[190.5,EAVE_TOP],[46,EAVE_TOP]];
+var SW_C = [[DECK_TOP, DECK_TOP+48, [46,142,190.5]],
+            [DECK_TOP+48, EAVE_TOP, [46,94.5,190.5]]];
 sheet(SW, "z", -OSB, SW_C, "Side wall");
 sheet(SW, "z", 120,  SW_C, "Side wall");
 
 /* --- gable walls: pentagon, top edge follows the rafter underside --- */
-var GB = [[0,WALL_BASE],[120,WALL_BASE],[120,U(0)],[60,U(60)],[0,U(0)]];
-var GB_C = [[WALL_BASE,      WALL_BASE+48,  [0,96,120]],
-            [WALL_BASE+48,   WALL_BASE+96,  [0,24,120]],
-            [WALL_BASE+96,   WALL_BASE+144, [0,96,120]]];
+var GB = [[0,DECK_TOP],[120,DECK_TOP],[120,U(0)],[60,U(60)],[0,U(0)]];
+var GB_C = [[DECK_TOP,      DECK_TOP+48,  [0,96,120]],
+            [DECK_TOP+48,   DECK_TOP+96,  [0,24,120]],
+            [DECK_TOP+96,   DECK_TOP+144, [0,96,120]]];
 sheet(GB, "x", RM_X0,       GB_C, "Gable");
 sheet(GB, "x", RM_X1+OSB,   GB_C, "Gable");
 
@@ -912,9 +899,10 @@ var CUT = [
   ["OSB \u00BC",22,"Sheathing \u2014 walls, gables and roof"],
   ["2x8x189",4,"Side rims, deck and lower level"],
   ["2x8x120",5,"Cross rims — front pair, back, and two low"],
-  ["OSB 1",6,"Room floor sheathing — full footprint, cut from 5 sheets"],
+  ["1x5.5x137.5",20,"Room floor boards"],
   ["1x5.5x120",9,"Landing boards, turned 90\u00b0"],
-  ["2x8x116.5",10,"Room floor joists + doubled wall carrier"],
+  ["2x8x116.5",9,"Room floor joists + doubled wall carrier"],
+  ["2x8x105.5",1,"Centre joist, hung off the 6x6 posts"],
   ["2x8x46",7,"Landing joists, turned 90°"],
   ["2x6x113",4,"Doubled gable headers"],
   ["2x6x92",20,"Rafters, 24 in o.c."],
