@@ -31,7 +31,7 @@ An elevated fort on six buried 6x6 posts:
 | Enclosed room | 144½ × 120 in, at the back of the platform |
 | Open landing | 46 in deep, at the front, under the gable overhang |
 | Roof | gable, 8.91:12, ridge runs the long axis |
-| Grade to peak | 250¼ in (20 ft 10¼ in) |
+| Grade to peak | 253 in (21 ft 1 in) |
 | Total pieces | 177 boards + panels |
 
 The front gable wall has a 62 × 50 in window and a 34 in doorway opening onto
@@ -101,12 +101,13 @@ Key elevations:
 | 59.34 | foot of the knee braces |
 | 98 – 107.25 | deck-level rim, side and cross, both 2x10 (joists still 100 – 107.25, 2x8) |
 | 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
-| 107.25 | deck surface / room floor level |
-| 108.75 – 195.75 | side wall studs (87 in) |
-| 108.75 – 190.25 | gable wall studs (81½ in) |
-| 197.25 – 200.75 | 4x4 eave beams |
-| 238.75 – 244.25 | 4x6 ridge beam |
-| 250.25 | roof peak |
+| 107.25 – 108.25 | 1 in OSB room floor, full footprint (see §5) |
+| 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
+| 109.75 – 198.5 | side wall studs (88¾ in — grew from 87, see §4.7) |
+| 109.75 – 191.25 | gable wall studs (81½ in) |
+| 200 – 203.5 | 4x4 eave beams |
+| 241.5 – 247 | 4x6 ridge beam |
+| 253 | roof peak |
 
 Post centres: **X = 2.75, 94.5, 186.25** · **Z = 4.5, 115.5**
 (middle post centred — equal 91¾ in spans; see §4.1)
@@ -208,6 +209,42 @@ A landing joist was also grazing the far post by 1/16 in. That is inside the
 plan's 0.22 in error bar, so it was nudged from Z 112.07 to 111.9 to clear.
 The model now has **zero** joist/post clashes.
 
+### 4.7 The king post lands inside the window header, not on a support — resolved
+
+The ridge beam is a single 4x6 spanning the full 192 in roof length, carried
+at each end by a king post that bears straight down onto that gable wall's
+header. The king post has to sit at Z 58.25 – 61.75 — dead centre on the
+wall's width, because that's where the ridge has to be for a symmetric gable
+roof. It can't move.
+
+The front window (Z 8.5 – 70.5, from the elevations) is off-centre on that
+same wall. The king post's Z position falls inside the window's span, only
+**~9–11 in from the window's far jack stud** and over 50 in from the near
+one — the single heaviest point load on the wall was riding on the window
+header, off to one side, uncaught until it reached that jack stud.
+
+Three fixes were on the table:
+
+- Narrow the window so its far jack stud lands under the king post (~62 in
+  → ~50 in) — no new pieces, but a smaller window than the elevations draw.
+- Add a support stud directly under the king post — structurally the most
+  direct fix, but it lands inside the glass and splits the sill into a
+  ~50 in pane and an awkward ~9 in sliver.
+- Upsize the header so it doesn't need a dedicated support at all.
+
+**Resolved by upsizing the header** — doubled 2x6 → doubled 2x8, window and
+sill untouched. That didn't just drop in: a doubled 2x6 exactly filled the
+5.5 in gap between the gable top plate and the eave beam with zero slack, so
+the extra 1.75 in depth pushes everything above the wall studs up by that
+much. Consequence, all derived from one shift:
+
+- Side wall studs grew 87 → 88¾ in, so the eave stays level all the way
+  round (the gable wall now reaches the same height a different way —
+  shorter studs, deeper header — and the side walls have to match it)
+- Eave beams, ridge beam, and king post height all ride up 1.75 in
+  (king post itself is still 41½ in — both ends of its span moved together)
+- Peak moved from 250¼ to 252 in (21 ft 0 in, up from 20 ft 10¼)
+
 ---
 
 ## 5. Decisions and assumptions made
@@ -225,7 +262,8 @@ third of the 5½ in depth:
 | Seat over the 4x6 ridge | 2.14 in | 1.75 in | 1.71 in — 31% |
 
 The ½ in lift is the only invented number in the model. Without it the ridge
-notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25.
+notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25 (now
+253 — see §4.7 and §5's floor change, both unrelated later changes).
 
 **Joist depth = 2x8.** A top-down view cannot show depth and there are no labels.
 Chosen because they frame into 2x10 cross rims and 2x8 at 16 in o.c. is
@@ -234,12 +272,22 @@ comfortable over 9 ft 8 in, where 2x6 would be at its limit. The 2x10 rims
 them on hangers set to the deck-surface line, same as before. **Confirm before
 buying.**
 
-**Decking runs inside the walls, not under them.** The elevations put the wall
-bottom plates directly on the rim at 107.25 with nothing beneath, so the room
-floor is laid between the walls. Result: the 1 in decking sits ½ in below the
-top of the 1½ in bottom plate — a small lip around the room perimeter. If
-Marshall would rather deck the whole platform first and stand walls on top,
-everything above moves up 1 in.
+**Room floor is 1 in OSB, not decking** (Marshall's call). The landing keeps
+its 1x5½ decking boards; the enclosed room gets 1 in OSB sheathing instead —
+laid as real 4x8 sheets, three courses, seams staggered, the same way the
+wall/roof skin is. Six cut pieces come out of five sheets; see §6 and §7.
+
+**The walls stand on top of the floor, not beside it** (Marshall's call —
+this replaces the original "decking runs inside the walls" read of the
+elevations, where the wall bottom plates sat directly on the rim at 107.25
+with nothing beneath, and the 1 in decking that used to fill the room ended
+up ½ in below the top of the 1½ in bottom plate — a lip around the room
+perimeter). The OSB now runs the full 144.5 × 120 room footprint, under the
+wall lines too, and the wall bottom plates land on top of it (WALL_BASE =
+108.25) instead of on the bare rim (107.25). Consequence: everything from the
+studs up — plates, eave beams, ridge, king posts, peak — moved up 1 in on
+top of the §4.7 shift. The rafter notch geometry itself is untouched; the
+whole roof just translated up with the walls.
 
 **¼ in OSB is thin for this frame.** Studs and rafters are both 24 in o.c.,
 where sheathing is normally 7/16 in. Drawn at ¼ as requested. Sheet count is
@@ -273,21 +321,21 @@ Framing, as drawn:
 | 2x8x116.5 | 9 | room floor joists + doubled wall carrier |
 | 2x8x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
 | 2x8x46 | 7 | landing joists, turned 90° |
-| 2x6x113 | 4 | doubled gable headers |
+| 2x8x113 | 4 | doubled gable headers (widened from 2x6 — see §4.7) |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
 | 2x6x57.5 | 12 | 45° knee braces |
 | 2x4x144.5 | 4 | side wall plates |
 | 2x4x113 | 3 | gable top plates + back bottom plate (see §4.2) |
-| 2x4x87 | 14 | side wall studs, 24 in o.c. |
+| 2x4x88.75 | 14 | side wall studs, 24 in o.c. (grew from 87 — see §4.7) |
 | 2x4x81.5 | 13 | gable wall studs |
 | 2x4x74.5 | 1 | front plate to the doorway |
 | 2x4x62 | 2 | window sill, doubled |
 | 2x4x33 | 4 | rake-ladder blocks |
 | 2x4x28.5 | 3 | cripples under the window |
 | 2x4x4.5 | 1 | front plate corner stub |
-| 1x5.5x137.5 | 20 | room floor boards |
 | 1x5.5x120 | 9 | landing boards, turned 90° |
 | OSB ¼ | 22 sheets | walls, gables, roof |
+| OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
 
 Layout positions:
 
@@ -299,7 +347,7 @@ Layout positions:
   hung centre joist at 94.5, plus a doubled carrier at 46.0 / 47.5
 - Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9 (16 o.c.,
   last bay is a 7 in half-bay)
-- Window opening Z 8.5 – 70.5, sill at 137.25 – 140.25
+- Window opening Z 8.5 – 70.5, sill at 138.25 – 141.25
 - Doorway opening Z 78 – 112
 
 ---
@@ -311,8 +359,8 @@ Layout positions:
 | Size | Buy |
 |---|---|
 | 2x4 | 13 @ 8' · 1 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
-| 2x6 | 20 @ 8' · 10 @ 10' |
-| 2x8 | 4 @ 8' · 10 @ 10' |
+| 2x6 | 20 @ 8' · 6 @ 10' |
+| 2x8 | 4 @ 8' · 14 @ 10' |
 | 2x10 | 4 @ 16' · 5 @ 10' |
 | 4x4 | 1 @ 8' · 2 @ 16' |
 | 4x6 | 1 @ 16' |
@@ -320,10 +368,20 @@ Layout positions:
 
 *(An earlier message in the conversation said 93 boards. It is 90.)*
 
-**Decking — 29 boards, 330 linear feet:** 9 @ 10 ft + 20 @ 12 ft
+**Decking — 9 boards, 90 linear feet:** 9 @ 10 ft, landing only. The room
+floor is OSB now, see below — it used to be 20 more boards at 12 ft.
 
 **Sheathing — 614½ sq ft:** 22 sheets by layout, buy 23. Straight area is 19.2;
 the gable triangles are where the waste goes.
+
+**Room floor — 1 in OSB, 5 sheets:** the floor now runs the full 144.5 × 120
+room footprint (walls stand on top of it, see §5), so it's six pieces instead
+of the smaller inside-the-walls version: one full 96×48, one 96×48, two
+48.5×48, one 96×24, one 48.5×24 — 120.4 sq ft actual. 160 sq ft bought against
+that, about 25% waste — the room's 144.5 in length doesn't divide evenly by
+the 96 in sheet, so every course leaves a 48.5 in offcut. This is a different
+product than the ¼ in wall/roof sheathing above — don't combine the two on
+the lumber order.
 
 Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
 
@@ -385,9 +443,7 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
    the air. Nothing in any drawing or cut list.
 3. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
-4. **Decide the floor build-up** — decking between the walls as modelled, or a
-   full-platform subfloor with walls on top, which raises everything 1 in (§5)
-5. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
+4. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
    source drawing (§4.2, §4.3)
 
 ---
@@ -421,3 +477,15 @@ Built over one session, in this order:
     16.4/33.9, now 17/34) and stood them on edge so the narrow 1½ in face
     follows the roof pitch, matching how the rafters themselves meet the
     slope
+15. Caught the king post landing inside the window header instead of on a
+    support (§4.7) and resolved it by upsizing the gable headers to doubled
+    2x8, which pushed the side wall studs to 88¾ in and everything above
+    them up 1.75 in — eave beams, ridge, king posts, and the peak (now
+    252 in / 21 ft 0 in)
+16. Swapped the room floor from 1x5½ decking to 1 in OSB, laid as real 4x8
+    sheets with staggered seams — the landing kept its decking (Marshall's
+    request)
+17. Moved the walls onto the top of that floor instead of beside it — the
+    OSB now runs the full room footprint, and everything from the wall
+    plates up (studs, eaves, ridge, peak) moved up another 1 in to sit on
+    top of it (253 in / 21 ft 1 in, on top of the §4.7 shift)
