@@ -235,18 +235,18 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 
 /* ============================================================
    All dimensions in inches, taken off the PDF at 7.2 pt = 1 in.
-   X = length (0 -> 189 along the 2x8x189 beams)
+   X = length (0 -> 189 along the 2x10x189 beams)
    Y = height above grade
-   Z = width (0 -> 120 across the 2x8x120 beams)
+   Z = width (0 -> 120 across the 2x10x120 beams)
    ============================================================ */
 
 var COLOR = {
-  "2x4":0xE6CB92, "2x6":0xCFA35F, "2x8":0xB07C41,
+  "2x4":0xE6CB92, "2x6":0xCFA35F, "2x8":0xB07C41, "2x10":0x8F5A32,
   "4x4":0x8E6E4A, "4x6":0x6F5A3E, "6x6":0x4E4132, "OSB":0x9E9378, "1x5.5":0xC9B48F
 };
 function nominalOf(sz){ return sz.indexOf("OSB")===0 ? "OSB" : sz.split("x").slice(0,2).join("x"); }
 
-var DECK_TOP = 107.25;   // top of 2x8 rim = floor of the room
+var DECK_TOP = 107.25;   // top of deck framing = floor of the room
 var POST_TOP = 105.5;
 var PITCH = 36.6 * Math.PI/180;
 var RIDGE_BOT = 238.75, RIDGE_TOP = 244.25;
@@ -297,33 +297,37 @@ POST_X.forEach(function(px){ POST_Z.forEach(function(pz){
       px-2.75, -38.5, pz-2.75, 5.5, 144, 5.5);
 });});
 
-/* ---------- 2. deck + lower rim : 4 @ 2x8x189, 5 @ 2x8x120 ---------- */
-[[100.0,"Deck-level"],[4.25,"Lower"]].forEach(function(lv){
-  var y = lv[0], tag = lv[1];
-  box("2x8x189", tag+" side beam","deck", 0, y, 0.25, 189, 7.25, 1.5);
-  box("2x8x189", tag+" side beam","deck", 0, y, 118.25, 189, 7.25, 1.5);
+/* ---------- 2. deck + lower rim : 4 @ 2x10x189, 5 @ 2x10x120 ---------- */
+/* side and cross rims are both 2x10 (9.25 actual); top kept flush with the
+   old 2x8 line, so the extra depth extends downward and nothing built on
+   top moves */
+var RIM_DEPTH = 9.25;
+[[DECK_TOP,"Deck-level"],[11.5,"Lower"]].forEach(function(lv){
+  var top = lv[0], tag = lv[1], y = top - RIM_DEPTH;
+  box("2x10x189", tag+" side beam","deck", 0, y, 0.25, 189, RIM_DEPTH, 1.5);
+  box("2x10x189", tag+" side beam","deck", 0, y, 118.25, 189, RIM_DEPTH, 1.5);
 });
-box("2x8x120","Deck-level front beam (outer of pair)","deck", -3.0, 100.0, 0, 1.5, 7.25, 120);
-box("2x8x120","Deck-level front beam (inner of pair)","deck", -1.5, 100.0, 0, 1.5, 7.25, 120);
-box("2x8x120","Deck-level back beam","deck", 189.0, 100.0, 0, 1.5, 7.25, 120);
-box("2x8x120","Lower front beam","deck", -1.5, 4.25, 0, 1.5, 7.25, 120);
-box("2x8x120","Lower back beam","deck", 189.0, 4.25, 0, 1.5, 7.25, 120);
+box("2x10x120","Deck-level front beam (outer of pair)","deck", -3.0, DECK_TOP-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
+box("2x10x120","Deck-level front beam (inner of pair)","deck", -1.5, DECK_TOP-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
+box("2x10x120","Deck-level back beam","deck", 189.0, DECK_TOP-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
+box("2x10x120","Lower front beam","deck", -1.5, 11.5-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
+box("2x10x120","Lower back beam","deck", 189.0, 11.5-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
 
 /* ---------- 3. knee braces : 12 @ 2x6x57.5 ----------
-   45° run, plumb cut at the post, level cut under the 2x8.
+   45° run, plumb cut at the post, level cut under the deck-level rim.
    Profile, measured from the foot at the post face:
      (0,0) --lower edge 57.5--> (40.66,40.66) --level cut--> (32.89,40.66)
            --upper edge--> (0,7.78) --plumb cut--> close
    7.78 = 5.5 x sqrt(2), the face a 45° cut leaves on a 2x6.
    Braces sit in the same plane as the rims and lap across the post face. */
-var BR_FOOT_Y = 59.34, BR_RUN = 40.66, BR_FACE = 7.78, BR_TOP = 100.0;
+var BR_FOOT_Y = 59.34, BR_RUN = 40.66, BR_FACE = 7.78, BR_TOP = DECK_TOP - RIM_DEPTH;
 function braceProfile(f, s){
   return [[f, BR_FOOT_Y],
           [f + s*BR_RUN, BR_TOP],
           [f + s*(BR_RUN-BR_FACE), BR_TOP],
           [f, BR_FOOT_Y + BR_FACE]];
 }
-var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x8";
+var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x10 rim";
 /* long sides: feet at the outer post faces and back-to-back at the middle post */
 [0.25, 118.25].forEach(function(z){
   [[0,1],[94.5,-1],[94.5,1],[189,-1]].forEach(function(b){
@@ -433,12 +437,18 @@ RAFT_X.forEach(function(rx){
   prism("2x6x92", RAFT_ROLE, "roof", RAFT,        "x", rx+1.5, [0,TT, 1]);
   prism("2x6x92", RAFT_ROLE, "roof", RAFT_MIRROR, "x", rx+1.5, [0,TT,-1]);
 });
-[33.9, 16.4].forEach(function(z){
-  var y = U(z) + 3.425;
+/* two rungs per side, evenly spaced 17 in apart from the wall line and from
+   each other (were 16.4/33.9 — close to even but not exactly).
+   Stood on edge like the rafters (3.5 vertical, 1.5 horizontal) so the top
+   1.5 in edge is what follows the pitch, not the flat 3.5 in face. Centred
+   on the rafter's own mid-depth line (half of 5.5, projected vertical by
+   /CT) so it sits centred in the rafter bay regardless of orientation. */
+[34, 17].forEach(function(z){
+  var y = U(z) + 2.75/CT;
   P({size:"2x4x33", role:"Rake-ladder block — frames the 34½ in gable overhang",
-     layer:"roof", kind:"rotX", c:[29.5, y, z], s:[33, 1.5, 3.5], rot:PITCH});
+     layer:"roof", kind:"rotX", c:[29.5, y, z], s:[33, 3.5, 1.5], rot:PITCH});
   P({size:"2x4x33", role:"Rake-ladder block — frames the 34½ in gable overhang",
-     layer:"roof", kind:"rotX", c:[29.5, y, 120-z], s:[33, 1.5, 3.5], rot:-PITCH});
+     layer:"roof", kind:"rotX", c:[29.5, y, 120-z], s:[33, 3.5, 1.5], rot:-PITCH});
 });
 
 /* ---------- 8. decking : 1 x 5.5 boards, 1/4 in gaps ----------
@@ -782,7 +792,7 @@ var CUTS = {
   "2x6x57.5": {
     lead: "Both ends 45\u00B0, mirrored \u2014 they converge on the top edge, so flip the board between cuts.",
     rows: [["45\u00B0", "Plumb cut at the foot, laps the post face"],
-           ["45\u00B0", "Level cut at the head, butts the 2x8 underside"],
+           ["45\u00B0", "Level cut at the head, butts the 2x10 rim underside"],
            ["",         "Long edge 57\u00BD in \u00b7 short edge 46\u00BD in"]]
   },
   "2x6x92": {
@@ -897,8 +907,8 @@ var CUT = [
   ["4x4x192",2,"Eave beams"],
   ["4x4x41.5",2,"King posts under the ridge"],
   ["OSB \u00BC",22,"Sheathing \u2014 walls, gables and roof"],
-  ["2x8x189",4,"Side rims, deck and lower level"],
-  ["2x8x120",5,"Cross rims — front pair, back, and two low"],
+  ["2x10x189",4,"Side rims, deck and lower level"],
+  ["2x10x120",5,"Cross rims — front pair, back, and two low"],
   ["1x5.5x137.5",20,"Room floor boards"],
   ["1x5.5x120",9,"Landing boards, turned 90\u00b0"],
   ["2x8x116.5",9,"Room floor joists + doubled wall carrier"],
@@ -917,7 +927,7 @@ var CUT = [
   ["2x4x28.5",3,"Cripples under the window"],
   ["2x4x4.5",1,"Front plate corner stub"]
 ];
-var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
+var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","2x10":"#8F5A32","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
 var cl = document.getElementById("cutlist");
 var isolated = null;
 

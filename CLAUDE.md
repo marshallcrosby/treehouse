@@ -85,9 +85,9 @@ is 1.5 in. Doubled members measure 19 px = 3.0 in.
 ## 3. Coordinate system used in the model
 
 ```
-X  length   0 → 189    along the 2x8x189 side rims (front rim at X = -3)
+X  length   0 → 189    along the 2x10x189 side rims (front rim at X = -3)
 Y  height   0 = grade, positive up
-Z  width    0 → 120    across the 2x8x120 cross rims
+Z  width    0 → 120    across the 2x10x120 cross rims
 ```
 
 Key elevations:
@@ -97,9 +97,9 @@ Key elevations:
 | -42 | bottom of the concrete piers |
 | -38.5 | bottom of the 6x6 posts |
 | 0 | grade |
-| 4.25 – 11.5 | lower 2x8 rim |
+| 2.25 – 11.5 | lower rim, side and cross, both 2x10 |
 | 59.34 | foot of the knee braces |
-| 100 – 107.25 | deck 2x8 rim and joists |
+| 98 – 107.25 | deck-level rim, side and cross, both 2x10 (joists still 100 – 107.25, 2x8) |
 | 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
 | 107.25 | deck surface / room floor level |
 | 108.75 – 195.75 | side wall studs (87 in) |
@@ -188,7 +188,7 @@ centreline and cut to the clear span between their inner faces:
 - Bays either side become 16.6 and 15.3 in (were 15.9 and 16.0)
 
 Two options that do *not* work, for the record: trimming the post tops to 100
-leaves the 2x8 rim with no bolting surface, and notching the joist means
+leaves the 2x10 rim with no bolting surface, and notching the joist means
 removing 5½ in from a 7¼ in member.
 
 **Confirmed by the revised plan** (`drawings/floor-plan-rev2.png`), which draws
@@ -228,8 +228,11 @@ The ½ in lift is the only invented number in the model. Without it the ridge
 notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25.
 
 **Joist depth = 2x8.** A top-down view cannot show depth and there are no labels.
-Chosen because they frame into 2x8 rims and 2x8 at 16 in o.c. is comfortable
-over 9 ft 8 in, where 2x6 would be at its limit. **Confirm before buying.**
+Chosen because they frame into 2x10 cross rims and 2x8 at 16 in o.c. is
+comfortable over 9 ft 8 in, where 2x6 would be at its limit. The 2x10 rims
+(side and cross, both tiers) are deeper than the joists — joists hang inside
+them on hangers set to the deck-surface line, same as before. **Confirm before
+buying.**
 
 **Decking runs inside the walls, not under them.** The elevations put the wall
 bottom plates directly on the rim at 107.25 with nothing beneath, so the room
@@ -245,6 +248,14 @@ his call.
 
 **Deck board gap = ¼ in**, giving a 5¾ in pitch. Not specified anywhere.
 
+**Rake-ladder blocks stand on edge.** The 2x4x33 blocks that frame the gable
+overhang over the landing are rotated to the roof pitch like the rafters, and
+now stand on edge (3.5 in vertical, 1.5 in horizontal) so it's the narrow 1½
+in face that follows the slope — the same way the rafters themselves meet the
+roof plane, rather than lying flat with the wide 3½ in face against it. Two
+per side, evenly spaced 17 in apart from the wall line and from each other
+(were 16.4/33.9 — close to even but not exact).
+
 ---
 
 ## 6. Member schedule
@@ -257,8 +268,8 @@ Framing, as drawn:
 | 4x6x192 | 1 | ridge beam |
 | 4x4x192 | 2 | eave beams |
 | 4x4x41.5 | 2 | king posts under the ridge |
-| 2x8x189 | 4 | side rims, deck and lower level |
-| 2x8x120 | 5 | cross rims — front pair, back, two low |
+| 2x10x189 | 4 | side rims, deck and lower level (widened from 2x8, top kept flush) |
+| 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
 | 2x8x116.5 | 9 | room floor joists + doubled wall carrier |
 | 2x8x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
 | 2x8x46 | 7 | landing joists, turned 90° |
@@ -301,7 +312,8 @@ Layout positions:
 |---|---|
 | 2x4 | 13 @ 8' · 1 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
 | 2x6 | 20 @ 8' · 10 @ 10' |
-| 2x8 | 4 @ 8' · 15 @ 10' · 4 @ 16' |
+| 2x8 | 4 @ 8' · 10 @ 10' |
+| 2x10 | 4 @ 16' · 5 @ 10' |
 | 4x4 | 1 @ 8' · 2 @ 16' |
 | 4x6 | 1 @ 16' |
 | 6x6 | 6 @ 12' |
@@ -318,9 +330,10 @@ Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
 **Watch at the yard:**
 - The four 144½ in 2x4s force 14 ft boards for the sake of half an inch. If the
   design tolerates 144, that becomes four 12-footers.
-- The 189 in 2x8s leave only 3 in of slack in a 16 ft board. Pick clean ends.
-- 6x6 @ 144, 4x4 @ 192 and 4x6 @ 192 are cut at exact stock length — no trim
-  allowance at all.
+- The 189 in 2x10 side rims leave only 3 in of slack in a 16 ft board. Pick
+  clean ends.
+- 6x6 @ 144, 4x4 @ 192, 4x6 @ 192, and the 2x10x120 cross rims (10 ft stock)
+  are cut at exact stock length — no trim allowance at all.
 
 ---
 
@@ -400,3 +413,11 @@ Built over one session, in this order:
 10. Inlined Three.js so the file has no network dependency
 11. Centred the middle posts on equal spans, resolving §4.1
 12. Hung the centre joist off the posts, resolving §4.6
+13. Widened the deck rim from 2x8 to 2x10 (side rims, then the front/back
+    cross rims to match), top kept flush so nothing built on top moved;
+    caught and fixed the knee-brace level cut, which had a hardcoded top
+    height and no longer butted the deeper rim
+14. Evenly spaced the rake-ladder blocks over the landing overhang (were
+    16.4/33.9, now 17/34) and stood them on edge so the narrow 1½ in face
+    follows the roof pitch, matching how the rafters themselves meet the
+    slope
