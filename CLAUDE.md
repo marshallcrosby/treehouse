@@ -398,6 +398,60 @@ geometric maximum the spacing rules allow, not a design — if the engineer come
 back wanting fewer, delete rows; if more, the answer is a bigger screw, not a
 tighter grid.
 
+### 4.10 The ridge is structural, and the 4x6 was undersized
+
+The rafters bear **on top** of the ridge and there are no ceiling joists, rafter
+ties or collar ties anywhere in the model. That makes it a true structural ridge
+beam carrying half the roof, not a ridge board. It spans **11.46 ft clear**
+between the two king posts with a 55.6 sq ft tributary, and as drawn it was a
+4x6 — which only works if total load stays under about 25 psf.
+
+| Option | Actual | S in³ | Max total load |
+|---|---|---|---|
+| 4x6, as drawn | 3.5 × 5.5 | 17.6 | ~25 psf (10 dead + 15 snow) |
+| **doubled 2x8 — built** | 3 × 7.25 | 26.3 | **~34 psf (10 + 24)** |
+| doubled 2x10 | 3 × 9.25 | 42.8 | ~51 psf (10 + 41) |
+| doubled 2x12 | 3 × 11.25 | 63.3 | ~69 psf (10 + 59) |
+
+**Built as a doubled 2x8** (Marshall's call). Two plies rather than a solid
+timber is the right shape for this build anyway: you lift one 56 lb ply, land it
+on the king posts, then bring the second up alongside — no single heavy piece
+20 ft in the air.
+
+**Depth, not width.** S = bd²/6, so depth counts twice. A 7 in wide × 7.25 deep
+build-up gives 61.3 in³; 3 in wide × 11.25 deep gives 63.3 for barely half the
+wood. Width is capped anyway — see below.
+
+**Why the ridge can't get wider.** The rafter seat notch is cut from the ridge's
+near face, so ridge width drives notch depth:
+
+| Ridge width | Plumb cut at z | Notch ⊥ | % of a 2x6 |
+|---|---|---|---|
+| 3.0 in (built) | 58.50 | 1.57 in | **28%** |
+| 3.5 in (the old 4x6) | 58.25 | 1.71 in | 31% |
+| 7.0 in (two 4x8s) | 56.50 | 2.76 in | 50% — over |
+
+At 3 in the notch is *better* than what the 4x6 gave. Anything near 7 in breaks
+the one-third rule and would force hung rafters instead of seated ones — a
+different roof. It would also overhang the 4x4 king posts by 1¾ in a side.
+
+**Geometry-neutral, the same trick as the rim.** Depth grows downward from
+`RIDGE_TOP` at Y 247, so rafters, walls, sheathing and the 253 in exterior peak
+do not move. Only the king posts shorten, 41.5 → **39.75**, and their length is
+derived from `RIDGE_BOT` now rather than typed. Interior peak goes 11 ft 1 in →
+**10 ft 11½ in**.
+
+**Still open — confirm against a real snow load.** 24 psf of roof snow is four
+feet of dry powder or ten inches of wet, and the case that breaks roofs is the
+second one: a settled pack that gets rained on. This structure is unheated, so
+it holds snow longer than a house roof does — codes assign unheated buildings a
+*higher* snow load for exactly that reason. Call the county building department
+for the design ground snow load; that one number settles it.
+
+**If it comes back over 24 psf**, the upgrade is trivial and already sized above:
+same 3 in width, same seat detail, deeper plies. 2x10 buys 41 psf, 2x12 buys 59.
+Only `RIDGE_D` and the king post length change, and both are derived.
+
 ## 5. Decisions and assumptions made
 
 Everything here was a judgement call, not something the drawings stated.
@@ -506,9 +560,9 @@ Framing, as drawn:
 | Size | Qty | Role |
 |---|---|---|
 | 6x6x144 | 6 | posts, 38½ in below grade |
-| 4x6x192 | 1 | ridge beam |
+| 2x8x192 | 2 | ridge beam — doubled 2x8, structural (§4.10) |
 | 4x4x192 | 2 | eave beams |
-| 4x4x41.5 | 2 | king posts under the ridge |
+| 4x4x39.75 | 2 | king posts under the ridge (shortened for the deeper ridge, §4.10) |
 | 2x10x189 | 4 | side rims, deck and lower level (widened from 2x8, top kept flush) |
 | 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
 | 2x10x116.5 | 9 | room floor joists + doubled wall carrier (widened from 2x8 to match the rim) |
@@ -552,16 +606,15 @@ Layout positions:
 
 ## 7. Purchase list
 
-**Framing — 97 boards, 996 linear feet**
+**Framing — 98 boards, 1,012 linear feet**
 
 | Size | Buy |
 |---|---|
 | 2x4 | 16 @ 8' · 3 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
 | 2x6 | 22 @ 8' · 6 @ 10' |
-| 2x8 | 4 @ 10' |
+| 2x8 | 4 @ 10' · 2 @ 16' |
 | 2x10 | 4 @ 16' · 15 @ 10' · 4 @ 8' |
 | 4x4 | 1 @ 8' · 2 @ 16' |
-| 4x6 | 1 @ 16' |
 | 6x6 | 6 @ 12' |
 
 *(Two of the three 113 in 2x4 plates were missing from the rail, and the buy
@@ -609,8 +662,9 @@ Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
   design tolerates 144, that becomes four 12-footers.
 - The 189 in 2x10 side rims leave only 3 in of slack in a 16 ft board. Pick
   clean ends.
-- 6x6 @ 144, 4x4 @ 192, 4x6 @ 192, and the 2x10x120 cross rims (10 ft stock)
-  are cut at exact stock length — no trim allowance at all.
+- 6x6 @ 144, 4x4 @ 192, the 2x8x192 ridge plies, and the 2x10x120 cross rims
+  (10 ft stock) are cut at exact stock length — no trim allowance at all. The
+  4x6 is gone from the order entirely; the ridge is 2x8 now (§4.10).
 - The four 37⅞ in gable infill studs cut two to an 8 ft board with 20 in
   left over — enough for one of the 20 in studs if a board comes up short.
 - Upsizing the joists to 2x10 moved 132 linear feet from 2x8 to 2x10 and left
@@ -668,13 +722,15 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
 2. **Get the fastener counts sized** (§4.8, §4.9) — cleats, backers and the
    bolt/screw split are settled; what is missing is how many of each, which
    needs a snow load and a species
-3. **Re-derive the 22-sheet sheathing layout** (§7) — the area is computed, the
+3. **Confirm the ridge against a real snow load** (§4.10) — built as a doubled
+   2x8, good for ~24 psf of roof snow; deeper plies are a drop-in if not
+4. **Re-derive the 22-sheet sheathing layout** (§7) — the area is computed, the
    sheet count is still a hand estimate
-4. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
+5. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
    the air. Nothing in any drawing or cut list.
-5. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
+6. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
-6. Fix the 92 → 93.1 rafter length on the source drawing (§4.3). The three
+7. Fix the 92 → 93.1 rafter length on the source drawing (§4.3). The three
    missing 113 in plates (§4.2) are now correct in the model, the rail and the
    buy list; only the source drawing still shows one.
 
@@ -779,3 +835,12 @@ Built over one session, in this order:
     full cleat/post/backer sandwich. Fasteners are excluded from the cut-list
     rail (it is a list of boards you cut) and from the clash checks (they are
     meant to pass through lumber); both still reconcile exactly.
+25. Caught that the ridge is structural — rafters bear on top, no ties anywhere
+    — and that the 4x6 was undersized for it (§4.10). Rebuilt as a doubled 2x8,
+    depth growing downward from Y 247 so nothing above moves; king posts 41.5 ->
+    39.75, derived from RIDGE_BOT rather than typed. The rafter seat notch
+    improved to 28% of depth from 31%, because the ridge got narrower as well as
+    deeper. Verified: plies 3.00 in wide centred on 60, top still 247, king post
+    tops meeting the ridge underside, ridge bearing fully on the 4x4, both
+    notches inside the 1/3 rule, zero lumber clashes. The 4x6 leaves the order
+    entirely — 98 boards, 1,012 lf.
