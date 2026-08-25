@@ -175,10 +175,13 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
         <p><b>The walls stand on top of the floor, not beside it.</b> Sheathing runs the full room footprint first, wall plates land on it — everything above (studs, plates, eaves, ridge, peak) moved up 1 in as a result.</p>
         <p><b>¼ in OSB is thin for this frame.</b> Studs and rafters are 24 in o.c., where sheathing is normally 7/16 in. The skin is drawn at ¼ as asked — the panel count barely changes if you step up.</p>
         <p><b>Rafters are notched at both bearings.</b> 1½ in birdsmouth on the 4x4 eave beams, 1¾ in seat over the 4x6 ridge — both under a third of the rafter depth. That was the reason the rafters ran through the ridge in the elevation.</p>
-        <p><b>Joists are added from the plan, sized as 2x8.</b> A top-down view can't show depth. They frame into 2x8 rims, so 2x8 is the sensible read — but confirm it before you buy.</p>
+        <p><b>Joists are 2x10, matching the rim.</b> A top-down view can't show depth, so this was read, not measured — confirm before you buy. They were 2x8 until the rim went to 2x10; same depth throughout is how this is normally framed, and it buys a stiffer room floor and one hanger size.</p>
         <p><b>The centre joist is hung off the posts.</b> On the post centreline it would clash, so it stops at their inner faces — 105½ in, both ends bearing on 6x6 rather than a hanger on a rim.</p>
         <p><b>The middle posts are centred.</b> Equal 91¾ in spans. The plan and the mirrored side elevation disagreed by 4 in — 92½ against 96½ — and dead centre splits them exactly.</p>
-        <p><b>Three plates aren't on the cut list.</b> 2x4 top plates at both gable walls plus the back bottom plate — three 113 in pieces, and the list calls out one.</p>
+        <p><b>Nothing bears on the post tops.</b> The posts stop at 105½ and the rims lap their outside faces, so the platform was hanging on fasteners in shear. Twelve 2x6 cleats now sit under each rim/post landing so the rim lands on wood, each mirrored by a backer on the far post face so the through-bolt works in double shear rather than single. 24 blocks, one extra 8 ft 2x6. The bolt <i>count</i> still needs sizing — get this one checked.</p>
+        <p><b>The gable triangle has infill studs.</b> Four 2x4s per gable at Z 24, 48, 72, 96 — 24 in o.c., symmetric about the ridge. Non-bearing: the ridge load goes down the 4x4 king post, these back the sheathing and take wind. Tops are bevelled to the rafter underside, so cut them on edge with the miter at the pitch.</p>
+        <p><b>The fasteners are drawn on their real spacing.</b> Toggle the Fasteners layer. Three rows of two per post face is the ceiling — the #16 needs 3⅛ in between screws along the grain and 2⅛ in across it, and a fourth row will not fit between the rim bottom and the post top. Screws stop short of the far post face; bolts cross the whole cleat/post/backer sandwich. Counts are the geometric maximum, not a sized design.</p>
+        <p><b>Every rail row is a piece count</b> — except OSB ¼, where 30 cut pieces come off 22 sheets. The three 113 in 2x4 plates are now listed correctly; the lumber order was two boards short because of it.</p>
         <p><b>Still missing:</b> a way up to a platform nearly 9 ft in the air.</p>
       </div>
     </div>
@@ -198,6 +201,7 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
       <button class="btn on" data-layer="ground">Footings</button>
       <button class="btn on" data-layer="posts">6x6 posts</button>
       <button class="btn on" data-layer="deck">Deck frame</button>
+      <button class="btn on" data-layer="fasteners">Fasteners</button>
       <button class="btn on" data-layer="joists">Floor joists</button>
       <button class="btn on" data-layer="braces">Knee braces</button>
       <button class="btn on" data-layer="walls">Room walls</button>
@@ -244,9 +248,15 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 
 var COLOR = {
   "2x4":0xE6CB92, "2x6":0xCFA35F, "2x8":0xB07C41, "2x10":0x8F5A32,
-  "4x4":0x8E6E4A, "4x6":0x6F5A3E, "6x6":0x4E4132, "OSB":0x9E9378, "1x5.5":0xC9B48F
+  "4x4":0x8E6E4A, "4x6":0x6F5A3E, "6x6":0x4E4132, "OSB":0x9E9378, "1x5.5":0xC9B48F,
+  "screw":0x8A9198, "bolt":0x565C62
 };
-function nominalOf(sz){ return sz.indexOf("OSB")===0 ? "OSB" : sz.split("x").slice(0,2).join("x"); }
+function nominalOf(sz){
+  if(sz.indexOf("OSB")===0) return "OSB";
+  if(sz.indexOf(" screw")>0) return "screw";
+  if(sz.indexOf(" bolt")>0)  return "bolt";
+  return sz.split("x").slice(0,2).join("x");
+}
 
 var DECK_TOP = 107.25;   // top of deck framing, where the room floor starts
 var POST_TOP = 105.5;
@@ -292,9 +302,9 @@ function angZY(size, role, layer, z0,y0, z1,y1, x, dx, depth){
 /* --- board with real end cuts / notches: 2D profile extruded 1.5 in --- */
 /* axis 'z': profile is drawn in world XY, extruded +Z from `at`          */
 /* axis 'x': profile is drawn in world ZY, extruded -X from `at`          */
-function prism(size, role, layer, pts, axis, at, dir){
+function prism(size, role, layer, pts, axis, at, dir, depth){
   P({size:size, role:role, layer:layer, kind:"prism",
-     pts:pts, axis:axis, at:at, depth:1.5, dir:dir});
+     pts:pts, axis:axis, at:at, depth:(depth===undefined?1.5:depth), dir:dir});
 }
 
 /* ---------- 1. posts : 6 @ 6x6x144 ---------- */
@@ -319,6 +329,109 @@ box("2x10x120","Deck-level front beam (inner of pair)","deck", -1.5, DECK_TOP-RI
 box("2x10x120","Deck-level back beam","deck", 189.0, DECK_TOP-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
 box("2x10x120","Lower front beam","deck", -1.5, 11.5-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
 box("2x10x120","Lower back beam","deck", 189.0, 11.5-RIM_DEPTH, 0, 1.5, RIM_DEPTH, 120);
+
+/* ---------- 2b. bearing cleats + double-shear backers ----------
+   Nothing bears on the post tops: they stop at 105.5 while the rims run
+   98 - 107.25, so as drawn the whole platform hung on the rim-to-post
+   fasteners in single shear. Two changes fix that together.
+
+   The CLEAT is a 2x6 block cut to the post's 5½ in width, fastened flat to
+   the post face with its top on the rim underside at Y 98, so the rim lands
+   on wood instead of on bolts. Projection is 1½ in — exactly the rim
+   thickness, full bearing.
+
+   The BACKER is the same block on the OPPOSITE post face, and it is what
+   makes the through-bolt work: bolt through cleat, post, and backer and the
+   fastener picks up two shear planes instead of one. Double shear is worth
+   roughly twice single shear per bolt, and it costs one extra block — no
+   cutting of posts that are already set, no dimensional change, nothing that
+   has to be got coplanar that a shim cannot fix. This is the alternative to
+   notching the posts 1½ in over their top 7½ in; see §4.8 for why the notch
+   lost on a structure whose posts are already in the ground.
+
+   Every cleat is mirrored, so the bolt sees matched side members. The front
+   cross rim is a doubled pair of 2x10, so its posts carry two blocks a side
+   and want a longer bolt — 3 + 5½ + 3 = 11½ in of material, which is ½ in
+   all-thread territory rather than an off-the-shelf carriage bolt. The side
+   rims and the single back cross rim are 1½ + 5½ + 1½ = 8½ in. */
+var CLEAT_T = 1.5, CLEAT_H = 5.5;
+var CLEAT_TOP = DECK_TOP - RIM_DEPTH;         // 98.0, the rim underside
+var CLEAT_Y   = CLEAT_TOP - CLEAT_H;          // 92.5
+var CLEAT_ROLE  = "Bearing cleat \u2014 rim sits on this, not on the bolts";
+var BACKER_ROLE = "Double-shear backer \u2014 opposite face, gives the through-bolt its second shear plane";
+
+/* side rims: cleat on whichever face the side rim laps, backer opposite */
+[2.75, 94.5, 186.25].forEach(function(px){
+  [[0.25, 7.25], [118.25, 111.25]].forEach(function(zz){
+    box("2x6x5.5", CLEAT_ROLE,  "deck", px-2.75, CLEAT_Y, zz[0], 5.5, CLEAT_H, CLEAT_T);
+    box("2x6x5.5", BACKER_ROLE, "deck", px-2.75, CLEAT_Y, zz[1], 5.5, CLEAT_H, CLEAT_T);
+  });
+});
+/* cross rims: front is a doubled pair and takes two blocks a side, back is single */
+[[-3.0, 5.5, 2], [189.0, 182.0, 1]].forEach(function(g){
+  [4.5, 115.5].forEach(function(pz){
+    for(var i = 0; i < g[2]; i++){
+      box("2x6x5.5", CLEAT_ROLE,  "deck", g[0] + i*CLEAT_T, CLEAT_Y, pz-2.75, CLEAT_T, CLEAT_H, 5.5);
+      box("2x6x5.5", BACKER_ROLE, "deck", g[1] + i*CLEAT_T, CLEAT_Y, pz-2.75, CLEAT_T, CLEAT_H, 5.5);
+    }
+  });
+});
+
+/* ---------- 2c. fasteners at the rim/post connections ----------
+   Drawn because the LAYOUT is what governs here, not the capacity. The #16
+   wants 3-1/8 in between screws along the grain and 2-1/8 in across it, which
+   in a 5-1/2 x 7-1/2 in contact area allows two columns of three and no more.
+   Better to see that constraint than to take my word for it — see §4.9.
+
+   Two fasteners doing two jobs. The bolts cross the whole cleat/post/backer
+   sandwich in double shear and carry gravity. The screws stop about an inch
+   short of the far post face and carry restraint only.
+
+   NOTHING HERE IS SIZED. These counts are the geometric maximum the spacing
+   rules allow, not a design. The clash checks skip this layer — fasteners are
+   supposed to pass through lumber. */
+var SCREW_R = 0.15, BOLT_R = 0.25;
+var SCREW_COLS = [1.1875, 4.3125];           // 3-1/8 apart, 1-3/16 off each post edge
+var SCREW_ROWS = [99.5, 101.625, 103.75];    // 2-1/8 apart, clear of rim bottom and post top
+var BOLT_AT    = [[1.75, 94.25], [3.75, 96.25]];   // staggered on the diagonal
+
+/* `across` is the horizontal axis perpendicular to the fastener; `mid` is the
+   centre along the fastener's own axis */
+function fastener(size, role, r, len, axis, across, y, mid){
+  P({size:size, role:role, layer:"fasteners", kind:"cyl", r:r, len:len, axis:axis,
+     c: (axis === "z") ? [across, y, mid] : [mid, y, across]});
+}
+
+/* one call per post face that a rim laps. `outer` is the rim's outer face,
+   `dir` the way the screw drives, and boltLo/boltHi the full span the
+   through-bolt crosses — the same spans the bolt-line check walks. */
+function connection(axis, across0, outer, dir, screw, screwLen, boltLo, boltHi){
+  SCREW_ROWS.forEach(function(y){
+    SCREW_COLS.forEach(function(dc){
+      fastener(screw, "Rim-to-post screw \u2014 restraint, not gravity (\u00A74.9)",
+               SCREW_R, screwLen, axis, across0 + dc, y, outer + dir*screwLen/2);
+    });
+  });
+  var bl = boltHi - boltLo;
+  BOLT_AT.forEach(function(b){
+    fastener(bl > 10 ? "1/2 x 14 bolt" : "1/2 x 10 bolt",
+             "Cleat through-bolt \u2014 double shear, " + q8(bl) + " in of material (\u00A74.9)",
+             BOLT_R, bl, axis, across0 + b[0], b[1], (boltLo + boltHi)/2);
+  });
+}
+
+/* side rims: one face per post, screws drive inboard from the rim's outer face */
+[2.75, 94.5, 186.25].forEach(function(px){
+  connection("z", px-2.75,   0.25, +1, "#16 x 6 screw", 6,   0.25,   8.75);
+  connection("z", px-2.75, 119.75, -1, "#16 x 6 screw", 6, 111.25, 119.75);
+});
+/* cross rims at the corner posts. The front rim is a doubled 2x10, so a 6 in
+   screw would reach only 3 in past a 3 in side member — those step up to the
+   #18 x 8, which is also the stronger screw (410/370 vs 265/225). See §4.9. */
+[4.5, 115.5].forEach(function(pz){
+  connection("x", pz-2.75,  -3.0, +1, "#18 x 8 screw", 8,  -3.0,   8.5);
+  connection("x", pz-2.75, 190.5, -1, "#16 x 6 screw", 6, 182.0, 190.5);
+});
 
 /* ---------- 3. knee braces : 12 @ 2x6x57.5 ----------
    45° run, plumb cut at the post, level cut under the deck-level rim.
@@ -349,22 +462,32 @@ var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x10 
 });
 
 /* ---------- 3b. floor joists, from the plan view : 16 in o.c. ---------- */
+/* Joists match the rim at 2x10. They were 2x8 while the rim was 2x8; when the
+   rim went to 2x10 the joists stayed behind and hung 2 in shy of the rim
+   bottom. Matching depths is the normal way to frame this — same hanger size
+   throughout, a flat soffit line, and a stiffer room floor. Top stays on the
+   DECK_TOP line, so the extra depth extends downward and nothing above moves.
+   Derived from DECK_TOP rather than hardcoded, so a future depth change moves
+   the joists with it — the mistake the knee-brace top height made. */
+var JOIST_DEPTH = RIM_DEPTH;                  // 9.25 — flush bottoms with the rim
+var JOIST_Y = DECK_TOP - JOIST_DEPTH;         // 98.0
+
 /* room bay — joists span between the side rims, 116.5 in clear */
 [173.6,157.7,141.8,125.8,109.8,77.9,61.9].forEach(function(jx){
-  box("2x8x116.5","Room floor joist — 16 in o.c.","joists",
-      jx-0.75, 100.0, 1.75, 1.5, 7.25, 116.5);
+  box("2x10x116.5","Room floor joist — 16 in o.c.","joists",
+      jx-0.75, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
 });
 /* the joist on the centre-post line would run straight through both posts,
    so it shifts to X 94.5 and is cut to the clear span between their faces */
-box("2x8x105.5","Room floor joist — hung off the centre posts, both ends on 6x6",
-    "joists", 93.75, 100.0, 7.25, 1.5, 7.25, 105.5);
-box("2x8x116.5","Doubled joist under the front wall (outer)","joists", 46.0, 100.0, 1.75, 1.5, 7.25, 116.5);
-box("2x8x116.5","Doubled joist under the front wall (inner)","joists", 47.5, 100.0, 1.75, 1.5, 7.25, 116.5);
+box("2x10x105.5","Room floor joist — hung off the centre posts, both ends on 6x6",
+    "joists", 93.75, JOIST_Y, 7.25, 1.5, JOIST_DEPTH, 105.5);
+box("2x10x116.5","Doubled joist under the front wall (outer)","joists", 46.0, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
+box("2x10x116.5","Doubled joist under the front wall (inner)","joists", 47.5, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
 
 /* landing bay — joists turn 90 deg and run the length, 16 in o.c. */
 [16.87,32.79,48.72,64.64,80.65,96.66,111.9].forEach(function(jz){
-  box("2x8x46","Landing joist — runs the length, 16 in o.c.","joists",
-      0, 100.0, jz-0.75, 46.0, 7.25, 1.5);
+  box("2x10x46","Landing joist — runs the length, 16 in o.c.","joists",
+      0, JOIST_Y, jz-0.75, 46.0, JOIST_DEPTH, 1.5);
 });
 
 
@@ -386,6 +509,24 @@ var PLATE_TOP = STUD_TOP + 1.5;               // 200.0
   });
 });
 
+/* ---------- the roof line ----------
+   Defined here rather than in section 6 because the gable infill studs in
+   section 5 have to reach it: their tops are cut to the rafter underside,
+   so the stud lengths fall out of U(z) instead of being typed in. */
+var CT = Math.cos(PITCH), ST = Math.sin(PITCH), TT = Math.tan(PITCH);
+/* underside of the rafter, raised 0.5 in off the drawn line so both notches
+   land inside the 1/3-of-depth rule. Baseline is 201.604, not the original
+   198.854 — +1.75 for the 2x6 -> 2x8 header (§4.7), +1 more (FLOOR_T) for
+   the floor riding under the walls (§5) — both shifts carry everything
+   above the studs up with them. */
+function U(z){ return 201.604 + TT*z; }
+function T(z){ return U(z) + 5.5/CT; }     // +6.850
+var EAVE_TOP = PLATE_TOP + 3.5;            // 203.5, top of the 4x4
+var SEAT_END = (EAVE_TOP - 201.604)/TT;    // 2.554, where the seat meets the underside
+/* underside of whichever slope covers this Z — the mirrored rafter at world
+   Z is the left-slope profile read at 120-Z (see RAFT_MIRROR in section 6). */
+function UND(z){ return z <= 60 ? U(z) : U(120 - z); }
+
 /* ---------- 5. gable walls : 13 @ 2x4x81.5 + trim ---------- */
 var GBL_TOP = STUD_BOT + 81.5;                // 191.25  (under the 2x8 header)
 function gable(x, isFront){
@@ -401,6 +542,34 @@ function gable(x, isFront){
   box("2x8x113", (isFront?"Front":"Back")+" header (outer)","walls", x, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
   box("2x8x113", (isFront?"Front":"Back")+" header (inner)","walls", x+1.5, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
   box("4x4x41.5","King post carrying the ridge beam","walls", x, PLATE_TOP, 58.25, 3.5, 41.5, 3.5);
+
+  /* --- gable infill studs: the triangle above the header ---
+     Non-bearing. They back the sheathing and take wind on the gable face;
+     the ridge's point load goes down the 4x4 king post, not through these.
+
+     Laid out 24 in o.c. and symmetric about the ridge at Z 60, which places
+     them at Z 24, 48, 72, 96. That layout earns its keep three ways: the
+     outer pair lands under the gable sheathing's vertical joints (Z 24 in
+     course 2, Z 96 in course 3 — see section 9), the inner pair clears the
+     king post by 9½ in on each side, and the whole run is symmetric so both
+     slopes take the same two cut lengths.
+
+     Lengths are derived, not typed. Each stud runs from the header top
+     (PLATE_TOP) to the rafter underside UND(z), which slopes across the
+     stud's own 1½ in thickness — so the top is a bevel, and the size on the
+     cut list is the LONG point, rounded up to the next 1/8 so the piece is
+     cut a hair proud and trimmed to fit. Comes out at 20 in for the outer
+     pair and 37⅞ for the inner. */
+  [24, 48, 72, 96].forEach(function(c){
+    var z0 = c - 0.75, z1 = c + 0.75;
+    var y0 = UND(z0), y1 = UND(z1);
+    var L  = Math.ceil((Math.max(y0, y1) - PLATE_TOP) * 8) / 8;
+    prism("2x4x" + L,
+          "Gable infill stud — 24 in o.c., top bevelled to the roof pitch",
+          "walls",
+          [[z0, PLATE_TOP], [z1, PLATE_TOP], [z1, y1], [z0, y0]],
+          "x", x + 3.5, [0,1,0], 3.5);
+  });
 
   if(isFront){
     box("2x4x74.5","Front bottom plate — runs to the doorway","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 74.5);
@@ -429,16 +598,8 @@ box("4x6x192","Ridge beam — rafters bear on top","roof", ROOF_X0, RIDGE_BOT, 5
 box("4x4x192","Eave beam / wall top beam","roof", ROOF_X0, PLATE_TOP, 0, ROOF_LEN, 3.5, 3.5);
 box("4x4x192","Eave beam / wall top beam","roof", ROOF_X0, PLATE_TOP, 116.5, ROOF_LEN, 3.5, 3.5);
 
-var CT = Math.cos(PITCH), ST = Math.sin(PITCH), TT = Math.tan(PITCH);
-/* underside of the rafter, raised 0.5 in off the drawn line so both notches
-   land inside the 1/3-of-depth rule. Baseline is 201.604, not the original
-   198.854 — +1.75 for the 2x6 -> 2x8 header (§4.7), +1 more (FLOOR_T) for
-   the floor riding under the walls (§5) — both shifts carry everything
-   above the studs up with them. */
-function U(z){ return 201.604 + TT*z; }
-function T(z){ return U(z) + 5.5/CT; }     // +6.850
-var EAVE_TOP = PLATE_TOP + 3.5;            // 203.5, top of the 4x4
-var SEAT_END = (EAVE_TOP - 201.604)/TT;    // 2.554, where the seat meets the underside
+/* the roof line (CT/ST/TT, U, T, EAVE_TOP, SEAT_END) is defined above
+   section 5 — the gable infill studs need it to find their own tops. */
 
 /* left slope, walked as a closed outline in (Z, y) */
 var RAFT = [
@@ -623,7 +784,7 @@ var grid = new THREE.GridHelper(1200, 50, 0x36423E, 0x2B3532);
 grid.position.set(95,0.1,60); scene.add(grid);
 
 /* groups */
-var LAYERS = ["ground","posts","deck","joists","decking","braces","walls","roof","skin"];
+var LAYERS = ["ground","posts","deck","fasteners","joists","decking","braces","walls","roof","skin"];
 var groups = {};
 LAYERS.forEach(function(k){ groups[k]=new THREE.Group(); scene.add(groups[k]); });
 
@@ -645,6 +806,8 @@ Object.keys(COLOR).forEach(function(k){
 });
 mats.OSB.transparent = true; mats.OSB.opacity = 0.62;
 mats.OSB.side = THREE.DoubleSide; mats.OSB.roughness = 0.98;
+mats.screw.metalness = 0.85; mats.screw.roughness = 0.40;
+mats.bolt.metalness  = 0.85; mats.bolt.roughness  = 0.35;
 
 pieces.forEach(function(p){
   var nominal = nominalOf(p.size);
@@ -658,6 +821,12 @@ pieces.forEach(function(p){
     m = new THREE.Mesh(g, mats[nominal]);
     if(p.axis === "x"){ m.rotation.y = -Math.PI/2; m.position.set(p.at, 0, 0); }
     else               { m.position.set(0, 0, p.at); }
+  } else if(p.kind === "cyl"){
+    g = new THREE.CylinderGeometry(p.r, p.r, p.len, 10);
+    m = new THREE.Mesh(g, mats[nominal]);
+    m.position.set(p.c[0], p.c[1], p.c[2]);
+    if(p.axis === "x") m.rotation.z = Math.PI/2;
+    if(p.axis === "z") m.rotation.x = Math.PI/2;
   } else {
     g = new THREE.BoxGeometry(p.s[0], p.s[1], p.s[2]);
     m = new THREE.Mesh(g, mats[nominal]);
@@ -668,6 +837,8 @@ pieces.forEach(function(p){
   var dir;
   if(p.kind === "prism"){
     dir = new THREE.Vector3(p.dir[0], p.dir[1], p.dir[2]).normalize();
+  } else if(p.kind === "cyl"){
+    dir = new THREE.Vector3(p.axis==="x"?1:0, p.axis==="y"?1:0, p.axis==="z"?1:0);
   } else {
     var e = p.s, k = (e[0]>=e[1] && e[0]>=e[2]) ? 0 : (e[1]>=e[2] ? 1 : 2);
     dir = new THREE.Vector3(k===0?1:0, k===1?1:0, k===2?1:0)
@@ -675,8 +846,9 @@ pieces.forEach(function(p){
   }
   g.computeBoundingBox();
   m.userData = {size:p.size, role:p.role, layer:p.layer, nominal:nominal, dir:dir};
-  var e = new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat);
-  m.add(e);
+  if(p.kind !== "cyl"){
+    m.add(new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat));
+  }
   groups[p.layer].add(m);
   meshes.push(m);
 });
@@ -824,6 +996,30 @@ var LEVEL  = (90-DEG).toFixed(1) + "\u00B0";  // saw setting for a level / seat 
 var BM_H   = EAVE_TOP  - U(0),      BM_S = SEAT_END;
 var RN_H   = RIDGE_TOP - U(58.25),  RN_S = 60 - 58.25;
 
+/* Gable infill studs: one bevel, on the top only, square at the foot.
+   The slope runs across the stud's 1½ in thickness, not its 3½ in face, so
+   the board goes through the saw ON EDGE — 3½ face against the fence, 1½ on
+   the table — with the miter at the pitch. Flat on the table would bevel the
+   wrong dimension. Both slopes use the same setting; mirror the offcut. */
+function GABLE_STUD_CUT(which, c){
+  var z0 = c - 0.75, z1 = c + 0.75;
+  /* rounded up to the next 1/8 exactly as the cut-list size is, so the
+     panel and the rail never quote two different numbers for one board.
+     Both points move by the same step, so the 1\u215B in bevel rise across
+     the 1\u00BD in thickness survives the rounding. */
+  var e8 = function(v){ return Math.ceil(v*8)/8; };
+  var lo = e8(Math.min(UND(z0), UND(z1)) - PLATE_TOP);
+  var hi = e8(Math.max(UND(z0), UND(z1)) - PLATE_TOP);
+  return {
+    lead: "Gable infill, " + which + ". One cut: bevel the top to the pitch, "
+        + "foot stays square. Run it on edge \u2014 3\u00BD in face against the fence.",
+    rows: [[PLUMB, "Top bevel to the rafter underside, miter set to the pitch"],
+           ["0\u00B0", "Foot square, bears on the gable header"],
+           ["",    "Long point " + q8(hi) + " in \u00b7 short point " + q8(lo) + " in \u2014 cut proud, scribe the bevel to the rafter"],
+           ["",    "Four per gable at Z 24, 48, 72, 96 \u2014 symmetric about the ridge, so one pair of lengths covers both slopes."]]
+  };
+}
+
 var CUTS = {
   "2x6x57.5": {
     lead: "Both ends 45\u00B0, mirrored \u2014 they converge on the top edge, so flip the board between cuts.",
@@ -840,7 +1036,9 @@ var CUTS = {
            [PLUMB, "Ridge notch heel \u2014 " + q8(RN_H) + " in deep"],
            [LEVEL, "Ridge notch seat \u2014 " + q8(RN_S) + " in on the 4x6"],
            ["",    "Seat cuts are past most miter saws. Cut the notches with a circular saw and finish the corner by hand."]]
-  }
+  },
+  "2x4x37.875": GABLE_STUD_CUT("inner pair", 48),
+  "2x4x20":     GABLE_STUD_CUT("outer pair", 24)
 };
 var cutsEl = document.getElementById("ro-cuts");
 function drawCuts(m){
@@ -942,25 +1140,28 @@ var CUT = [
   ["4x6x192",1,"Ridge beam"],
   ["4x4x192",2,"Eave beams"],
   ["4x4x41.5",2,"King posts under the ridge"],
-  ["OSB \u00BC",22,"Sheathing \u2014 walls, gables and roof"],
+  ["OSB \u00BC",30,"Sheathing \u2014 walls, gables and roof: 30 cut pieces from 22 sheets"],
   ["2x10x189",4,"Side rims, deck and lower level"],
   ["2x10x120",5,"Cross rims — front pair, back, and two low"],
+  ["2x10x116.5",9,"Room floor joists + doubled wall carrier"],
+  ["2x10x105.5",1,"Centre joist, hung off the 6x6 posts"],
+  ["2x10x46",7,"Landing joists, turned 90°"],
   ["OSB 1",6,"Room floor sheathing — full footprint, cut from 5 sheets"],
   ["1x5.5x120",9,"Landing boards, turned 90\u00b0"],
-  ["2x8x116.5",9,"Room floor joists + doubled wall carrier"],
-  ["2x8x105.5",1,"Centre joist, hung off the 6x6 posts"],
-  ["2x8x46",7,"Landing joists, turned 90°"],
   ["2x8x113",4,"Doubled gable headers"],
   ["2x6x92",20,"Rafters, 24 in o.c."],
   ["2x6x57.5",12,"45° knee braces"],
+  ["2x6x5.5",24,"Bearing cleats + double-shear backers, at the posts"],
   ["2x4x144.5",4,"Side wall plates"],
-  ["2x4x113",1,"Back wall bottom plate"],
+  ["2x4x113",3,"Gable top plates \u00d7 2 + back bottom plate"],
   ["2x4x88.75",14,"Side wall studs"],
   ["2x4x81.5",13,"Gable wall studs"],
   ["2x4x74.5",1,"Front plate to the doorway"],
   ["2x4x62",2,"Window sill, doubled"],
+  ["2x4x37.875",4,"Gable infill studs, inner pair — bevelled top"],
   ["2x4x33",4,"Rake-ladder blocks"],
   ["2x4x28.5",3,"Cripples under the window"],
+  ["2x4x20",4,"Gable infill studs, outer pair — bevelled top"],
   ["2x4x4.5",1,"Front plate corner stub"]
 ];
 var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","2x10":"#8F5A32","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
@@ -1027,7 +1228,7 @@ mBtn.addEventListener("click", function(){
   paint(); draw();
 });
 
-var EXPLODE = {ground:[0,-1,0], posts:[0,0,0], deck:[0,0.35,0], joists:[0,0.55,0],
+var EXPLODE = {ground:[0,-1,0], posts:[0,0,0], deck:[0,0.35,0], fasteners:[0,0.45,0], joists:[0,0.55,0],
                decking:[0,0.75,0], braces:[0,0.2,0], walls:[0,1.15,0], roof:[0,2.0,0], skin:[0,2.6,0]};
 document.getElementById("ex").addEventListener("input", function(e){
   var f = e.target.value/100 * 90;
@@ -1050,7 +1251,7 @@ resize(); place();
 
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 var t0 = performance.now();
-var ORDER = ["ground","posts","deck","joists","decking","braces","walls","roof","skin"];
+var ORDER = ["ground","posts","deck","fasteners","joists","decking","braces","walls","roof","skin"];
 if(!reduce) ORDER.forEach(function(k){ groups[k].visible=false; });
 
 function tick(now){

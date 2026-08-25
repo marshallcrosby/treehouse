@@ -99,7 +99,7 @@ Key elevations:
 | 0 | grade |
 | 2.25 – 11.5 | lower rim, side and cross, both 2x10 |
 | 59.34 | foot of the knee braces |
-| 98 – 107.25 | deck-level rim, side and cross, both 2x10 (joists still 100 – 107.25, 2x8) |
+| 98 – 107.25 | deck-level rim *and* floor joists, side and cross, all 2x10 |
 | 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
 | 107.25 – 108.25 | 1 in OSB room floor, full footprint (see §5) |
 | 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
@@ -167,7 +167,7 @@ Not an error — it is the notch, drawn un-notched. See §5.
 
 The 16 in o.c. room joist run put a joist at X 93.05 – 94.55, and the centred
 posts occupy X 91.75 – 97.25. The joist sat inside the post, overlapping 5½ in
-vertically (post tops out at 105.5; the joist zone is 100 – 107.25).
+vertically (post tops out at 105.5; the joist zone is 98 – 107.25).
 
 The clash existed at every candidate post position:
 
@@ -182,7 +182,7 @@ The clash existed at every candidate post position:
 same line (X 94.5, Z 4.5 and 115.5), so the joist was shifted onto the post
 centreline and cut to the clear span between their inner faces:
 
-- **2x8x105.5**, spanning Z 7.25 → 112.75, at X 93.75 – 95.25
+- **2x10x105.5**, spanning Z 7.25 → 112.75, at X 93.75 – 95.25
 - Both ends bear on 6x6 rather than a hanger on a rim — the strongest joist in
   the deck
 - Still cut from a 10 ft board, so the purchase list is unchanged
@@ -190,10 +190,10 @@ centreline and cut to the clear span between their inner faces:
 
 Two options that do *not* work, for the record: trimming the post tops to 100
 leaves the 2x10 rim with no bolting surface, and notching the joist means
-removing 5½ in from a 7¼ in member.
+removing 5½ in from a 9¼ in member.
 
 **Confirmed by the revised plan** (`drawings/floor-plan-rev2.png`), which draws
-the centre posts dead centre and the 2x8 running between them. Measured against
+the centre posts dead centre and the joist running between them. Measured against
 the model: posts within **0.16 in** on both axes, room joists within **0.22 in**,
 landing joists within **0.14 in**. Two deliberate differences remain:
 
@@ -247,6 +247,157 @@ much. Consequence, all derived from one shift:
 
 ---
 
+### 4.8 Nothing bears on the post tops — mitigated, not resolved
+
+The posts stop at Y 105.5. The deck-level rims run Y 98 – 107.25 and lap the
+**outside** face of each post, giving 5½ in wide × 7½ in tall of contact
+(Y 98 – 105.50) per face. Nothing sits on a post top — not the rims, not the
+joists, not the centre joist, which butts the post faces rather than crossing
+them. As originally drawn, every pound of floor, wall, roof, snow and occupant
+load reached the posts **through fasteners in shear**.
+
+A rough tributary check puts on the order of 3,000 – 4,000 lb at the middle
+posts, which is more than two ½ in bolts want to carry in this grain
+orientation (load is perpendicular to grain in the rim, parallel in the post).
+That number swings hard on snow load and lumber species — neither of which the
+drawings state — and it ignores whatever the knee braces pick up, so it is an
+order-of-magnitude figure, not a design value.
+
+**Mitigated with bearing cleats** (section 2b): a 2x6 block cut to the post's
+5½ in width, fastened flat to the post face with its top on the rim underside
+at Y 98, so the rim lands on wood. Projection is 1½ in — exactly the rim
+thickness, full bearing.
+
+**Each cleat is mirrored by a backer on the opposite post face**, and that is
+what earns the detail its keep: bolt through cleat, post and backer and the
+fastener picks up **two shear planes instead of one**. Double shear is worth
+roughly twice single shear per bolt, for the price of one extra block. Twenty
+four blocks all told — twelve cleats, twelve backers, every one a 2x6 cut to
+5½ in.
+
+Ten bolt lines, verified continuous end to end with a cleat count matching the
+backer count on every one:
+
+| Where | Make-up | Material to bolt through |
+|---|---|---|
+| 6 side rims, one per post | 1 cleat + 1 backer | 1½ + 5½ + 1½ = **8½ in** |
+| 2 back corner posts, cross rim | 1 cleat + 1 backer | 1½ + 5½ + 1½ = **8½ in** |
+| 2 front corner posts, cross rim | 2 cleats + 2 backers | 3 + 5½ + 3 = **11½ in** |
+
+The front pair is deeper because the front cross rim is a doubled 2x10 and both
+plies want bearing. Its outer cleat is the one block in the model that does not
+touch a post — it sits alongside the inner cleat and the bolt runs through both,
+so the pair acts as one 3 in side member. Buy ½ in × 10 in for the eight shallow
+lines; the two front ones are ½ in all-thread cut to length rather than an
+off-the-shelf carriage bolt.
+
+**Why not notch the posts.** Cutting a 1½ in × 7½ in notch so the rim bears
+directly on the shoulder puts *no* fastener in the gravity path, which is
+strictly better — but it lost on this build because the posts are already set:
+
+- Ten notches, cut freehand eight feet up, all ten shoulders needing to land on
+  one plane at Y 98. One shoulder ⅛ in low and that post carries nothing while
+  its neighbours take its share. Cleats are set independently to a laser line
+  and shimmed; notches are not.
+- The four corner posts take notches on two adjacent faces, leaving a 4 × 4 in
+  L-section over the top 7½ in — 47% off 30¼ sq in. Capacity is fine (16 sq in
+  of DF in compression carries well over ten times the corner load) but an
+  L-notch splits more readily than a flat one.
+- The rim moves inboard 1½ in per side, so the nine 116½ in room joists become
+  113½ (still out of 10 ft stock — a recut, not a reorder), the room narrows
+  3 in, and about four more 2x10s go in to restore the outside face.
+- A notch shoulder on an exterior PT post is a horizontal surface holding water
+  against end grain. A cleat has the same exposure while being cheap, and
+  replaceable.
+
+### 4.9 Fasteners — bolts carry gravity, screws carry restraint
+
+Two jobs, two fasteners. Once the cleats bear the rim, the rim's own fasteners
+stop being the gravity path, so they do not need to be bolts.
+
+**Cleats and backers — the gravity path. Bolt these.**
+½ in through-bolts in double shear, washers both ends. Eight lines need 1½ +
+5½ + 1½ = 8½ in of material, so ½ in × 10 in. The two front corner lines need
+3 + 5½ + 3 = 11½ in — ½ in all-thread cut to length, not an off-the-shelf
+carriage bolt. At the four corner posts a side-rim line and a cross-rim line
+land on adjacent faces: offset them vertically so the bolts pass rather than
+intersect inside the post.
+
+**Rims to posts — restraint, not gravity. Screw these.**
+The screws hold the rim tight to the post, resist lateral and racking load, and
+stand as backup if a cleat bolt slips. Screws beat bolts at withdrawal, which
+is what this now needs, and they avoid putting a second ½ in hole through the
+post. Net: two through-holes per post instead of four.
+
+**Screw spec — Grip Fast Premium #16 × 6 in.** Sold at Menards as "¼ × 6",
+model 30927-32. The ¼ is nominal; the T30 drive identifies it as the **#16** in
+DrJ TER 2101-03, not a repackaged lag.
+
+| | |
+|---|---|
+| Diameter | 0.283 major · 0.205 minor · 0.181 shank |
+| Z⊥ / Z∥ | **265 / 225 lb** (HF/SPF and DF) · 265 / 245 (SP) |
+| Report requires | 1½ in side member, 1½ in min main-member penetration |
+| Our condition | rim is exactly 1½ in ✓ · 6 in screw gives 4½ in penetration ✓ |
+| Coating | TRIPLE MAX-SHIELD, stated equivalent to HDG ASTM A153 Class D and rated for ground-contact treated lumber, AWPA UC1–UC4A |
+| Install | no pilot hole, head driven flush |
+
+That coating rating is what makes these usable — an ordinary black-coated screw
+would not survive ACQ/CA. Check the treatment on your lumber tags; the report
+names MCA specifically, though A153 Class D equivalence is the general
+requirement for ACQ and CA too.
+
+**Spacing governs, not capacity.** In a 5½ × 7½ in contact area the #16 wants
+3⅛ in between screws in a row parallel to grain, 2⅛ in perpendicular, and ⅝ in
+edge distance. That allows roughly 2 columns × 3 rows, so **about 6 per post
+face is the practical ceiling**. Ten faces, ~60 screws, three 24-packs.
+
+**Why the screws cannot be the load path.** Six screws at the conservative 225
+lb is 1,350 lb, against a post demand somewhere around 3,000–4,000 lb. Neither
+these screws nor the two ½ in bolts they replace could ever have carried
+gravity. That arithmetic is the clearest statement that **the cleats are
+structural, not insurance.**
+
+**Two caveats.**
+
+- The report is from **DrJ, not ICC-ES**. DrJ is ANAB ISO/IEC 17065 accredited
+  so it is a real evaluation, but some engineers and building departments work
+  only from ICC-ES. Confirm before buying in bulk.
+- **#16 stops at 6 in.** At the front corner posts the cross rim is a doubled
+  2x10 — a 3 in side member, outside the tested 1½ in configuration, and a 6 in
+  screw leaves only 3 in of penetration (still above the 1½ in minimum). The
+  **#18** in the same report runs to 16 in and jumps to **410 / 370 lb**. Use it
+  at the front corners, or throughout if you want fewer screws.
+
+**The layout is in the model** (section 2c, `fasteners` layer, its own toggle).
+Eighty fasteners: 60 screws and 20 bolts. Drawn as real cylinders on the real
+spacing, because the spacing is what runs out first and it is easier to see
+than to argue about. Verified against the report's own numbers:
+
+| | modelled | #16 requires |
+|---|---|---|
+| column spacing, parallel to grain | 3.125 in | 3.125 |
+| row spacing, perpendicular | 2.125 in | 2.125 |
+| edge distance off the post face | 1.1875 in | 0.625 |
+| screw penetration into the post | 4.5 in (5.0 for the #18) | 1.5 |
+| bolt diagonal spacing | 2.83 in | 2.0 (4D) |
+
+Every screw stops short of the far post face; every bolt crosses the whole
+sandwich. Three rows of two per face is the ceiling — a fourth row does not fit
+between the rim bottom and the post top at 2⅛ in centres.
+
+**The clash checks skip the `fasteners` layer.** Fasteners are supposed to pass
+through lumber, so including them would be noise. The lumber-only check still
+reads zero.
+
+**Still open — get the counts sized.** The detail is ordinary; a face-mounted
+ledger carrying load in fastener shear is how every deck bolted to a house
+works. What is unsized is *how many* of each, because the snow load and the
+lumber species are both absent from the drawings. What the model draws is the
+geometric maximum the spacing rules allow, not a design — if the engineer comes
+back wanting fewer, delete rows; if more, the answer is a bigger screw, not a
+tighter grid.
+
 ## 5. Decisions and assumptions made
 
 Everything here was a judgement call, not something the drawings stated.
@@ -265,12 +416,54 @@ The ½ in lift is the only invented number in the model. Without it the ridge
 notch runs 39% of depth. Consequence: peak moved from 248.6 to 250.25 (now
 253 — see §4.7 and §5's floor change, both unrelated later changes).
 
-**Joist depth = 2x8.** A top-down view cannot show depth and there are no labels.
-Chosen because they frame into 2x10 cross rims and 2x8 at 16 in o.c. is
-comfortable over 9 ft 8 in, where 2x6 would be at its limit. The 2x10 rims
-(side and cross, both tiers) are deeper than the joists — joists hang inside
-them on hangers set to the deck-surface line, same as before. **Confirm before
-buying.**
+**Joist depth = 2x10, matching the rim.** A top-down view cannot show depth and
+there are no labels, so this is still a read rather than a measurement —
+**confirm before buying.**
+
+The joists were 2x8 when the rim was 2x8. Widening the rim to 2x10 (change 13)
+left them behind: tops flush on the DECK_TOP line, bottoms 2 in shy of the rim
+bottom. Structurally that was fine — 2x8 at 16 in o.c. over 116½ in is well
+inside deck span tables for any common species, and the wall loads never land
+mid-span (the side walls at Z 0 and Z 120 sit over the side rims, the back wall
+over the cross rim, the front wall over the doubled carrier at X 46/47.5). But a
+rim deeper than the joists is the unusual case in ordinary framing; it normally
+only appears when the rim is doubling as a beam or a ledger was upsized for bolt
+room, and neither applies here. Matched at 2x10 the floor is stiffer under a
+room that carries walls and a roof, the underside is a flat plane if it is ever
+soffited, and there is one hanger size instead of two.
+
+Tops stay on the DECK_TOP line, so the extra depth extends downward and nothing
+above moves. Joist depth is now derived from `DECK_TOP` in code rather than
+hardcoded at 100.0 — the same trap the knee-brace top height fell into when the
+rim moved. Verified against every other layer: **zero clashes**, and the knee
+braces still top out at exactly Y 98, butting the joist bottoms rather than
+crossing them.
+
+**Order 2x10 hangers, not 2x8** (LUS210 in place of LUS28) for the sixteen
+hung joists — the centre joist at X 94.5 bears on the posts and needs none.
+
+**Gable infill studs added.** The gable triangle above the header was empty —
+top plate, doubled 2x8 header, and the 4x4 king post, with nothing between the
+king post and the corners. Four 2x4s per gable now fill it, at Z 24, 48, 72, 96:
+24 in o.c. and symmetric about the ridge at Z 60.
+
+These are non-bearing. The ridge beam's end reaction goes down the king post;
+the infill studs back the sheathing and take wind on the gable face. The layout
+was chosen so the outer pair sits under the gable sheathing's vertical joints
+(Z 24 in course 2, Z 96 in course 3) and the inner pair clears the king post by
+9½ in each side, with symmetry meaning both slopes share the same two lengths.
+
+Lengths are derived from the rafter underside, not typed in — each stud runs
+from the header top up to `UND(z)`, which is why the roof line (`U`, `TT`,
+`EAVE_TOP`) now sits above section 5 in the file rather than in section 6. They
+come out at **20 in** and **37⅞ in** measured to the long point, rounded up to
+the next 1/8 so the piece is cut proud and trimmed to fit.
+
+**The top cut is a bevel across the 1½ in thickness, not the 3½ in face.** The
+slope runs in Z, which is the stud's thin dimension, so the board goes through
+the saw *on edge* — 3½ face against the fence, 1½ on the table — with the miter
+at the pitch (36.6°). Flat on the table bevels the wrong dimension. Foot stays
+square, bearing on the header. One bevel per stud, same setting for both slopes.
 
 **Room floor is 1 in OSB, not decking** (Marshall's call). The landing keeps
 its 1x5½ decking boards; the enclosed room gets 1 in OSB sheathing instead —
@@ -318,20 +511,23 @@ Framing, as drawn:
 | 4x4x41.5 | 2 | king posts under the ridge |
 | 2x10x189 | 4 | side rims, deck and lower level (widened from 2x8, top kept flush) |
 | 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
-| 2x8x116.5 | 9 | room floor joists + doubled wall carrier |
-| 2x8x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
-| 2x8x46 | 7 | landing joists, turned 90° |
+| 2x10x116.5 | 9 | room floor joists + doubled wall carrier (widened from 2x8 to match the rim) |
+| 2x10x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
+| 2x10x46 | 7 | landing joists, turned 90° |
 | 2x8x113 | 4 | doubled gable headers (widened from 2x6 — see §4.7) |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
 | 2x6x57.5 | 12 | 45° knee braces |
+| 2x6x5.5 | 24 | 12 bearing cleats + 12 double-shear backers, at the posts (§4.8) |
 | 2x4x144.5 | 4 | side wall plates |
 | 2x4x113 | 3 | gable top plates + back bottom plate (see §4.2) |
 | 2x4x88.75 | 14 | side wall studs, 24 in o.c. (grew from 87 — see §4.7) |
 | 2x4x81.5 | 13 | gable wall studs |
 | 2x4x74.5 | 1 | front plate to the doorway |
 | 2x4x62 | 2 | window sill, doubled |
+| 2x4x37.875 | 4 | gable infill studs, inner pair — bevelled top, long point |
 | 2x4x33 | 4 | rake-ladder blocks |
 | 2x4x28.5 | 3 | cripples under the window |
+| 2x4x20 | 4 | gable infill studs, outer pair — bevelled top, long point |
 | 2x4x4.5 | 1 | front plate corner stub |
 | 1x5.5x120 | 9 | landing boards, turned 90° |
 | OSB ¼ | 22 sheets | walls, gables, roof |
@@ -347,6 +543,8 @@ Layout positions:
   hung centre joist at 94.5, plus a doubled carrier at 46.0 / 47.5
 - Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9 (16 o.c.,
   last bay is a 7 in half-bay)
+- Gable infill studs, Z: 24, 48, 72, 96 (24 in o.c., symmetric about the
+  ridge at Z 60) — four per gable, both gables the same
 - Window opening Z 8.5 – 70.5, sill at 138.25 – 141.25
 - Doorway opening Z 78 – 112
 
@@ -354,25 +552,46 @@ Layout positions:
 
 ## 7. Purchase list
 
-**Framing — 90 boards, 936 linear feet**
+**Framing — 97 boards, 996 linear feet**
 
 | Size | Buy |
 |---|---|
-| 2x4 | 13 @ 8' · 1 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
-| 2x6 | 20 @ 8' · 6 @ 10' |
-| 2x8 | 4 @ 8' · 14 @ 10' |
-| 2x10 | 4 @ 16' · 5 @ 10' |
+| 2x4 | 16 @ 8' · 3 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
+| 2x6 | 22 @ 8' · 6 @ 10' |
+| 2x8 | 4 @ 10' |
+| 2x10 | 4 @ 16' · 15 @ 10' · 4 @ 8' |
 | 4x4 | 1 @ 8' · 2 @ 16' |
 | 4x6 | 1 @ 16' |
 | 6x6 | 6 @ 12' |
 
-*(An earlier message in the conversation said 93 boards. It is 90.)*
+*(Two of the three 113 in 2x4 plates were missing from the rail, and the buy
+list was built off that wrong count — a packing check showed two 144½ in plates
+with nowhere to go. Fixed above with two more 10 ft 2x4s, one plate each. The
+twenty-four cleats and backers are 132 in of stock all told — an 8 ft 2x6
+yields seventeen, so budget two boards and keep the offcuts. It was 90
+boards / 936 lf before the gable infill studs — those added
+three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
+37⅞ in inner studs, two per board.)*
+
+**Fasteners — 80, all HDG-equivalent or better**
+
+| Item | Qty | For |
+|---|---|---|
+| Grip Fast #16 × 6 screw | 48 | six side-rim faces + both back cross rims (2 × 24-packs) |
+| Grip Fast #18 × 8 screw | 12 | the two front corner posts — doubled cross rim (§4.9) |
+| ½ × 10 HDG bolt | 16 | eight cleat lines, 8½ in of material each |
+| ½ all-thread, ~14 in | 4 | two front corner cleat lines, 11½ in of material |
+| ½ washers / nuts | 40 / 20 | two washers per bolt |
 
 **Decking — 9 boards, 90 linear feet:** 9 @ 10 ft, landing only. The room
 floor is OSB now, see below — it used to be 20 more boards at 12 ft.
 
-**Sheathing — 614½ sq ft:** 22 sheets by layout, buy 23. Straight area is 19.2;
-the gable triangles are where the waste goes.
+**Sheathing — 620.9 sq ft:** the model computes this from the actual clipped
+panels; 19.40 sheets of straight area, drawn as **30 cut pieces**. The layout
+figure of 22 sheets (buy 23) is *not* derived from the model — it is a hand
+estimate and the gable triangles are where the waste goes. Re-derive it if the
+wall heights move again; the area above already grew from a stale 614½ that
+predated the §4.7 and §5 shifts.
 
 **Room floor — 1 in OSB, 5 sheets:** the floor now runs the full 144.5 × 120
 room footprint (walls stand on top of it, see §5), so it's six pieces instead
@@ -392,6 +611,13 @@ Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
   clean ends.
 - 6x6 @ 144, 4x4 @ 192, 4x6 @ 192, and the 2x10x120 cross rims (10 ft stock)
   are cut at exact stock length — no trim allowance at all.
+- The four 37⅞ in gable infill studs cut two to an 8 ft board with 20 in
+  left over — enough for one of the 20 in studs if a board comes up short.
+- Upsizing the joists to 2x10 moved 132 linear feet from 2x8 to 2x10 and left
+  the totals alone: still 90 boards, 936 linear feet, because every piece fell
+  in the same stock length it did before. Only the price per foot and the
+  weight change — roughly 25–30% more per foot, and about 40% heavier per
+  board to hoist 9 ft up.
 
 ---
 
@@ -438,13 +664,19 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
 
 ## 9. Still open
 
-1. **Confirm joist depth** — modelled as 2x8, unstated in the drawings (§5)
-2. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
+1. **Confirm joist depth** — modelled as 2x10 to match the rim, unstated in the drawings (§5)
+2. **Get the fastener counts sized** (§4.8, §4.9) — cleats, backers and the
+   bolt/screw split are settled; what is missing is how many of each, which
+   needs a snow load and a species
+3. **Re-derive the 22-sheet sheathing layout** (§7) — the area is computed, the
+   sheet count is still a hand estimate
+4. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
    the air. Nothing in any drawing or cut list.
-3. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
+5. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
-4. Fix the three missing 113 in plates and the 92 → 93.1 rafter length on the
-   source drawing (§4.2, §4.3)
+6. Fix the 92 → 93.1 rafter length on the source drawing (§4.3). The three
+   missing 113 in plates (§4.2) are now correct in the model, the rail and the
+   buy list; only the source drawing still shows one.
 
 ---
 
@@ -489,3 +721,61 @@ Built over one session, in this order:
     OSB now runs the full room footprint, and everything from the wall
     plates up (studs, eaves, ridge, peak) moved up another 1 in to sit on
     top of it (253 in / 21 ft 1 in, on top of the §4.7 shift)
+18. Upsized the floor joists from 2x8 to 2x10 so they match the rim (§5).
+    Tops stayed on the DECK_TOP line, bottoms dropped 100 → 98 and are now
+    flush with the rim bottom; nothing above moved. Joist depth is derived
+    from DECK_TOP in code now instead of hardcoded, so the next depth change
+    carries the joists with it. Clash-checked against every other layer —
+    zero hits, and the knee braces still land exactly on the joist bottoms
+    at Y 98. Purchase totals unchanged at 90 boards / 936 linear feet; 132
+    linear feet just moved from the 2x8 pile to the 2x10 pile. Hangers step
+    up to the 2x10 size.
+19. Filled the empty gable triangle with infill studs — four per gable at
+    Z 24, 48, 72, 96, 24 in o.c. and symmetric about the ridge (§5). Tops are
+    bevelled to the rafter underside and the lengths derive from U(z) rather
+    than being typed in, so they follow the roof if it ever moves; the roof
+    line moved above section 5 in the file to make that possible, and
+    `prism()` gained an optional depth so a 3½ in board could be extruded
+    (every previous prism was a 1½ in one). Verified: stud tops sit on the
+    rafter underside to 0.00 in, zero clashes against every other member,
+    9½ in clear to the king post. Adds three 8 ft 2x4s — 93 boards, 960 lf.
+20. Caught that nothing bears on the post tops — the rims lap the post faces
+    and the whole platform was hanging on fasteners in shear (§4.8). Added
+    twelve 2x6 bearing cleats, one under each rim/post landing, tops on the
+    rim underside at Y 98 so the rim sits on wood. Verified with an exact
+    polygon test rather than bounding boxes, since the knee braces pass close
+    enough that a bbox check gives false positives: zero clashes, and every
+    rim/post bearing in the model has a cleat under it. Redundancy only — the
+    connection still needs sizing, now logged as §9 item 2.
+21. Took the cleats to double shear rather than notching the posts, which were
+    already set (§4.8 records why the notch lost). Every cleat now has a
+    matching backer on the opposite post face, so the through-bolt works on two
+    shear planes instead of one — twelve pairs, 24 blocks, one extra 8 ft 2x6.
+    Verified by walking all ten bolt lines: each is continuous from outer cleat
+    through post to outer backer with cleat count equal to backer count, and
+    the exact polygon clash test stays at zero. 95 boards, 976 lf.
+22. Split the fastener spec by job (§4.9): ½ in through-bolts carry gravity at
+    the cleats, structural screws carry restraint at the rims. Two ½ in holes
+    per post instead of four. Specced against the actual published values for
+    the Grip Fast #16 x 6 (DrJ TER 2101-03) — 265/225 lb, 1½ in side member and
+    1½ in penetration both satisfied, coating rated HDG-equivalent for treated
+    lumber. The spacing rules, not the capacity, cap it at ~6 screws per face.
+23. Audited every board against the cut list and fixed what it found. The three
+    113 in 2x4 plates were listed as one, and the buy list had been built off
+    that wrong count — a bin-packing check proved two 144½ in plates had
+    nowhere to go, so the lumber order was genuinely two boards short. Added
+    two 10 ft 2x4s (97 boards, 996 lf). Also made the OSB ¼ rail row a piece
+    count like every other row (30 pieces from 22 sheets) and refreshed the
+    sheathing area from the model, 614½ -> 620.9 sq ft, stale since the §4.7
+    and §5 shifts. Re-verified: model, rail and §6 table agree on all 25 lumber
+    sizes, and every piece now cuts from the listed boards.
+24. Drew the fasteners (section 2c, `fasteners` layer with its own toggle and
+    explode step). 80 cylinders: 48 #16 x 6 screws, 12 #18 x 8 at the front
+    corner posts, 16 half-inch x 10 bolts and 4 lengths of all-thread. Needed a
+    `cyl` kind in the renderer — the first non-prismatic piece in the model, so
+    it also got its own steel colours and skips the wireframe edges the boards
+    get. Positions are on the report's real spacing and verified against it:
+    3.125 in columns, 2.125 in rows, 4.5 in penetration, every bolt crossing the
+    full cleat/post/backer sandwich. Fasteners are excluded from the cut-list
+    rail (it is a list of boards you cut) and from the clash checks (they are
+    meant to pass through lumber); both still reconcile exactly.
