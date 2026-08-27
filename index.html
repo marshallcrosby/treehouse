@@ -178,6 +178,8 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
         <p><b>Joists are 2x10, matching the rim.</b> A top-down view can't show depth, so this was read, not measured — confirm before you buy. They were 2x8 until the rim went to 2x10; same depth throughout is how this is normally framed, and it buys a stiffer room floor and one hanger size.</p>
         <p><b>The centre joist is hung off the posts.</b> On the post centreline it would clash, so it stops at their inner faces — 105½ in, both ends bearing on 6x6 rather than a hanger on a rim.</p>
         <p><b>The middle posts are centred.</b> Equal 91¾ in spans. The plan and the mirrored side elevation disagreed by 4 in — 92½ against 96½ — and dead centre splits them exactly.</p>
+        <p><b>The deck sits on the post tops.</b> It used to float 1¾ in above them — the rim top was drawn at 107.25 and a 12 ft post buried 38½ in tops out at 105.5. Flush now, so the rim laps the full 9¼ in of post instead of 7½, and the floor covers the post tops instead of leaving bare end grain in a pocket.</p>
+        <p><b>The gable sheathing needs notching.</b> The ridge and both eave beams run through the gable walls to carry the rake overhangs. Cut 3 × 7¼ in for the ridge and 3½ × 3½ in at each eave, twice per gable.</p>
         <p><b>The ridge is structural, and it grew.</b> Rafters bear on top with no ties anywhere, so it carries half the roof over an 11½ ft span — the 4x6 it was drawn as only covered about 15 psf of snow. Now a doubled 2x8, deepening downward so nothing above moves. Good for roughly 24 psf of roof snow; confirm against your county’s number before framing.</p>
         <p><b>Nothing bears on the post tops.</b> The posts stop at 105½ and the rims lap their outside faces, so the platform was hanging on fasteners in shear. Twelve 2x6 cleats now sit under each rim/post landing so the rim lands on wood, each mirrored by a backer on the far post face so the through-bolt works in double shear rather than single. 24 blocks, one extra 8 ft 2x6. The bolt <i>count</i> still needs sizing — get this one checked.</p>
         <p><b>The gable triangle has infill studs.</b> Four 2x4s per gable at Z 24, 48, 72, 96 — 24 in o.c., symmetric about the ridge. Non-bearing: the ridge load goes down the 4x4 king post, these back the sheathing and take wind. Tops are bevelled to the rafter underside, so cut them on edge with the miter at the pitch.</p>
@@ -259,15 +261,16 @@ function nominalOf(sz){
   return sz.split("x").slice(0,2).join("x");
 }
 
-var DECK_TOP = 107.25;   // top of deck framing, where the room floor starts
-var POST_TOP = 105.5;
+/* The posts are 12 ft stock buried 38½ in, so their tops land here. Everything
+   else in the build is measured from this line — see §4.11. The deck used to
+   sit at 107.25, 1¾ in proud of the posts, which left the post tops as bare end
+   grain in a pocket and wasted 1¾ in of the rim's lap on the post. */
+var POST_LEN = 144, POST_BURY = 38.5;
+var POST_TOP = POST_LEN - POST_BURY;     // 105.5 above grade
+var DECK_TOP = POST_TOP;                 // rim top flush with the post tops
 var FLOOR_T = 1.0;                    // 1 in OSB room floor
 var WALL_BASE = DECK_TOP + FLOOR_T;   // walls stand on top of the floor, not beside it
 var PITCH = 36.6 * Math.PI/180;
-/* +1.75 over the original 238.75/244.25 for the doubled 2x6 -> 2x8 header
-   (§4.7), +1 more (FLOOR_T) for the floor sitting under the walls (§5) —
-   both shifts ride on everything above the studs */
-var RIDGE_TOP = 246.0 + FLOOR_T;               // 247 — the roof hangs off this
 /* Ridge is a doubled 2x8, not the 4x6 it was drawn as. The rafters bear ON it
    with no ties anywhere, so it is a structural ridge beam carrying half the
    roof over an 11.46 ft clear span between king posts — see §4.10. Depth grows
@@ -278,8 +281,9 @@ var RIDGE_TOP = 246.0 + FLOOR_T;               // 247 — the roof hangs off thi
    is 28% of the rafter — better than the 31% the 3.5 in 4x6 gave. */
 var RIDGE_W   = 3.0;                           // two 2x8 plies, 1.5 + 1.5
 var RIDGE_D   = 7.25;                          // 2x8 depth
-var RIDGE_BOT = RIDGE_TOP - RIDGE_D;           // 239.75
 var RIDGE_Z0  = 60 - RIDGE_W/2;                // 58.5, near face — where the seat starts
+/* RIDGE_TOP / RIDGE_BOT are derived down in the roof-line block, where U()
+   exists — the ridge sits a fixed notch depth above the rafter underside. */
 
 var pieces = [];
 function P(o){ pieces.push(o); return o; }
@@ -323,8 +327,8 @@ function prism(size, role, layer, pts, axis, at, dir, depth){
 /* ---------- 1. posts : 6 @ 6x6x144 ---------- */
 var POST_X = [2.75, 94.5, 186.25], POST_Z = [4.5, 115.5];
 POST_X.forEach(function(px){ POST_Z.forEach(function(pz){
-  box("6x6x144","Post — 38½ in below grade, 105½ in above","posts",
-      px-2.75, -38.5, pz-2.75, 5.5, 144, 5.5);
+  box("6x6x" + POST_LEN,"Post \u2014 38\u00BD in below grade, top at deck level","posts",
+      px-2.75, -POST_BURY, pz-2.75, 5.5, POST_LEN, 5.5);
 });});
 
 /* ---------- 2. deck + lower rim : 4 @ 2x10x189, 5 @ 2x10x120 ---------- */
@@ -405,8 +409,13 @@ var BACKER_ROLE = "Double-shear backer \u2014 opposite face, gives the through-b
    supposed to pass through lumber. */
 var SCREW_R = 0.15, BOLT_R = 0.25;
 var SCREW_COLS = [1.1875, 4.3125];           // 3-1/8 apart, 1-3/16 off each post edge
-var SCREW_ROWS = [99.5, 101.625, 103.75];    // 2-1/8 apart, clear of rim bottom and post top
-var BOLT_AT    = [[1.75, 94.25], [3.75, 96.25]];   // staggered on the diagonal
+/* Rows fill the rim/post lap rather than being typed, so they follow the deck.
+   With the rim top flush to the post the lap is the full 9-1/4 in rim depth and
+   four rows fit at 2-1/8 centres; at the old 7-1/2 in lap only three did. */
+var LAP_LO = DECK_TOP - RIM_DEPTH, LAP_HI = POST_TOP;
+var SCREW_ROWS = [];
+for(var _y = LAP_LO + 1.5; _y <= LAP_HI - 1.375 + 1e-9; _y += 2.125) SCREW_ROWS.push(_y);
+var BOLT_AT = [[1.75, CLEAT_Y + 1.75], [3.75, CLEAT_Y + 3.75]];  // staggered on the diagonal
 
 /* `across` is the horizontal axis perpendicular to the fastener; `mid` is the
    centre along the fastener's own axis */
@@ -453,7 +462,14 @@ function connection(axis, across0, outer, dir, screw, screwLen, boltLo, boltHi){
            --upper edge--> (0,7.78) --plumb cut--> close
    7.78 = 5.5 x sqrt(2), the face a 45° cut leaves on a 2x6.
    Braces sit in the same plane as the rims and lap across the post face. */
-var BR_FOOT_Y = 59.34, BR_RUN = 40.66, BR_FACE = 7.78, BR_TOP = DECK_TOP - RIM_DEPTH;
+/* A true 45 needs BR_FOOT_Y + BR_RUN === BR_TOP. It did, back when the rim was
+   a 2x8 and BR_TOP was 100. Widening the rim to 2x10 dropped BR_TOP to 98 and
+   the foot stayed typed at 59.34, which squashed every brace to 43.56 deg and
+   made the 57.5 cut length a lie — see §4.11. Derive the foot and it cannot
+   drift again. */
+var BR_RUN = 40.66, BR_FACE = 7.78;
+var BR_TOP = DECK_TOP - RIM_DEPTH;
+var BR_FOOT_Y = BR_TOP - BR_RUN;           // derived: keeps the 45 and the 57.5 length
 function braceProfile(f, s){
   return [[f, BR_FOOT_Y],
           [f + s*BR_RUN, BR_TOP],
@@ -485,17 +501,35 @@ var BR_ROLE = "Knee brace — plumb cut laps the post, level cut butts the 2x10 
 var JOIST_DEPTH = RIM_DEPTH;                  // 9.25 — flush bottoms with the rim
 var JOIST_Y = DECK_TOP - JOIST_DEPTH;         // 98.0
 
-/* room bay — joists span between the side rims, 116.5 in clear */
-[173.6,157.7,141.8,125.8,109.8,77.9,61.9].forEach(function(jx){
+/* room bay — joists span between the side rims, 116.5 in clear.
+
+   The run is pulled from the HUNG CENTRE JOIST at X 94.5, not from either rim.
+   That joist cannot move: the posts occupy X 91.75 - 97.25 and §4.6 resolved
+   the clash by putting it on the post centreline. Anchor the layout there and
+   every bay comes out at exactly 16. Pull from the back rim instead and the
+   sixth mark lands at X 93 — inside the posts — and shuffling it clear opens a
+   17½ in bay beside it. The scaled-off-the-drawing numbers this replaces ran
+   16.6 and 15.3 either side of the centre, with 15.9s further along.
+
+   Both end bays come out under 16 (14¼ at the carrier, 14½ at the back rim),
+   which is the right place for the remainder. */
+var JOIST_OC = 16, CENTRE_JOIST_X = 94.5;
+var CARRIER_X = 46.0;                          // doubled carrier under the front wall
+var CARRIER_FACE = CARRIER_X + 3.0;            // 49.0, its inner face
+var BACK_FACE = 189.0;                         // inner face of the back cross rim
+var ROOM_JOIST_X = [];
+for(var jx = CENTRE_JOIST_X - JOIST_OC; jx - 0.75 > CARRIER_FACE; jx -= JOIST_OC) ROOM_JOIST_X.push(jx);
+for(var jx = CENTRE_JOIST_X + JOIST_OC; jx + 0.75 < BACK_FACE;    jx += JOIST_OC) ROOM_JOIST_X.push(jx);
+ROOM_JOIST_X.forEach(function(jx){
   box("2x10x116.5","Room floor joist — 16 in o.c.","joists",
       jx-0.75, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
 });
 /* the joist on the centre-post line would run straight through both posts,
    so it shifts to X 94.5 and is cut to the clear span between their faces */
 box("2x10x105.5","Room floor joist — hung off the centre posts, both ends on 6x6",
-    "joists", 93.75, JOIST_Y, 7.25, 1.5, JOIST_DEPTH, 105.5);
-box("2x10x116.5","Doubled joist under the front wall (outer)","joists", 46.0, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
-box("2x10x116.5","Doubled joist under the front wall (inner)","joists", 47.5, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
+    "joists", CENTRE_JOIST_X-0.75, JOIST_Y, 7.25, 1.5, JOIST_DEPTH, 105.5);
+box("2x10x116.5","Doubled joist under the front wall (outer)","joists", CARRIER_X,     JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
+box("2x10x116.5","Doubled joist under the front wall (inner)","joists", CARRIER_X+1.5, JOIST_Y, 1.75, 1.5, JOIST_DEPTH, 116.5);
 
 /* landing bay — joists turn 90 deg and run the length, 16 in o.c. */
 [16.87,32.79,48.72,64.64,80.65,96.66,111.9].forEach(function(jz){
@@ -527,15 +561,20 @@ var PLATE_TOP = STUD_TOP + 1.5;               // 200.0
    section 5 have to reach it: their tops are cut to the rafter underside,
    so the stud lengths fall out of U(z) instead of being typed in. */
 var CT = Math.cos(PITCH), ST = Math.sin(PITCH), TT = Math.tan(PITCH);
-/* underside of the rafter, raised 0.5 in off the drawn line so both notches
-   land inside the 1/3-of-depth rule. Baseline is 201.604, not the original
-   198.854 — +1.75 for the 2x6 -> 2x8 header (§4.7), +1 more (FLOOR_T) for
-   the floor riding under the walls (§5) — both shifts carry everything
-   above the studs up with them. */
-function U(z){ return 201.604 + TT*z; }
+var EAVE_TOP = PLATE_TOP + 3.5;            // top of the 4x4 eave beam
+
+/* The rafter underside used to be a typed baseline (201.604) that had to be
+   hand-edited every time anything below it moved — twice already, per §4.7 and
+   §5, and it was the reason lowering the deck used to break the roof. It is a
+   notch depth below the eave beam top, so say that instead. Both notch depths
+   were chosen so the cuts land inside the 1/3-of-rafter-depth rule (§5). */
+var BIRDSMOUTH  = 1.896;                   // heel depth on the 4x4 eave beam
+var RIDGE_NOTCH = 1.950;                   // heel depth over the ridge
+function U(z){ return EAVE_TOP - BIRDSMOUTH + TT*z; }
 function T(z){ return U(z) + 5.5/CT; }     // +6.850
-var EAVE_TOP = PLATE_TOP + 3.5;            // 203.5, top of the 4x4
-var SEAT_END = (EAVE_TOP - 201.604)/TT;    // 2.554, where the seat meets the underside
+var SEAT_END = BIRDSMOUTH/TT;              // where the seat meets the underside
+var RIDGE_TOP = U(RIDGE_Z0) + RIDGE_NOTCH; // rafters seat on this
+var RIDGE_BOT = RIDGE_TOP - RIDGE_D;       // depth grows downward (§4.10)
 /* underside of whichever slope covers this Z — the mirrored rafter at world
    Z is the left-slope profile read at 120-Z (see RAFT_MIRROR in section 6). */
 function UND(z){ return z <= 60 ? U(z) : U(120 - z); }
@@ -554,9 +593,15 @@ function gable(x, isFront){
   box("2x4x113", (isFront?"Front":"Back")+" wall top plate","walls", x, GBL_TOP, 3.5, 3.5, 1.5, 113);
   box("2x8x113", (isFront?"Front":"Back")+" header (outer)","walls", x, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
   box("2x8x113", (isFront?"Front":"Back")+" header (inner)","walls", x+1.5, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
-  /* length derived, so it tracks the ridge if the depth ever changes again */
-  var KP_LEN = RIDGE_BOT - PLATE_TOP;          // 39.75
-  box("4x4x" + KP_LEN,"King post carrying the ridge beam","walls",
+  /* Length derived so it tracks the ridge. TT is irrational, so the raw figure
+     carries a ten-thousandth of an inch of noise: keep the GEOMETRY exact so
+     the post still meets the ridge underside, and snap only the cut-list LABEL
+     to the nearest 1/8. Rounding the geometry instead made the post overlap
+     the ridge by 4 hundred-thousandths of an inch, which the clash check duly
+     reported. */
+  var KP_LEN  = RIDGE_BOT - PLATE_TOP;                        // exact
+  var KP_SIZE = Math.round(KP_LEN * 8) / 8;                   // 39.75
+  box("4x4x" + KP_SIZE,"King post carrying the ridge beam","walls",
       x, PLATE_TOP, 58.25, 3.5, KP_LEN, 3.5);
 
   /* --- gable infill studs: the triangle above the header ---
@@ -733,8 +778,11 @@ function sheet(outline, axis, at, courses, tag){
       if(pc.length<3) continue;
       var d = bboxOf(pc), A = polyArea(pc);
       osbArea += A; osbPanels++;
+      /* OSB, not a 1½ in board — sheet() used to leave prism()'s default
+         thickness in place, so every wall and gable panel was modelled six
+         times too thick. Invisible because the skin renders translucent. */
       prism("OSB \u00BC", tag+" sheathing \u2014 cut "+q8(d[0])+" \u00d7 "+q8(d[1])+" in",
-            "skin", pc, axis, at, [1,0,0]);
+            "skin", pc, axis, at, [1,0,0], OSB);
     }
   });
 }

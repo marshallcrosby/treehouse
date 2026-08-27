@@ -100,7 +100,7 @@ Key elevations:
 | 2.25 – 11.5 | lower rim, side and cross, both 2x10 |
 | 59.34 | foot of the knee braces |
 | 98 – 107.25 | deck-level rim *and* floor joists, side and cross, all 2x10 |
-| 105.5 | top of the 6x6 posts (1¾ in below the rim top) |
+| 105.5 | top of the 6x6 posts **and the rim** — flush now, see §4.11 |
 | 107.25 – 108.25 | 1 in OSB room floor, full footprint (see §5) |
 | 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
 | 109.75 – 198.5 | side wall studs (88¾ in — grew from 87, see §4.7) |
@@ -186,11 +186,24 @@ centreline and cut to the clear span between their inner faces:
 - Both ends bear on 6x6 rather than a hanger on a rim — the strongest joist in
   the deck
 - Still cut from a 10 ft board, so the purchase list is unchanged
-- Bays either side become 16.6 and 15.3 in (were 15.9 and 16.0)
+- Bays either side are now **exactly 16**, because the whole run is pulled
+  from this joist rather than from a rim — see below
 
 Two options that do *not* work, for the record: trimming the post tops to 100
 leaves the 2x10 rim with no bolting surface, and notching the joist means
 removing 5½ in from a 9¼ in member.
+
+**The joist run is anchored on this joist.** It cannot move, so it is the only
+sane datum: pull 16 in o.c. from X 94.5 and every interior bay lands at exactly
+16, with the remainder split between the two ends — 14¼ in at the carrier, 14½
+at the back rim, both comfortably under 16. Pull from the back rim instead and
+the sixth mark falls at X 93, inside the posts; shuffling it clear opens a 17½
+in bay beside it, which is worse than the problem it solves.
+
+The numbers this replaced were scaled off the drawing and ran 16.6 and 15.3
+either side of the centre joist, with 15.9s further along. All four room-floor
+OSB seams still land on framing after the change: X 46 on the carrier, 94.5 on
+the hung joist, 142 on the joist at 142.5, and 190.5 on the back rim.
 
 **Confirmed by the revised plan** (`drawings/floor-plan-rev2.png`), which draws
 the centre posts dead centre and the joist running between them. Measured against
@@ -350,7 +363,8 @@ requirement for ACQ and CA too.
 **Spacing governs, not capacity.** In a 5½ × 7½ in contact area the #16 wants
 3⅛ in between screws in a row parallel to grain, 2⅛ in perpendicular, and ⅝ in
 edge distance. That allows roughly 2 columns × 3 rows, so **about 6 per post
-face is the practical ceiling**. Ten faces, ~60 screws, three 24-packs.
+face is the practical ceiling** — **four rows now that the rim laps the full
+9¼ in of post** (§4.11), so eight per face. Ten faces, 80 screws, four 24-packs.
 
 **Why the screws cannot be the load path.** Six screws at the conservative 225
 lb is 1,350 lb, against a post demand somewhere around 3,000–4,000 lb. Neither
@@ -451,6 +465,68 @@ for the design ground snow load; that one number settles it.
 **If it comes back over 24 psf**, the upgrade is trivial and already sized above:
 same 3 in width, same seat detail, deeper plies. 2x10 buys 41 psf, 2x12 buys 59.
 Only `RIDGE_D` and the king post length change, and both are derived.
+
+### 4.11 The deck now sits on the post tops, and three typed elevations became derived
+
+The deck used to sit at Y 107.25 while the posts topped out at 105.5 — 1¾ in
+proud. Not a consequence of any change we made; the rim top has always been
+107.25, and 105.5 is just `144 − 38.5`, a 12 ft post buried 38½ in. The two
+numbers came from different places and never met.
+
+That gap cost two things: the rim lapped only **7½ in** of the post instead of
+the 9¼ in it has, and the post tops sat as bare end grain in a pocket with
+nothing over them — the worst place to leave treated end grain outdoors.
+
+**`DECK_TOP` is now `POST_TOP`**, itself derived as `POST_LEN − POST_BURY`.
+Everything above drops 1¾ in as one piece; peak 253 → **251¼**. The lap becomes
+the full **9¼ in**, which fits a fourth row of screws (3 → 4 per post face, 80
+screws instead of 60), and the OSB floor now covers the post tops.
+
+**Measure your posts before trusting 105.5.** They are already set, so the real
+tops are whatever they are. Reference the deck to the *lowest* one.
+
+#### The knee braces were wrong, and it was the same bug
+
+A true 45° needs `BR_FOOT_Y + BR_RUN === BR_TOP`. It did, when the rim was a 2x8
+and `BR_TOP` was 100. Widening the rim to 2x10 (change 13) dropped `BR_TOP` to
+98 and left the foot typed at 59.34 — **off by exactly the 2 in the rim bottom
+moved.** Every brace was 43.56°, the long edge 56.10 in against a 57½ label, and
+the saw panel still said 45°. Twelve braces cut to that would not have fitted.
+
+Fixed by deriving `BR_FOOT_Y = BR_TOP − BR_RUN`. Now a true **45.000°**, long
+edge **57.502**, short edge **46.499** — the labels became right by themselves.
+
+#### Three hardcoded elevations, one bug
+
+This is the third time a typed elevation has drifted after something below it
+moved: the joist Y (change 18), the knee-brace top (change 13), and now the
+rafter baseline. `U(z)` had a typed 201.604 that had been hand-edited twice, and
+`RIDGE_TOP` a typed 247 — which is why lowering the deck used to collapse the
+birdsmouth from 1.90 in to 0.15 in. Both now derive:
+
+| Was | Now |
+|---|---|
+| `U(z) = 201.604 + TT·z` | `U(z) = EAVE_TOP − BIRDSMOUTH + TT·z` |
+| `RIDGE_TOP = 246 + FLOOR_T` | `RIDGE_TOP = U(RIDGE_Z0) + RIDGE_NOTCH` |
+| `SEAT_END = (EAVE_TOP − 201.604)/TT` | `SEAT_END = BIRDSMOUTH/TT` |
+
+Both notch depths held at 28% of rafter depth through the move, which is the
+check that the derivation is right.
+
+#### Two things the re-verification turned up
+
+**OSB panels were modelled 1½ in thick.** `sheet()` never passed a thickness, so
+every wall and gable panel took `prism()`'s default instead of the ¼ in it
+should be. Invisible because the skin renders translucent, and older clash
+checks only compared boxes to boxes. Fixed — it now passes `OSB`.
+
+**The gable sheathing needs notching, and always did.** The ridge and both eave
+beams run X 11.5 → 203.5, straight through both gable walls, to carry the rake
+overhangs. The model draws the gable panels as full rectangles, so the exact
+clash check reports the notch as an overlap. Cut when you get there:
+
+- **3 × 7¼ in** for the ridge, twice per gable
+- **3½ × 3½ in** for each eave beam, twice per gable
 
 ## 5. Decisions and assumptions made
 
@@ -593,8 +669,9 @@ Layout positions:
 - Side wall studs, X: 46, 70, 94, 118, 142, 166, 189 (24 o.c.)
 - Front gable studs, Z: 3.5, 7, 70.5, 75, 76.5, 112, 115
 - Back gable studs, Z: 3.5, 27.5, 51.5, 75.5, 99.5, 115 (24 o.c.)
-- Room joists, X: 61.9, 77.9, 109.8, 125.8, 141.8, 157.7, 173.6 (16 o.c.), the
-  hung centre joist at 94.5, plus a doubled carrier at 46.0 / 47.5
+- Room joists, X: 62.5, 78.5, 110.5, 126.5, 142.5, 158.5, 174.5 — a **true**
+  16 o.c. run pulled from the hung centre joist at 94.5 (§4.6), plus a doubled
+  carrier at 46.0 / 47.5
 - Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9 (16 o.c.,
   last bay is a 7 in half-bay)
 - Gable infill studs, Z: 24, 48, 72, 96 (24 in o.c., symmetric about the
@@ -626,12 +703,12 @@ boards / 936 lf before the gable infill studs — those added
 three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
 37⅞ in inner studs, two per board.)*
 
-**Fasteners — 80, all HDG-equivalent or better**
+**Fasteners — 100, all HDG-equivalent or better** (the flush deck bought a fourth screw row, §4.11)
 
 | Item | Qty | For |
 |---|---|---|
-| Grip Fast #16 × 6 screw | 48 | six side-rim faces + both back cross rims (2 × 24-packs) |
-| Grip Fast #18 × 8 screw | 12 | the two front corner posts — doubled cross rim (§4.9) |
+| Grip Fast #16 × 6 screw | 64 | six side-rim faces + both back cross rims (3 × 24-packs) |
+| Grip Fast #18 × 8 screw | 16 | the two front corner posts — doubled cross rim (§4.9) |
 | ½ × 10 HDG bolt | 16 | eight cleat lines, 8½ in of material each |
 | ½ all-thread, ~14 in | 4 | two front corner cleat lines, 11½ in of material |
 | ½ washers / nuts | 40 / 20 | two washers per bolt |
@@ -844,3 +921,28 @@ Built over one session, in this order:
     tops meeting the ridge underside, ridge bearing fully on the 4x4, both
     notches inside the 1/3 rule, zero lumber clashes. The 4x6 leaves the order
     entirely — 98 boards, 1,012 lf.
+26. Dropped the deck 1.75 in so the rim top is flush with the post tops, and
+    made POST_TOP/DECK_TOP derive from the post length and burial depth
+    (§4.11). Everything above moved as one piece; peak 253 -> 251.25. The
+    rim/post lap went 7.5 -> 9.25 in, which fits a fourth screw row (60 -> 80
+    screws). Required deriving the rafter baseline and RIDGE_TOP, which had
+    been typed — the third instance of that bug.
+27. Caught the knee braces were 43.56 deg, not the 45 their cut list and saw
+    panel both claimed, and 56.10 in long against a 57.5 label. Same root cause
+    as the joist Y: change 13 moved BR_TOP and left BR_FOOT_Y typed. Derived
+    the foot; now a true 45 at 57.502 / 46.499, so the existing labels are
+    correct again. Twelve braces would have been cut wrong.
+28. Fixed OSB panels being modelled 1.5 in thick — sheet() never passed a
+    thickness, so they took prism()'s default. Pre-existing and invisible,
+    since the skin is translucent and the old clash checks were box-only.
+    Rewrote the clash check to use the model's own clipPoly/polyArea, which
+    handles the non-convex notched rafter profiles that SAT could not: box-box
+    0, prism-prism 0, and the only box-prism hits are the gable sheathing
+    notches around the ridge and eave beams, which are real and now documented.
+29. Made the room joists a true 16 in o.c. run, anchored on the hung centre
+    joist at X 94.5 rather than on a rim (§4.6). Every interior bay is now
+    exactly 16.00 — they had been 16.6 and 15.3 either side of the centre and
+    15.9 further along, scaled off the drawing. Remainder sits at the two ends,
+    14.25 in at the carrier and 14.5 at the back rim, both under 16. Joist
+    count, cut list and purchase list all unchanged; the four room-floor OSB
+    seams still land on framing.
