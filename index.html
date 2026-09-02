@@ -183,7 +183,7 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
         <p><b>The ridge is structural, and it grew.</b> Rafters bear on top with no ties anywhere, so it carries half the roof over an 11½ ft span — the 4x6 it was drawn as only covered about 15 psf of snow. Now a doubled 2x8, deepening downward so nothing above moves. Good for roughly 24 psf of roof snow; confirm against your county’s number before framing.</p>
         <p><b>Nothing bears on the post tops.</b> The posts stop at 105½ and the rims lap their outside faces, so the platform was hanging on fasteners in shear. Twelve 2x6 cleats now sit under each rim/post landing so the rim lands on wood, each mirrored by a backer on the far post face so the through-bolt works in double shear rather than single. 24 blocks, one extra 8 ft 2x6. The bolt <i>count</i> still needs sizing — get this one checked.</p>
         <p><b>The gable triangle has infill studs.</b> Four 2x4s per gable at Z 24, 48, 72, 96 — 24 in o.c., symmetric about the ridge. Non-bearing: the ridge load goes down the 4x4 king post, these back the sheathing and take wind. Tops are bevelled to the rafter underside, so cut them on edge with the miter at the pitch.</p>
-        <p><b>The fasteners are drawn on their real spacing.</b> Toggle the Fasteners layer. Three rows of two per post face is the ceiling — the #16 needs 3⅛ in between screws along the grain and 2⅛ in across it, and a fourth row will not fit between the rim bottom and the post top. Screws stop short of the far post face; bolts cross the whole cleat/post/backer sandwich. Counts are the geometric maximum, not a sized design.</p>
+        <p><b>The fasteners are drawn on their real spacing.</b> Toggle the Fasteners layer. Six screws per post face is the ceiling — the SPAX 5/16 PowerLag needs 1¾ in edge distance, and a 5½ in post face has only 2 in of usable width left after that. Screws stop short of the far post face; bolts cross the whole cleat/post/backer sandwich. Counts are the geometric maximum, not a sized design.</p>
         <p><b>Every rail row is a piece count</b> — except OSB ¼, where 30 cut pieces come off 22 sheets. The three 113 in 2x4 plates are now listed correctly; the lumber order was two boards short because of it.</p>
         <p><b>Still missing:</b> a way up to a platform nearly 9 ft in the air.</p>
       </div>
@@ -265,6 +265,14 @@ function nominalOf(sz){
    else in the build is measured from this line — see §4.11. The deck used to
    sit at 107.25, 1¾ in proud of the posts, which left the post tops as bare end
    grain in a pocket and wasted 1¾ in of the rim's lap on the post. */
+/* The room's front face. It was 46.0 — a snap between the plan's 45.3 and the
+   elevations' 46.0 (§4.4) — which made the room 144.5 long and left every sheet
+   module half an inch off the joist and stud centrelines. At 46.5 the room is
+   exactly 144: a 48 in sheet edge lands on X 94.5 and a 96 in one on X 142.5,
+   both dead centre on framing, and 48 + 96 reaches the back face exactly. See
+   §4.14. Hoisted up here because the joists in section 3b reference it. */
+var RM_X0 = 46.5, RM_X1 = 190.5;         // room runs 46.5 -> 190.5, exactly 144
+
 var POST_LEN = 144, POST_BURY = 38.5;
 var POST_TOP = POST_LEN - POST_BURY;     // 105.5 above grade
 var DECK_TOP = POST_TOP;                 // rim top flush with the post tops
@@ -407,14 +415,27 @@ var BACKER_ROLE = "Double-shear backer \u2014 opposite face, gives the through-b
    NOTHING HERE IS SIZED. These counts are the geometric maximum the spacing
    rules allow, not a design. The clash checks skip this layer — fasteners are
    supposed to pass through lumber. */
-var SCREW_R = 0.15, BOLT_R = 0.25;
-var SCREW_COLS = [1.1875, 4.3125];           // 3-1/8 apart, 1-3/16 off each post edge
-/* Rows fill the rim/post lap rather than being typed, so they follow the deck.
-   With the rim top flush to the post the lap is the full 9-1/4 in rim depth and
-   four rows fit at 2-1/8 centres; at the old 7-1/2 in lap only three did. */
+var SCREW_R = 0.157, BOLT_R = 0.25;          // 5/16 outside thread is 0.315
+
+/* Layout is straight out of ESR-1782 Table 6 for the 5/16 PowerLag series.
+   The edge distance is the number that governs: 1-3/4 in, nearly three times
+   the 5/8 the Grip Fast #16 wanted. On a 5-1/2 in post face that leaves 2 in
+   of usable width, so two columns at the 1-1/8 in between-rows spacing is all
+   that fits — a third would breach the edge distance. Six per face, not eight.
+   Both edge and row spacing are respected with room to spare: columns land
+   2-3/16 off each post edge, rows 2-7/16 off the rim's top and bottom. */
+var SCREW_EDGE   = 1.75;                     // Table 6, edge distance
+var SCREW_ROW_OC = 2.1875;                   // between fasteners in a row, perp to grain
+var SCREW_COL_OC = 1.125;                    // between rows, in-line
 var LAP_LO = DECK_TOP - RIM_DEPTH, LAP_HI = POST_TOP;
+var SCREW_COLS = [2.75 - SCREW_COL_OC/2, 2.75 + SCREW_COL_OC/2];
 var SCREW_ROWS = [];
-for(var _y = LAP_LO + 1.5; _y <= LAP_HI - 1.375 + 1e-9; _y += 2.125) SCREW_ROWS.push(_y);
+(function(){
+  var usable = (LAP_HI - LAP_LO) - 2*SCREW_EDGE;
+  var n = Math.floor(usable/SCREW_ROW_OC) + 1;
+  var start = (LAP_LO + LAP_HI)/2 - (n-1)*SCREW_ROW_OC/2;   // centred in the lap
+  for(var i=0;i<n;i++) SCREW_ROWS.push(start + i*SCREW_ROW_OC);
+})();
 var BOLT_AT = [[1.75, CLEAT_Y + 1.75], [3.75, CLEAT_Y + 3.75]];  // staggered on the diagonal
 
 /* `across` is the horizontal axis perpendicular to the fastener; `mid` is the
@@ -442,17 +463,18 @@ function connection(axis, across0, outer, dir, screw, screwLen, boltLo, boltHi){
   });
 }
 
-/* side rims: one face per post, screws drive inboard from the rim's outer face */
+/* One screw everywhere now. ESR-1782 wants 2-3/8 in of penetration for the
+   5/16 x 6; the side rims give 4-1/2 and even the doubled front cross rim
+   gives 3, so the longer screw the Grip Fast needed at the front corners is no
+   longer necessary. See §4.9. */
+var SCREW = "SPAX 5/16 x 6 screw";
 [2.75, 94.5, 186.25].forEach(function(px){
-  connection("z", px-2.75,   0.25, +1, "#16 x 6 screw", 6,   0.25,   8.75);
-  connection("z", px-2.75, 119.75, -1, "#16 x 6 screw", 6, 111.25, 119.75);
+  connection("z", px-2.75,   0.25, +1, SCREW, 6,   0.25,   8.75);
+  connection("z", px-2.75, 119.75, -1, SCREW, 6, 111.25, 119.75);
 });
-/* cross rims at the corner posts. The front rim is a doubled 2x10, so a 6 in
-   screw would reach only 3 in past a 3 in side member — those step up to the
-   #18 x 8, which is also the stronger screw (410/370 vs 265/225). See §4.9. */
 [4.5, 115.5].forEach(function(pz){
-  connection("x", pz-2.75,  -3.0, +1, "#18 x 8 screw", 8,  -3.0,   8.5);
-  connection("x", pz-2.75, 190.5, -1, "#16 x 6 screw", 6, 182.0, 190.5);
+  connection("x", pz-2.75,  -3.0, +1, SCREW, 6,  -3.0,   8.5);
+  connection("x", pz-2.75, 190.5, -1, SCREW, 6, 182.0, 190.5);
 });
 
 /* ---------- 3. knee braces : 12 @ 2x6x57.5 ----------
@@ -514,7 +536,7 @@ var JOIST_Y = DECK_TOP - JOIST_DEPTH;         // 98.0
    Both end bays come out under 16 (14¼ at the carrier, 14½ at the back rim),
    which is the right place for the remainder. */
 var JOIST_OC = 16, CENTRE_JOIST_X = 94.5;
-var CARRIER_X = 46.0;                          // doubled carrier under the front wall
+var CARRIER_X = RM_X0;                         // doubled carrier under the front wall
 var CARRIER_FACE = CARRIER_X + 3.0;            // 49.0, its inner face
 var BACK_FACE = 189.0;                         // inner face of the back cross rim
 var ROOM_JOIST_X = [];
@@ -533,26 +555,121 @@ box("2x10x116.5","Doubled joist under the front wall (inner)","joists", CARRIER_
 
 /* landing bay — joists turn 90 deg and run the length, 16 in o.c. */
 [16.87,32.79,48.72,64.64,80.65,96.66,111.9].forEach(function(jz){
-  box("2x10x46","Landing joist — runs the length, 16 in o.c.","joists",
-      0, JOIST_Y, jz-0.75, 46.0, JOIST_DEPTH, 1.5);
+  box("2x10x"+RM_X0,"Landing joist — runs the length, 16 in o.c.","joists",
+      0, JOIST_Y, jz-0.75, RM_X0, JOIST_DEPTH, 1.5);
 });
 
 
-/* ---------- 4. side walls : 4 @ 2x4x144.5, 14 @ 2x4x88.75 ---------- */
-var RM_X0 = 46.0, RM_X1 = 190.5;             // room runs 46 -> 190.5
+/* ---------- 4. side walls : 4 @ 2x4x144, 14 @ 2x4x88.75 ---------- */
+var RM_LEN = RM_X1 - RM_X0;                  // 144
 /* studs grew 87 -> 88.75 to keep the eave level once the gable headers
    went from doubled 2x6 to doubled 2x8 (see §4.7 in CLAUDE.md) — the
    gable wall now reaches the same height a different way (shorter studs,
    deeper header) and the side walls have to match it. Plate now sits on
    WALL_BASE (on top of the room floor), not the bare rim — see §5. */
+/* Studs flush at both corners, and the 24 in o.c. run pulled FROM THE WALL END
+   so the marks land where sheet edges do: a 48 in edge at RM_X0+48 and a 96 in
+   one at RM_X0+96 both sit on a stud CENTRELINE with 3/4 in each side. Stored
+   as near edges, so each mark is centre - 0.75. Same rule the floor sheathing
+   needed (§4.13) — a seam that merely touches a stud has nothing to nail to. */
+var SIDE_STUDS = [RM_X0];                          // flush at the near corner
+for(var _sc = RM_X0 + 24; _sc < RM_X1 - 2.25; _sc += 24) SIDE_STUDS.push(_sc - 0.75);
+SIDE_STUDS.push(RM_X1 - 1.5);                      // flush at the far corner
+
+/* Cut-list labels get snapped to the nearest 1/8; the GEOMETRY stays exact.
+   Equal margins across a 120 in face with a 37 and a 34 in opening land on
+   thirds of an inch, and a label reading 66.16666666666667 helps nobody. */
+function len8(v){ return Math.round(v*8)/8; }
+
+/* Cripple layout under a rough sill. Always a cripple hard against each end so
+   the sill BEARS rather than being end-nailed to the jacks — that is the "double
+   2x4 sitting on nothing" problem. `must` adds further required positions (the
+   side wall needs cripples under its sheathing seams). Gaps over 16 in get
+   filled with evenly spaced intermediates. Returns near-edge positions. */
+function crippleRun(z0, z1, must){
+  var req = [z0, z1-1.5].concat(must || []);
+  req.sort(function(a,b){ return a-b; });
+  var out = [];
+  for(var i = 0; i < req.length; i++){
+    out.push(req[i]);
+    if(i === req.length-1) break;
+    var gap = req[i+1] - (req[i] + 1.5);
+    if(gap <= 16) continue;
+    var n = Math.ceil(gap/16) - 1;
+    var clear = (gap - n*1.5)/(n + 1);
+    for(var k = 0; k < n; k++) out.push(req[i] + 1.5 + clear + k*(clear + 1.5));
+  }
+  return out;
+}
+
 var STUD_BOT = WALL_BASE + 1.5;               // 109.75
-var STUD_TOP = STUD_BOT + 88.75;              // 198.5
-var PLATE_TOP = STUD_TOP + 1.5;               // 200.0
+/* THE WALL HEIGHT IS DERIVED FROM THE DOOR, not typed. Work it upward:
+     floor -> bottom plate -> door rough opening -> header -> top plate.
+   A 32x80 exterior pre-hung wants a 34 x 82.5 rough opening (+2 wide, +2.5
+   tall for head jamb, threshold and shim). Every opening heads at the same
+   line, and one header depth covers all three, which is what lets each header
+   fill exactly to the top plate with no cripples above it. See §4.16. */
+var DOOR_RO_H    = 82.5;                       // 80 in door + 2.5
+var HDR_D        = 7.25;                       // doubled 2x8 over every opening
+var OPENING_HEAD = WALL_BASE + DOOR_RO_H;      // 189.0 — all three heads
+var STUD_TOP     = OPENING_HEAD + HDR_D;       // 196.25
+var STUD_LEN     = STUD_TOP - STUD_BOT;        // 88.25 — both walls, same stud
+var JACK_LEN     = OPENING_HEAD - STUD_BOT;    // 81.0 — jacks carry the headers
+var PLATE_TOP    = STUD_TOP + 1.5;             // 197.75
+/* --- side wall window: 60 x 48 unit, 61 x 49 rough opening, on the Z = 0 wall ---
+   Unlike the front, this wall CAN take a proper header. Its studs are 88.75
+   tall against the gable wall's 81.5, so putting the head at 189.5 — level with
+   the front window and door — leaves exactly STUD_TOP - 189.5 = 7.25 in above
+   it. A doubled 2x8 fills that dead flush to the top plate, with no cripples
+   needed above. King full height, jack stopping under the header carrying it,
+   which is the arrangement Marshall asked for.
+
+   Sill lands at 140.5, the same as the front window, so all three openings line
+   up top AND bottom. */
+var SWIN_W = 61, SWIN_H = 49;
+var SWIN_CX = (RM_X0 + RM_X1)/2;                  // 118.5, centred on the wall
+var SWIN_X0 = SWIN_CX - SWIN_W/2, SWIN_X1 = SWIN_CX + SWIN_W/2;
+var SWIN_HEAD = OPENING_HEAD;                     // level with the front openings
+var SWIN_SILL = SWIN_HEAD - SWIN_H;               // 140.5
+var SWIN_HDR_D = HDR_D;                           // fills exactly to the top plate
+var SWIN_JACK  = JACK_LEN;
+var SWIN_HDR_L = SWIN_W + 3;                      // 64, bearing 1.5 on each jack
+
 [0, 116.5].forEach(function(z){
-  box("2x4x144.5","Side wall bottom plate","walls", RM_X0, WALL_BASE, z, 144.5, 1.5, 3.5);
-  box("2x4x144.5","Side wall top plate","walls",   RM_X0, STUD_TOP, z, 144.5, 1.5, 3.5);
-  [46,70,94,118,142,166,189].forEach(function(sx){
-    box("2x4x88.75","Side wall stud — 24 in o.c.","walls", sx, STUD_BOT, z, 1.5, 88.75, 3.5);
+  var hasWin = (z === 0);
+  box("2x4x"+RM_LEN,"Side wall bottom plate","walls", RM_X0, WALL_BASE, z, RM_LEN, 1.5, 3.5);
+  box("2x4x"+RM_LEN,"Side wall top plate","walls",   RM_X0, STUD_TOP, z, RM_LEN, 1.5, 3.5);
+
+  SIDE_STUDS.forEach(function(sx){
+    /* drop the regular studs the opening swallows */
+    if(hasWin && sx + 1.5 > SWIN_X0 - 3.0 && sx < SWIN_X1 + 3.0) return;
+    box("2x4x"+STUD_LEN,"Side wall stud — 24 in o.c.","walls", sx, STUD_BOT, z, 1.5, STUD_LEN, 3.5);
+  });
+  if(!hasWin) return;
+
+  box("2x4x"+STUD_LEN,"Side wall stud — window king","walls", SWIN_X0-3.0, STUD_BOT, z, 1.5, STUD_LEN, 3.5);
+  box("2x4x"+STUD_LEN,"Side wall stud — window king","walls", SWIN_X1+1.5, STUD_BOT, z, 1.5, STUD_LEN, 3.5);
+  box("2x4x"+SWIN_JACK,"Side wall jack — carries the window header","walls",
+      SWIN_X0-1.5, STUD_BOT, z, 1.5, SWIN_JACK, 3.5);
+  box("2x4x"+SWIN_JACK,"Side wall jack — carries the window header","walls",
+      SWIN_X1, STUD_BOT, z, 1.5, SWIN_JACK, 3.5);
+
+  box("2x8x"+SWIN_HDR_L,"Side window header (outer) — bears on the jacks","walls",
+      SWIN_X0-1.5, SWIN_HEAD, z,       SWIN_HDR_L, SWIN_HDR_D, 1.5);
+  box("2x8x"+SWIN_HDR_L,"Side window header (inner) — bears on the jacks","walls",
+      SWIN_X0-1.5, SWIN_HEAD, z + 2.0, SWIN_HDR_L, SWIN_HDR_D, 1.5);
+
+  box("2x4x"+SWIN_W,"Side window sill (lower)","walls", SWIN_X0, SWIN_SILL-3.0, z, SWIN_W, 1.5, 3.5);
+  box("2x4x"+SWIN_W,"Side window sill (upper)","walls", SWIN_X0, SWIN_SILL-1.5, z, SWIN_W, 1.5, 3.5);
+
+  /* Cripples: one hard against each end so the sill bears, plus one under each
+     sheathing seam (RM_X0+48 and RM_X0+96 both fall inside a 61 in opening, and
+     below the sill they need something to nail to), plus fill so no bay tops
+     16 in. */
+  var SCRIP_LEN = len8((SWIN_SILL - 3.0) - STUD_BOT);
+  crippleRun(SWIN_X0, SWIN_X1, [RM_X0+48-0.75, RM_X0+96-0.75]).forEach(function(cx){
+    box("2x4x"+SCRIP_LEN,"Cripple stud under the side window","walls",
+        cx, STUD_BOT, z, 1.5, SCRIP_LEN, 3.5);
   });
 });
 
@@ -580,7 +697,6 @@ var RIDGE_BOT = RIDGE_TOP - RIDGE_D;       // depth grows downward (§4.10)
 function UND(z){ return z <= 60 ? U(z) : U(120 - z); }
 
 /* ---------- 5. gable walls : 13 @ 2x4x81.5 + trim ---------- */
-var GBL_TOP = STUD_BOT + 81.5;                // 191.25  (under the 2x8 header)
 function gable(x, isFront){
   // top plate + doubled 2x8 header + king post
   // Header upsized from doubled 2x6 to doubled 2x8: the front header also
@@ -590,9 +706,15 @@ function gable(x, isFront){
   // the eave beam with no slack, so the extra 1.75 in depth pushes
   // PLATE_TOP (and everything above it) up by that much; GBL_TOP itself
   // — the stud top — doesn't move.
-  box("2x4x113", (isFront?"Front":"Back")+" wall top plate","walls", x, GBL_TOP, 3.5, 3.5, 1.5, 113);
-  box("2x8x113", (isFront?"Front":"Back")+" header (outer)","walls", x, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
-  box("2x8x113", (isFront?"Front":"Back")+" header (inner)","walls", x+1.5, GBL_TOP+1.5, 3.5, 1.5, 7.25, 113);
+  /* The wall-length doubled 2x8 is gone. §4.7 put it there because the king
+     post landed inside the old 62 in window; the openings moved (§4.15) and it
+     now sits over solid wall, so its own preferred fix — "a support stud
+     directly under the king post" — is finally available. A 4x4 carries it
+     straight to the bottom plate and on into the doubled carrier joist. Each
+     opening gets its own header instead. See §4.16. */
+  box("2x4x113", (isFront?"Front":"Back")+" wall top plate","walls", x, STUD_TOP, 3.5, 3.5, 1.5, 113);
+  box("4x4x"+STUD_LEN, (isFront?"Front":"Back")+" post under the king post","walls",
+      x, STUD_BOT, 58.25, 3.5, STUD_LEN, 3.5);
   /* Length derived so it tracks the ridge. TT is irrational, so the raw figure
      carries a ten-thousandth of an inch of noise: keep the GEOMETRY exact so
      the post still meets the ridge underside, and snap only the cut-list LABEL
@@ -633,20 +755,67 @@ function gable(x, isFront){
   });
 
   if(isFront){
-    box("2x4x74.5","Front bottom plate — runs to the doorway","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 74.5);
-    box("2x4x4.5","Front bottom plate — corner stub","walls", x, WALL_BASE, 112.0, 3.5, 1.5, 4.5);
-    [3.5,7.0,70.5,75.0,76.5,112.0,115.0].forEach(function(sz){
-      box("2x4x81.5","Front wall stud","walls", x, STUD_BOT, sz, 3.5, 81.5, 1.5);
+    /* --- front wall openings ---
+       A 36 x 48 window and a 32 x 80 door, spaced so the three pieces of solid
+       wall come out equal across the 120 in face: (120 - 37 - 34)/3 = 16-1/3.
+
+       Each opening now carries its OWN doubled 2x8 header, bearing on jacks,
+       with kings full height outside them — the normal arrangement, and the
+       same detail as the side window. It only became possible once the wall
+       height was derived from the door rather than typed: at 81.5 in studs the
+       83 in opening used the whole wall and left nowhere to put a header. See
+       §4.16.
+
+       Header depth is HDR_D for all three openings, so each fills exactly to
+       the top plate and no cripples are needed above. */
+    var WIN_W = 37, WIN_H = 49;                   // 36x48 unit, +1 in each way
+    var DOOR_W = 34;                              // 32x80 pre-hung, +2 in wide
+    var FRONT_W = 120;                            // the face, Z 0 - 120
+    var MARGIN  = (FRONT_W - WIN_W - DOOR_W)/3;   // 16-1/3
+    var WIN_Z0  = MARGIN,          WIN_Z1  = WIN_Z0 + WIN_W;
+    var DOOR_Z0 = WIN_Z1 + MARGIN, DOOR_Z1 = DOOR_Z0 + DOOR_W;
+    var WIN_SILL = OPENING_HEAD - WIN_H;
+
+    /* bottom plate runs in two pieces, broken by the doorway */
+    var BP1 = DOOR_Z0 - 3.5, BP2 = 116.5 - DOOR_Z1;
+    box("2x4x"+len8(BP1),"Front bottom plate \u2014 runs to the doorway","walls",
+        x, WALL_BASE, 3.5, 3.5, 1.5, BP1);
+    box("2x4x"+len8(BP2),"Front bottom plate \u2014 past the doorway","walls",
+        x, WALL_BASE, DOOR_Z1, 3.5, 1.5, BP2);
+
+    /* corners and kings run full height; jacks stop under their header */
+    [[3.5,"corner"], [115.0,"corner"],
+     [WIN_Z0-3.0,"window king"], [WIN_Z1+1.5,"window king"],
+     [DOOR_Z0-3.0,"door king"],  [DOOR_Z1+1.5,"door king"]].forEach(function(t){
+      box("2x4x"+STUD_LEN,"Front wall stud \u2014 "+t[1],"walls", x, STUD_BOT, t[0], 3.5, STUD_LEN, 1.5);
     });
-    box("2x4x62","Window sill (lower)","walls", x, STUD_BOT+28.5, 8.5, 3.5, 1.5, 62);
-    box("2x4x62","Window sill (upper)","walls", x, STUD_BOT+30.0, 8.5, 3.5, 1.5, 62);
-    [23.0,39.0,55.0].forEach(function(sz){
-      box("2x4x28.5","Cripple stud under the window","walls", x, STUD_BOT, sz, 3.5, 28.5, 1.5);
+    [[WIN_Z0-1.5,"window jack"], [WIN_Z1,"window jack"],
+     [DOOR_Z0-1.5,"door jack"],  [DOOR_Z1,"door jack"]].forEach(function(t){
+      box("2x4x"+JACK_LEN,"Front wall stud \u2014 "+t[1]+", carries the header","walls",
+          x, STUD_BOT, t[0], 3.5, JACK_LEN, 1.5);
+    });
+
+    /* doubled 2x8 headers, 1/2 in spacer between the plies to make 3.5 */
+    [[WIN_Z0, WIN_W, "window"], [DOOR_Z0, DOOR_W, "door"]].forEach(function(h){
+      var L = h[1] + 3;                           // bears 1.5 on each jack
+      box("2x8x"+L,"Front "+h[2]+" header (outer)","walls",
+          x,       OPENING_HEAD, h[0]-1.5, 1.5, HDR_D, L);
+      box("2x8x"+L,"Front "+h[2]+" header (inner)","walls",
+          x + 2.0, OPENING_HEAD, h[0]-1.5, 1.5, HDR_D, L);
+    });
+
+    box("2x4x"+WIN_W,"Window sill (lower)","walls", x, WIN_SILL-3.0, WIN_Z0, 3.5, 1.5, WIN_W);
+    box("2x4x"+WIN_W,"Window sill (upper)","walls", x, WIN_SILL-1.5, WIN_Z0, 3.5, 1.5, WIN_W);
+
+    var CRIP_LEN = len8((WIN_SILL - 3.0) - STUD_BOT);
+    crippleRun(WIN_Z0, WIN_Z1).forEach(function(cz){
+      box("2x4x"+CRIP_LEN,"Cripple stud under the window","walls",
+          x, STUD_BOT, cz, 3.5, CRIP_LEN, 1.5);
     });
   } else {
     box("2x4x113","Back wall bottom plate","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 113);
     [3.5,27.5,51.5,75.5,99.5,115.0].forEach(function(sz){
-      box("2x4x81.5","Back wall stud — 24 in o.c.","walls", x, STUD_BOT, sz, 3.5, 81.5, 1.5);
+      box("2x4x"+STUD_LEN,"Back wall stud — 24 in o.c.","walls", x, STUD_BOT, sz, 3.5, STUD_LEN, 1.5);
     });
   }
 }
@@ -681,7 +850,7 @@ var RAFT = [
 ];
 var RAFT_MIRROR = RAFT.map(function(p){ return [120-p[0], p[1]]; });
 var RAFT_ROLE = "Rafter — birdsmouth on the 4x4, seat notch over the 4x6";
-var RAFT_X = [11.5,46.0,59.5,83.5,107.5,131.5,155.5,179.5,188.5,201.5];
+var RAFT_X = [11.5,RM_X0,59.5,83.5,107.5,131.5,155.5,179.5,188.5,201.5];
 RAFT_X.forEach(function(rx){
   prism("2x6x92", RAFT_ROLE, "roof", RAFT,        "x", rx+1.5, [0,TT, 1]);
   prism("2x6x92", RAFT_ROLE, "roof", RAFT_MIRROR, "x", rx+1.5, [0,TT,-1]);
@@ -723,10 +892,32 @@ for(var dx = -3; dx < RM_X0 - 0.01; dx += DK_P){
    FLOOR_T (1 in) — see WALL_BASE above. The 96 in edge runs perpendicular
    to the room joists, same logic as the decking boards this replaced.
    Courses stagger their seams the way the wall/roof OSB skin does. */
+/* Seams are picked FROM the joist centrelines, not from the 48 in sheet
+   module. A seam has to land on the MIDDLE of a joist, not merely touch one:
+   the old break at RM_X0+96 = 142 sat half an inch off the joist centred on
+   142.5, leaving the sheet on its low side 0.25 in of bearing — nothing to
+   nail into. The cause is that the joist run is anchored on the hung joist at
+   X 94.5 (§4.6) and the room starts at 46, so every centreline sits 0.5 in off
+   the sheet module. Rather than shift the joists, shift the seams.
+
+   Only three centrelines work as a two-piece course, i.e. with neither piece
+   over 96 in: 94.5, 110.5 and 126.5. Courses 1 and 3 break on 94.5 and course
+   2 on 126.5, so no four sheet corners ever meet. Outer edges land on RM_X0
+   and RM_X1, flush with the carrier and the back rim. */
+var JOIST_CL = ROOM_JOIST_X.concat([CENTRE_JOIST_X]).sort(function(a,b){ return a-b; });
+function floorSeam(target){
+  return JOIST_CL.filter(function(c){ return c-RM_X0 <= 96 && RM_X1-c <= 96; })
+                 .reduce(function(best,c){
+                   return Math.abs(c-target) < Math.abs(best-target) ? c : best; });
+}
+/* With the room at exactly 144 both sheet modules land on a joist centreline,
+   so every piece is a full 48x96 or a half 48x48 — no ripping in X at all. */
+var SEAM_A = floorSeam(RM_X0 + 96);       // 142.5
+var SEAM_B = floorSeam(RM_X0 + 48);       // 94.5 — the hung centre joist
 var FL_COURSE = [
-  [0,   48,  [RM_X0, RM_X0+96,   RM_X1]],   // 48 in wide course
-  [48,  96,  [RM_X0, RM_X0+48.5, RM_X1]],   // 48 in wide course, seam staggered
-  [96,  120, [RM_X0, RM_X0+96,   RM_X1]]    // 24 in wide course, back to the first break
+  [0,   48,  [RM_X0, SEAM_A, RM_X1]],     // 96 + 48
+  [48,  96,  [RM_X0, SEAM_B, RM_X1]],     // 48 + 96, staggered
+  [96,  120, [RM_X0, SEAM_A, RM_X1]]
 ];
 FL_COURSE.forEach(function(c){
   var z0=c[0], z1=c[1], brk=c[2];
@@ -788,9 +979,10 @@ function sheet(outline, axis, at, courses, tag){
 }
 
 /* --- side walls: X 46 to 190.5, wall base (on top of the floor) up to the 4x4 --- */
-var SW = [[46,WALL_BASE],[190.5,WALL_BASE],[190.5,EAVE_TOP],[46,EAVE_TOP]];
-var SW_C = [[WALL_BASE, WALL_BASE+48, [46,142,190.5]],
-            [WALL_BASE+48, EAVE_TOP, [46,94.5,190.5]]];
+var SW = [[RM_X0,WALL_BASE],[RM_X1,WALL_BASE],[RM_X1,EAVE_TOP],[RM_X0,EAVE_TOP]];
+/* seams on stud centrelines, same rule as the floor — RM_X0+96 and RM_X0+48 */
+var SW_C = [[WALL_BASE, WALL_BASE+48, [RM_X0, RM_X0+96, RM_X1]],
+            [WALL_BASE+48, EAVE_TOP,  [RM_X0, RM_X0+48, RM_X1]]];
 sheet(SW, "z", -OSB, SW_C, "Side wall");
 sheet(SW, "z", 120,  SW_C, "Side wall");
 
@@ -1214,24 +1406,28 @@ var CUT = [
   ["2x10x120",5,"Cross rims — front pair, back, and two low"],
   ["2x10x116.5",9,"Room floor joists + doubled wall carrier"],
   ["2x10x105.5",1,"Centre joist, hung off the 6x6 posts"],
-  ["2x10x46",7,"Landing joists, turned 90°"],
+  ["2x10x46.5",7,"Landing joists, turned 90°"],
   ["OSB 1",6,"Room floor sheathing — full footprint, cut from 5 sheets"],
   ["1x5.5x120",9,"Landing boards, turned 90\u00b0"],
-  ["2x8x113",4,"Doubled gable headers"],
+  ["2x8x40",2,"Front window header, doubled"],
+  ["2x8x37",2,"Front door header, doubled"],
   ["2x6x92",20,"Rafters, 24 in o.c."],
   ["2x6x57.5",12,"45° knee braces"],
   ["2x6x5.5",24,"Bearing cleats + double-shear backers, at the posts"],
-  ["2x4x144.5",4,"Side wall plates"],
+  ["2x4x144",4,"Side wall plates"],
   ["2x4x113",3,"Gable top plates \u00d7 2 + back bottom plate"],
-  ["2x4x88.75",14,"Side wall studs"],
-  ["2x4x81.5",13,"Gable wall studs"],
-  ["2x4x74.5",1,"Front plate to the doorway"],
-  ["2x4x62",2,"Window sill, doubled"],
+  ["2x4x88.25",25,"Wall studs — sides, gables, and every opening king"],
+  ["2x4x81",6,"Jacks — 4 front openings + 2 side window"],
+  ["4x4x88.25",2,"Posts under the king posts (§4.16)"],
+  ["2x8x64",2,"Side window header, doubled — 60x48 window (§4.15)"],
+  ["2x4x61",2,"Side window sill, doubled"],
+  ["2x4x66.125",1,"Front plate to the doorway"],
+  ["2x4x37",2,"Front window sill, doubled — 36x48, 37x49 R.O."],
   ["2x4x37.875",4,"Gable infill studs, inner pair — bevelled top"],
   ["2x4x33",4,"Rake-ladder blocks"],
-  ["2x4x28.5",3,"Cripples under the window"],
+  ["2x4x29",10,"Cripples — 4 front window, 6 side window"],
   ["2x4x20",4,"Gable infill studs, outer pair — bevelled top"],
-  ["2x4x4.5",1,"Front plate corner stub"]
+  ["2x4x12.875",1,"Front plate past the doorway"]
 ];
 var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","2x10":"#8F5A32","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
 var cl = document.getElementById("cutlist");

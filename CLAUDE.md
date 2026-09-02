@@ -342,67 +342,51 @@ stand as backup if a cleat bolt slips. Screws beat bolts at withdrawal, which
 is what this now needs, and they avoid putting a second ½ in hole through the
 post. Net: two through-holes per post instead of four.
 
-**Screw spec — Grip Fast Premium #16 × 6 in.** Sold at Menards as "¼ × 6",
-model 30927-32. The ¼ is nominal; the T30 drive identifies it as the **#16** in
-DrJ TER 2101-03, not a repackaged lag.
+**Screw spec — SPAX PowerLag XF, 5/16 × 6 in, T-Star washer head.** Menards
+model XFP312P600-BX1, sold singly. Replaces the Grip Fast #16 this section
+originally specced.
 
 | | |
 |---|---|
-| Diameter | 0.283 major · 0.205 minor · 0.181 shank |
-| Z⊥ / Z∥ | **265 / 225 lb** (HF/SPF and DF) · 265 / 245 (SP) |
-| Report requires | 1½ in side member, 1½ in min main-member penetration |
-| Our condition | rim is exactly 1½ in ✓ · 6 in screw gives 4½ in penetration ✓ |
-| Coating | TRIPLE MAX-SHIELD, stated equivalent to HDG ASTM A153 Class D and rated for ground-contact treated lumber, AWPA UC1–UC4A |
-| Install | no pilot hole, head driven flush |
+| Diameter | 0.315 outside thread · 0.217 shank · 0.189 minor |
+| Drive | T-40, no pilot hole |
+| Report requires | 2⅜ in minimum penetration into the main member |
+| Our condition | 4½ in at the side rims, 3 in at the doubled front cross rim — **both clear it** |
+| Coating | HCR, an ICC-recognised alternate to HDG ASTM A153 Class D, **explicitly evaluated for ACQ-D treated wood** (Exposure Condition 3) |
 
-That coating rating is what makes these usable — an ordinary black-coated screw
-would not survive ACQ/CA. Check the treatment on your lumber tags; the report
-names MCA specifically, though A153 Class D equivalence is the general
-requirement for ACQ and CA too.
+**This closes the approval caveat.** The Grip Fast was covered by a DrJ report —
+accredited, but not what every engineer or building department will work from.
+SPAX PowerLags are **ICC-ES listed (ESR-1782)**, the format nobody argues with.
+That is worth more here than the extra diameter.
 
-**Spacing governs, not capacity.** In a 5½ × 7½ in contact area the #16 wants
-3⅛ in between screws in a row parallel to grain, 2⅛ in perpendicular, and ⅝ in
-edge distance. That allows roughly 2 columns × 3 rows, so **about 6 per post
-face is the practical ceiling** — **four rows now that the rim laps the full
-9¼ in of post** (§4.11), so eight per face. Ten faces, 80 screws, four 24-packs.
+**One screw length now does everything.** The Grip Fast needed a #18 × 8 at the
+two front corner posts, because a 6 in screw reached only 3 in past the doubled
+cross rim. 3 in clears the SPAX minimum of 2⅜, so the whole job is one part.
 
-**Why the screws cannot be the load path.** Six screws at the conservative 225
-lb is 1,350 lb, against a post demand somewhere around 3,000–4,000 lb. Neither
-these screws nor the two ½ in bolts they replace could ever have carried
-gravity. That arithmetic is the clearest statement that **the cleats are
-structural, not insurance.**
+**But the spacing got tighter, and it costs two screws a face.** ESR-1782
+Table 6 wants **1¾ in edge distance** for the 5/16 series against ⅝ for the
+Grip Fast — nearly three times:
 
-**Two caveats.**
-
-- The report is from **DrJ, not ICC-ES**. DrJ is ANAB ISO/IEC 17065 accredited
-  so it is a real evaluation, but some engineers and building departments work
-  only from ICC-ES. Confirm before buying in bulk.
-- **#16 stops at 6 in.** At the front corner posts the cross rim is a doubled
-  2x10 — a 3 in side member, outside the tested 1½ in configuration, and a 6 in
-  screw leaves only 3 in of penetration (still above the 1½ in minimum). The
-  **#18** in the same report runs to 16 in and jumps to **410 / 370 lb**. Use it
-  at the front corners, or throughout if you want fewer screws.
-
-**The layout is in the model** (section 2c, `fasteners` layer, its own toggle).
-Eighty fasteners: 60 screws and 20 bolts. Drawn as real cylinders on the real
-spacing, because the spacing is what runs out first and it is easier to see
-than to argue about. Verified against the report's own numbers:
-
-| | modelled | #16 requires |
+| | Grip Fast #16 | SPAX 5/16 |
 |---|---|---|
-| column spacing, parallel to grain | 3.125 in | 3.125 |
-| row spacing, perpendicular | 2.125 in | 2.125 |
-| edge distance off the post face | 1.1875 in | 0.625 |
-| screw penetration into the post | 4.5 in (5.0 for the #18) | 1.5 |
-| bolt diagonal spacing | 2.83 in | 2.0 (4D) |
+| Edge distance | 5/8 | **1 3/4** |
+| Between fasteners in a row (⊥ grain) | 2 1/8 | 2 3/16 |
+| Between rows, in-line | 1 1/8 | 1 1/8 |
 
-Every screw stops short of the far post face; every bolt crosses the whole
-sandwich. Three rows of two per face is the ceiling — a fourth row does not fit
-between the rim bottom and the post top at 2⅛ in centres.
+On a 5½ in post face, 1¾ in a side leaves **2 in of usable width**. Two columns
+at the 1⅛ in between-rows spacing fit; a third would breach the edge distance.
+Three rows fit in the 9¼ in lap. So **six per face, not eight** — 60 screws
+across the ten faces instead of 80.
 
-**The clash checks skip the `fasteners` layer.** Fasteners are supposed to pass
-through lumber, so including them would be noise. The lumber-only check still
-reads zero.
+As built: columns 2³⁄₁₆ in off each post edge, rows 2⁷⁄₁₆ off the rim's top and
+bottom, every Table 6 minimum met with margin. The layout is derived from those
+figures, so it re-solves if the lap or the post width ever change.
+
+**A bigger screw is not automatically fewer screws.** Both products publish
+lateral values in the same ballpark at a 1½ in side member, because what governs
+is the thin rim, not the fastener. What the SPAX buys is the ICC-ES listing, the
+single part number and a stiffer fastener — not a licence to use fewer. The
+count still comes from the engineer.
 
 **Still open — get the counts sized.** The detail is ordinary; a face-mounted
 ledger carrying load in fastener shear is how every deck bolted to a house
@@ -528,6 +512,280 @@ clash check reports the notch as an overlap. Cut when you get there:
 - **3 × 7¼ in** for the ridge, twice per gable
 - **3½ × 3½ in** for each eave beam, twice per gable
 
+### 4.12 Front wall openings — 36 × 48 window, 36 × 80 door, evenly spaced
+
+The model had a **62 × 50** window R.O. taking nearly the whole bay, and a
+**34 × 83** doorway. Both replaced, and the pair laid out so the front reads
+evenly (Marshall's call).
+
+| | Was | Now |
+|---|---|---|
+| Window unit | — | 36 × 48 |
+| Window R.O. | 62 × 50 | **37 × 49** (Z 15 – 52) |
+| Door unit | — | 36 × 80 |
+| Door R.O. | 34 × 83 | **38 × 83** (Z 67 – 105) |
+| Sill height above floor | 33 | **34** |
+
+**Rough openings.** Window at unit + 1 in each way — ½ in of shim per side.
+Generous but standard, and generous is the right direction: you can shim a gap,
+you cannot stretch a frame. **Confirm against the unit's own literature before
+cutting**; manufacturers publish the required R.O. and it varies (+½ and +¾ are
+both common). Door at unit + 2 in wide, which is the usual pre-hung allowance.
+
+**Even spacing, measured across the face.** Three pieces of solid wall — corner
+to window, window to door, door to corner — all at **exactly 15 in**:
+
+```
+|--15--| window 37 |--15--| door 38 |--15--|      = 120
+```
+
+Measured across the **120 in face as seen from outside**, not the 113 in of
+front-wall framing. The face is what reads as even from the yard, and it happens
+to divide cleanly: (120 − 37 − 38) / 3 = 15.
+
+**Heads line up by construction.** Both openings top out at the underside of the
+2x4 top plate, Y 189.5, and neither needs a header of its own — the doubled 2x8
+gable header already spans the full 113 in wall above them (§4.7). The
+consequence is that the door R.O. comes out **83 in against the 82½ a 36 × 80
+pre-hung normally wants**. Shim the half inch at the head. Do *not* add a door
+header to get 82½ exactly: that drops the door head below the window head and
+loses the alignment that was the point.
+
+**Framing.** Six studs where there were seven: two corners plus a king each side
+of both openings, at Z 3.5, 13.5, 52, 65.5, 105, 115. No solid bay exceeds 16 in
+(8½ / 12 / 8½ of clear framing). Doubled 2x4x37 sill; two cripples at 16 o.c.,
+centred, giving 9¾ / 14½ / 9¾. Bottom plate runs in two pieces broken by the
+doorway, 63½ and 11½.
+
+**This also fixes what §4.7 was worried about.** The king post at Z 58.25 – 61.75
+used to land over the 62 in window opening, with only the doubled header
+carrying it. It now sits over **solid wall between studs 12 in apart**. The
+header upsize from §4.7 stays — it is doing other work — but the point load it
+was sized for is no longer hanging over a hole.
+
+**Watch the sheathing layout.** The gable sheathing seams sit at Z 24 and Z 96,
+which now fall inside the window and the door respectively. The model draws the
+gable panels as full pentagons without opening cutouts, so it will not flag
+this — re-pick the seams onto studs when you lay the panels out. Related: §4.11
+already notes the panels need notching around the ridge and eave beams.
+
+**Everything derives from `WIN_W` and `DOOR_W`,** so a different window or door
+is a two-number change and the 15 in spacing re-solves itself.
+
+### 4.13 Floor sheathing seams have to land on a joist *centreline*
+
+The room floor's sheet seams were picked from the 48 in sheet module: breaks at
+`RM_X0+96` = 142 and `RM_X0+48.5` = 94.5. The second was fine. The first was
+not — the joist there is centred on **142.5**, so a seam at 142 left the sheet
+on its low side with **0.25 in of bearing**. Touching a joist is not the same as
+landing on one; a quarter inch is nothing to nail into.
+
+**Cause.** The joist run is anchored on the hung centre joist at X 94.5 (§4.6)
+and the room starts at X 46. 94.5 − 46 = **48.5**, so every joist centreline
+sits half an inch off the 48 in sheet module. No full sheet edge can ever land
+on one.
+
+**Fix: move the seams, not the joists.** Only three centrelines work as a
+two-piece course, i.e. with neither piece over 96 in:
+
+| Seam | Pieces |
+|---|---|
+| **94.5** | 48.5 + 96 |
+| 110.5 | 64.5 + 80 |
+| **126.5** | 80.5 + 64 |
+
+Courses 1 and 3 break on **94.5**, course 2 on **126.5**. Every seam now sits
+dead centre on a joist — 0.75 in of bearing each side — the outer edges land
+flush on the carrier at X 46 and the back rim at X 190.5, and no four sheet
+corners meet. Still six pieces from five sheets; the purchase list does not
+move. Seams derive from the joist list now, so they cannot drift apart again.
+
+**Both seams are carried along their whole 120 in run**, which is worth
+recording because the 94.5 one leans on §4.11:
+
+| Z | What carries the 94.5 seam |
+|---|---|
+| 0.25 – 1.75 | side rim |
+| 1.75 – 7.25 | **6x6 post top** |
+| 7.25 – 112.75 | the hung centre joist |
+| 112.75 – 118.25 | **6x6 post top** |
+| 118.25 – 119.75 | side rim |
+
+The hung joist stops at the post faces, so for 11 in of that seam the bearing is
+the post tops themselves — which only became usable when the deck dropped flush
+with them (§4.11). Before that they sat 1¾ in low and the seam would have been
+unsupported there. Two 0.25 in slivers at Z 0 – 0.25 and 119.75 – 120 have
+nothing under them; both sit under the side wall bottom plate.
+
+### 4.14 The room is 144 in, not 144.5 — and that half inch was costing a sheet
+
+Marshall's observation: a full 48×96 plus a 48×48 is exactly 144, so why is the
+floor being cut with a 48.5 in rip? Because the room front face was at X 46 and
+the back at 190.5, making it **144.5**. Every sheet module therefore landed half
+an inch off the framing:
+
+| Sheet edge | Room = 144.5 | Room = 144 |
+|---|---|---|
+| `RM_X0 + 48` | X 94.0 — misses, joist is at 94.5 | X 94.5 — **joist centreline** |
+| `RM_X0 + 96` | X 142.0 — misses, joist is at 142.5 | X 142.5 — **joist centreline** |
+| `RM_X0 + 144` | half an inch short of the back | **the back face exactly** |
+
+**Front face moved X 46 → 46.5.** The back stays put: the back wall sits at
+187 – 190.5 and needs the floor under its full width. §4.4 records that the
+drawings disagree about the front face anyway — the plan scales it at 45.3, the
+elevations at 46.0, and the model had split the difference. 46.5 is another half
+inch past the elevations, inside the same noise. The landing gains ½ in.
+
+**What it bought:**
+
+| | Was | Now |
+|---|---|---|
+| Room floor sheets | 5 | **4** |
+| Floor waste | 25% | **6%** |
+| Ripped floor pieces | 4 | **0** |
+| Side wall plates | 2x4x144.5, forcing 14 ft stock | **2x4x144 from 12 ft** |
+
+Every floor piece is now a full 48×96 or a half 48×48. Courses run 96 + 48 and
+48 + 96, staggered, seams on X 142.5 and 94.5 — both joist centrelines with ¾ in
+of bearing each side.
+
+**It also fixed the side walls, which had the same defect.** Their sheathing
+broke at X 46, 142 and 94.5 against studs at 46, 70, 94… — the 142 seam had the
+same quarter-inch bearing problem the floor did (§4.13), and nobody had looked.
+Side wall studs now run **flush at both corners with the 24 in o.c. marks pulled
+from the wall end**, which is how you would lay it out on the deck anyway:
+
+```
+near edges  46.5  69.75  93.75  117.75  141.75  165.75  189.0
+centrelines 47.25 70.50  94.50  118.50  142.50  166.50  189.75
+```
+
+A 48 in sheet edge lands on 94.5 and a 96 in one on 142.5 — both stud
+centrelines, ¾ in each side. Same rule as the floor, and both derive from
+`RM_X0` now rather than being typed.
+
+**Joist spacing is untouched.** 62.5, 78.5, 94.5, 110.5, 126.5, 142.5, 158.5,
+174.5 — exactly as before. Only the datum they are measured from moved.
+
+### 4.15 Openings v2 — 32×80 door, a side window, and king/jack at every edge
+
+Three changes, all Marshall's call.
+
+**Door 36×80 → 32×80**, rough opening **34 × 83** (unit + 2 wide, head still at
+the top plate). **Front window stays 36×48**, R.O. **37 × 49**. **New 60×48
+window on the Z = 0 side wall**, R.O. **61 × 49**.
+
+**Front spacing.** Equal solid wall at both ends and between the openings,
+measured across the 120 in face: `(120 − 37 − 34)/3` = **16⅓ in** each. Exact,
+but not a round number — that is what exact rough openings and equal margins
+give you together. If a round margin matters more than the standard +2 door
+R.O., a 35 in door opening lands it on 16 in flat; say the word.
+
+**King and jack at every opening edge**, which is what Marshall asked for. Worth
+being precise about what the header is here, because the front wall is unusual:
+
+> The gable studs are **81.5** tall and the door R.O. is **83**. The opening is
+> *taller than the studs*, so it necessarily runs to the top plate and there is
+> no room for a header beneath it. The doubled 2x8 that spans the whole 113 in
+> wall above the plate (§4.7) **is** the header for both openings.
+
+So on the front wall the jack does not stop under a header the way it would in a
+normal wall — king and jack are both full height, and together they put **3 in
+of bearing** under the plate at each edge instead of 1.5. Four kings, four
+jacks, two corner studs.
+
+**The side wall can take a real header, and does.** Its studs are 88.75 against
+the gable wall's 81.5, so putting the head at 189.5 — level with the front
+window and door — leaves exactly `STUD_TOP − 189.5` = **7.25 in**, which a
+doubled 2x8 fills dead flush to the top plate with no cripples needed above.
+Jacks stop under it at 81.5 and carry it; kings run the full 88.75. The two
+plies sit at Z 0–1.5 and 2–3.5, the ½ in gap being the usual plywood spacer that
+makes a doubled 2x8 match a 3½ in wall.
+
+All three openings now line up **top and bottom**: heads at 189.5, both window
+sills at 140.5.
+
+**Sills bear now.** This was the actual complaint — a doubled 2x4 sill spanning
+between jacks with only mid-span cripples is end-nailed, not supported.
+`crippleRun()` always puts a cripple hard against each end so the sill sits on
+something, then fills any gap over 16 in. Front window: 4 cripples. Side window:
+6, because it also needs one under each sheathing seam.
+
+**The side window swallows both side-wall sheathing seams.** `RM_X0+48` = 94.5
+and `RM_X0+96` = 142.5 both fall inside a 61 in opening. Above the head the
+header, plate and eave beam back them; below the sill nothing would, so two of
+the six cripples are placed at exactly those centrelines. Same rule as §4.13.
+
+**Lumber.** Six more studs on the front, plus the side window's kings, jacks,
+header, sill and cripples. 2x4 goes 32 → 36 boards, 2x8 6 → 7.
+
+**Note on the renders that prompted this.** Both were stale — the ridge shown as
+a 4x6 (it is a doubled 2x8 since §4.10), studs 2 in short throughout, and the
+side plates at 144.5 (they are 144 since §4.14). The framing above came from the
+model's own geometry.
+
+### 4.16 The wall height is derived from the door, and §4.7 is superseded
+
+Marshall's question — *what rough opening should the door actually be, and can
+we then shorten the studs to suit?* — is the right way round, and following it
+dissolved the "front wall can't have a header" problem entirely.
+
+**Door R.O.: 34 × 82½** for a 32 × 80 exterior pre-hung. +2 wide is the standard
+pre-hung allowance; +2½ tall covers head jamb, threshold and shim. The 2 in
+figure that also gets quoted is the *interior* number — no threshold. Erring
+loose is shimmable; erring tight means cutting a header out of a built wall, so
+on something framed once, take 2½. **If the plan is a slab in a site-built jamb,
+2 in is right and `DOOR_RO_H` is a one-number change.**
+
+**The wall height now derives from that**, instead of 88.75 and 81.5 being typed:
+
+```
+floor                        106.50
++ bottom plate 1.5           108.00   <- studs start
++ door R.O. 82.5   -> head   189.00   <- all three openings head here
++ doubled 2x8 header 7.25    196.25   <- studs end
++ top plate 1.5              197.75   =  PLATE_TOP
+```
+
+`STUD_LEN` = 88.25, `JACK_LEN` = 81.0. **One stud length for every wall** —
+sides and gables both — where before the gables were 7.25 shorter to make room
+for the wall-length beam.
+
+| | Was | Now |
+|---|---|---|
+| Door R.O. height | 83 (½ proud) | **82.5** |
+| Side wall studs | 88.75 | **88.25** |
+| Gable wall studs | 81.5 | **88.25** |
+| PLATE_TOP | 198.25 | 197.75 |
+| Peak | 251.26 | **250.76** |
+
+Everything above the plate is derived, so the roof simply follows the half inch
+down. Nothing above it needed touching.
+
+**Every opening now has a real header.** Doubled 2x8, bearing on jacks, filling
+exactly to the top plate so no cripples are needed above — the same detail on
+all three. Kings run the full 88.25, jacks stop at 81.0 under their header. This
+is what Marshall was asking for from the start; it was blocked only because the
+old 81.5 in studs were shorter than the 83 in door opening, leaving nowhere to
+put one.
+
+**§4.7 is superseded.** It put a wall-length doubled 2x8 above the plate because
+the king post landed inside the old 62 in window. Its own preferred fix was:
+
+> *"Add a support stud directly under the king post — structurally the most
+> direct fix, but it lands inside the glass."*
+
+The openings moved in §4.15, so the king post now sits over solid wall and that
+fix is available. A **4x4 post** runs from the bottom plate to the top plate
+directly under each king post, aligned in Z, separated only by the 1.5 in plate.
+Load path is now ridge → king post → 4x4 → bottom plate → doubled carrier joist
+→ side rims → 6x6 posts: a continuous column rather than a point load spread
+through a beam. The four `2x8x113` wall beams are gone.
+
+**Lumber.** 2x4 +1 board, 4x4 +1 (a 14 footer for the two 88.25 posts). 2x8
+unchanged — the four 113 in beams are replaced by two 40 in and two 37 in
+headers, which fit the boards already on the list.
+
 ## 5. Decisions and assumptions made
 
 Everything here was a judgement call, not something the drawings stated.
@@ -643,22 +901,26 @@ Framing, as drawn:
 | 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
 | 2x10x116.5 | 9 | room floor joists + doubled wall carrier (widened from 2x8 to match the rim) |
 | 2x10x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
-| 2x10x46 | 7 | landing joists, turned 90° |
-| 2x8x113 | 4 | doubled gable headers (widened from 2x6 — see §4.7) |
+| 2x10x46.5 | 7 | landing joists, turned 90° |
+| 2x8x40 | 2 | front window header, doubled |
+| 2x8x37 | 2 | front door header, doubled |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
 | 2x6x57.5 | 12 | 45° knee braces |
 | 2x6x5.5 | 24 | 12 bearing cleats + 12 double-shear backers, at the posts (§4.8) |
-| 2x4x144.5 | 4 | side wall plates |
+| 2x4x144 | 4 | side wall plates (§4.14) |
 | 2x4x113 | 3 | gable top plates + back bottom plate (see §4.2) |
-| 2x4x88.75 | 14 | side wall studs, 24 in o.c. (grew from 87 — see §4.7) |
-| 2x4x81.5 | 13 | gable wall studs |
-| 2x4x74.5 | 1 | front plate to the doorway |
-| 2x4x62 | 2 | window sill, doubled |
+| 2x4x88.25 | 25 | wall studs — sides, gables, and every opening king (§4.16) |
+| 2x4x81 | 6 | jacks — 4 front openings + 2 side window |
+| 4x4x88.25 | 2 | posts under the king posts (§4.16) |
+| 2x8x64 | 2 | side window header, doubled (§4.15) |
+| 2x4x61 | 2 | side window sill, doubled |
+| 2x4x66.125 | 1 | front bottom plate, corner to the doorway |
+| 2x4x37 | 2 | front window sill, doubled — 36×48, 37×49 R.O. (§4.15) |
 | 2x4x37.875 | 4 | gable infill studs, inner pair — bevelled top, long point |
 | 2x4x33 | 4 | rake-ladder blocks |
-| 2x4x28.5 | 3 | cripples under the window |
+| 2x4x29 | 10 | cripples — 4 front window, 6 side window |
 | 2x4x20 | 4 | gable infill studs, outer pair — bevelled top, long point |
-| 2x4x4.5 | 1 | front plate corner stub |
+| 2x4x12.875 | 1 | front bottom plate, doorway to the corner |
 | 1x5.5x120 | 9 | landing boards, turned 90° |
 | OSB ¼ | 22 sheets | walls, gables, roof |
 | OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
@@ -666,8 +928,12 @@ Framing, as drawn:
 Layout positions:
 
 - Rafters, X: 11.5, 46, 59.5, 83.5, 107.5, 131.5, 155.5, 179.5, 188.5, 201.5
-- Side wall studs, X: 46, 70, 94, 118, 142, 166, 189 (24 o.c.)
-- Front gable studs, Z: 3.5, 7, 70.5, 75, 76.5, 112, 115
+- Side wall studs, near edges X: 46.5, 69.75, 93.75, 117.75, 141.75, 165.75,
+  189 — flush at both corners, 24 o.c. marks pulled from the wall end so the
+  centrelines land at 47.25, 70.5, 94.5, 118.5, 142.5, 166.5, 189.75 (§4.14)
+- Front gable studs, Z: 3.5, 13.33, 14.83, 53.33, 54.83, 66.67, 68.17, 103.67,
+  105.17, 115 — two corners plus a king AND jack each side of both openings
+  (§4.15)
 - Back gable studs, Z: 3.5, 27.5, 51.5, 75.5, 99.5, 115 (24 o.c.)
 - Room joists, X: 62.5, 78.5, 110.5, 126.5, 142.5, 158.5, 174.5 — a **true**
   16 o.c. run pulled from the hung centre joist at 94.5 (§4.6), plus a doubled
@@ -676,22 +942,28 @@ Layout positions:
   last bay is a 7 in half-bay)
 - Gable infill studs, Z: 24, 48, 72, 96 (24 in o.c., symmetric about the
   ridge at Z 60) — four per gable, both gables the same
-- Window opening Z 8.5 – 70.5, sill at 138.25 – 141.25
-- Doorway opening Z 78 – 112
+- Front window R.O. Z 16.33 – 53.33, Y 140.5 – 189.5 (37 × 49); doubled sill
+  137.5 – 140.5; 4 cripples at Z 16.33, 28.17, 40.0, 51.83
+- Door R.O. Z 69.67 – 103.67, Y 106.5 – 189.0 (34 × 82.5); doubled 2x8x37
+  header 189.0 – 196.25 (§4.16)
+- Side window R.O. X 88 – 149, Y 140.5 – 189.5 (61 × 49) on the Z = 0 wall;
+  kings at X 85 and 150.5, jacks 86.5 and 149, doubled 2x8x64 header
+  189.5 – 196.75, doubled sill 137.5 – 140.5, 6 cripples at X 88, 93.75,
+  109.75, 125.75, 141.75, 147.5
 
 ---
 
 ## 7. Purchase list
 
-**Framing — 98 boards, 1,012 linear feet**
+**Framing — 105 boards, 1,092 linear feet**
 
 | Size | Buy |
 |---|---|
-| 2x4 | 16 @ 8' · 3 @ 10' · 2 @ 12' · 6 @ 14' · 5 @ 16' |
+| 2x4 | 17 @ 8' · 4 @ 10' · 7 @ 12' · 2 @ 14' · 7 @ 16' |
 | 2x6 | 22 @ 8' · 6 @ 10' |
-| 2x8 | 4 @ 10' · 2 @ 16' |
+| 2x8 | 4 @ 10' · 1 @ 12' · 2 @ 16' |
 | 2x10 | 4 @ 16' · 15 @ 10' · 4 @ 8' |
-| 4x4 | 1 @ 8' · 2 @ 16' |
+| 4x4 | 1 @ 8' · 1 @ 14' · 2 @ 16' |
 | 6x6 | 6 @ 12' |
 
 *(Two of the three 113 in 2x4 plates were missing from the rail, and the buy
@@ -703,12 +975,13 @@ boards / 936 lf before the gable infill studs — those added
 three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
 37⅞ in inner studs, two per board.)*
 
-**Fasteners — 100, all HDG-equivalent or better** (the flush deck bought a fourth screw row, §4.11)
+**Fasteners — 80, all HDG-equivalent or better.** Six screws per face rather
+than eight: the 5/16 SPAX needs a 1¾ in edge distance where the Grip Fast
+wanted ⅝, and that is what a 5½ in post face runs out of (§4.9).
 
 | Item | Qty | For |
 |---|---|---|
-| Grip Fast #16 × 6 screw | 64 | six side-rim faces + both back cross rims (3 × 24-packs) |
-| Grip Fast #18 × 8 screw | 16 | the two front corner posts — doubled cross rim (§4.9) |
+| SPAX PowerLag XF 5/16 × 6, T-Star washer head | 60 | every rim-to-post face — six per face (§4.9) |
 | ½ × 10 HDG bolt | 16 | eight cleat lines, 8½ in of material each |
 | ½ all-thread, ~14 in | 4 | two front corner cleat lines, 11½ in of material |
 | ½ washers / nuts | 40 / 20 | two washers per bolt |
@@ -716,17 +989,17 @@ three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
 **Decking — 9 boards, 90 linear feet:** 9 @ 10 ft, landing only. The room
 floor is OSB now, see below — it used to be 20 more boards at 12 ft.
 
-**Sheathing — 620.9 sq ft:** the model computes this from the actual clipped
+**Sheathing — 620.3 sq ft:** the model computes this from the actual clipped
 panels; 19.40 sheets of straight area, drawn as **30 cut pieces**. The layout
 figure of 22 sheets (buy 23) is *not* derived from the model — it is a hand
 estimate and the gable triangles are where the waste goes. Re-derive it if the
 wall heights move again; the area above already grew from a stale 614½ that
 predated the §4.7 and §5 shifts.
 
-**Room floor — 1 in OSB, 5 sheets:** the floor now runs the full 144.5 × 120
-room footprint (walls stand on top of it, see §5), so it's six pieces instead
-of the smaller inside-the-walls version: one full 96×48, one 96×48, two
-48.5×48, one 96×24, one 48.5×24 — 120.4 sq ft actual. 160 sq ft bought against
+**Room floor — 1 in OSB, 4 sheets:** the floor now runs the full 144.5 × 120
+room footprint (walls stand on top of it, see §5). Six pieces and **not one of
+them ripped in X** (§4.14): 96×48, 48×48, 48×48, 96×48, 96×24, 48×24 — 120.0
+sq ft actual. 160 sq ft bought against
 that, about 25% waste — the room's 144.5 in length doesn't divide evenly by
 the 96 in sheet, so every course leaves a 48.5 in offcut. This is a different
 product than the ¼ in wall/roof sheathing above — don't combine the two on
@@ -735,8 +1008,9 @@ the lumber order.
 Add 5–10% on the 2x4s and 2x6s for crooked stock rejected at the yard.
 
 **Watch at the yard:**
-- The four 144½ in 2x4s force 14 ft boards for the sake of half an inch. If the
-  design tolerates 144, that becomes four 12-footers.
+- The four side wall plates are now **144 in exactly**, cut from 12 ft stock
+  with **zero trim** (§4.14). Pick four clean, square-ended boards, or buy 14 ft
+  for those and accept the offcut.
 - The 189 in 2x10 side rims leave only 3 in of slack in a 16 ft board. Pick
   clean ends.
 - 6x6 @ 144, 4x4 @ 192, the 2x8x192 ridge plies, and the 2x10x120 cross rims
@@ -946,3 +1220,65 @@ Built over one session, in this order:
     14.25 in at the carrier and 14.5 at the back rim, both under 16. Joist
     count, cut list and purchase list all unchanged; the four room-floor OSB
     seams still land on framing.
+30. Swapped the rim screws to the SPAX PowerLag XF 5/16 x 6 that Marshall
+    actually bought (§4.9). The win is the ICC-ES listing — ESR-1782, where the
+    Grip Fast had a DrJ report — plus HCR coating explicitly evaluated for
+    ACQ-D, and one part number covering both the 1.5 in rims and the 3 in
+    doubled cross rim. The cost is spacing: ESR-1782 wants 1.75 in edge
+    distance against the Grip Fast's 0.625, which on a 5.5 in post face leaves
+    only 2 in of usable width. Two columns of three, so six per face rather
+    than eight, 60 screws instead of 80. Layout derived from Table 6 and
+    verified against every minimum.
+31. Resized the front window to a 36 x 48 unit — 37 x 49 rough opening (§4.12).
+    It had been framed at 62 x 50, which was most of the wall bay. Head stays at
+    the top plate, since the doubled 2x8 gable header already spans the whole
+    wall, so only the sill moved. The two studs that edged the old opening moved
+    to Z 19.5 and 58.0 as the new kings; stud count unchanged. Sills 2x4x62 ->
+    2x4x37, cripples 2x4x28.5 x3 -> 2x4x29.5 x2. Window framing now derives from
+    WIN_W and WIN_H.
+32. Added a 36 x 80 door (38 x 83 R.O., up from 34 x 83) and spaced both
+    openings evenly across the front (§4.12): 15 in of solid wall at each end
+    and between them, measured across the 120 in face. Both heads land on the
+    top plate underside so they align by construction, which leaves the door
+    R.O. half an inch tall against a standard pre-hung — shim it rather than
+    adding a header. Front wall drops to six studs. Side effect worth having:
+    the king post no longer sits over the window opening (§4.7) but over solid
+    wall between studs 12 in apart.
+33. Fixed the room-floor sheet seams, which had been picked from the 48 in
+    sheet module rather than from the joists (§4.13). The break at X 142 sat
+    half an inch off the joist centred on 142.5, leaving one sheet 0.25 in of
+    bearing. Seams now derive from the joist centrelines: 94.5 for courses 1
+    and 3, 126.5 for course 2. Every seam centred with 0.75 in each side, outer
+    edges flush on the carrier and back rim, no four corners meeting, still six
+    pieces from five sheets. Joist spacing untouched.
+34. Moved the room's front face X 46 -> 46.5 so the room is exactly 144 in
+    (§4.14), on Marshall's observation that a 48x96 plus a 48x48 is 144 and the
+    model was making him rip a 48.5. Every sheet module now lands on a joist or
+    stud centreline. Room floor drops from 5 sheets to 4, waste 25% -> 6%, and
+    no floor piece is ripped in X at all. Side wall plates become 144 from 12 ft
+    stock, which §7 had flagged as available "if the design tolerates 144".
+    Turned up the same seam defect in the SIDE WALL sheathing that §4.13 had
+    just fixed in the floor — its 142 seam had a quarter inch of bearing too.
+    Side wall studs now derive from RM_X0, flush at the corners with the o.c.
+    marks pulled from the wall end. Joist spacing untouched; only the datum
+    moved. 98 boards, 1,004 lf.
+35. Openings v2 (§4.15): door 36x80 -> 32x80 (R.O. 34 x 83), front window
+    unchanged at 36x48 (37 x 49), and a new 60x48 window (61 x 49) on the Z = 0
+    side wall. Front margins equal at 16-1/3 in across the 120 in face. Added a
+    king AND jack at every opening edge; on the front wall both are full height,
+    because the 83 in door R.O. is taller than the 81.5 in studs and the wall's
+    doubled 2x8 IS the header. The side wall is 88.75 tall so it takes a real
+    doubled 2x8x64 header, filling exactly to the top plate with jacks carrying
+    it. Every sill now has a cripple hard against each end so it bears rather
+    than being end-nailed — the complaint that started this. Two of the side
+    window's six cripples sit under the sheathing seams the 61 in opening
+    swallows. 103 boards, 1,070 lf.
+36. Derived the wall height from the door instead of typing it (§4.16), on
+    Marshall's question about the right rough opening. Door R.O. 83 -> 82.5 for
+    a 32x80 exterior pre-hung, which sets OPENING_HEAD 189.0, STUD_TOP 196.25,
+    STUD_LEN 88.25 and PLATE_TOP 197.75 — the roof follows half an inch down to
+    a 250.76 peak. Gable studs go 81.5 -> 88.25, the same as the sides, which
+    finally leaves room for a real doubled 2x8 header over each opening bearing
+    on jacks. Supersedes §4.7: the wall-length 2x8x113 beams are replaced by a
+    4x4 post under each king post, which §4.7 wanted but could not have while
+    the old window was in the way. 105 boards, 1,092 lf.
