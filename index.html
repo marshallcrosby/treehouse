@@ -30,7 +30,17 @@ body{
   overflow:hidden;
   -webkit-font-smoothing:antialiased;
 }
-#app{display:grid;grid-template-columns:308px 1fr;height:100vh}
+#app{display:grid;grid-template-columns:308px 1fr;height:100vh;height:100dvh}
+
+/* The drawer, its scrim, and the three buttons that drive it are phone-only.
+   Declared closed here so nothing leaks onto the desktop layout. */
+#scrim{
+  position:fixed;inset:0;z-index:30;background:rgba(12,16,15,.62);
+  opacity:0;pointer-events:none;transition:opacity .26s ease;
+}
+#scrim.on{opacity:1;pointer-events:auto}
+#menubtn,#railclose,#ro-close{display:none}
+.layersect{display:none}
 
 /* ---------- rail ---------- */
 #rail{
@@ -99,8 +109,13 @@ canvas{display:block;touch-action:none}
 .btn.on{background:var(--chalk);border-color:var(--chalk);color:#0E1620}
 .btn:focus-visible{outline:2px solid var(--chalk);outline-offset:2px}
 
+/* fixed, not absolute: the markup now sits inside the rail, but the stage runs
+   to the viewport's right edge so the pinned position is pixel-identical.
+   z-index is not optional — #stage is position:relative and comes after #rail
+   in the DOM, so at z-index auto the canvas paints straight over this. */
 #layers{
-  right:16px;top:60px;display:flex;flex-direction:column;gap:5px;align-items:flex-end;
+  position:fixed;right:16px;top:60px;z-index:20;
+  display:flex;flex-direction:column;gap:5px;align-items:flex-end;
 }
 #layers .btn{min-width:132px;text-align:left}
 
@@ -124,7 +139,7 @@ canvas{display:block;touch-action:none}
   white-space:nowrap;padding-right:10px}
 #ro-cuts .sq{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#6C7873;letter-spacing:.06em}
 #slider{
-  right:16px;bottom:16px;background:rgba(27,34,32,.9);border:1px solid var(--rule);
+  position:fixed;right:16px;bottom:16px;z-index:20;background:rgba(27,34,32,.9);border:1px solid var(--rule);
   border-radius:2px;padding:10px 13px 8px;pointer-events:auto;backdrop-filter:blur(6px);
 }
 #slider label{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;
@@ -140,19 +155,62 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 .notes p{font-size:11px;color:var(--muted);line-height:1.55;margin-bottom:8px}
 .notes p b{color:var(--w26);font-weight:500}
 
+/* ---------- phone: the stage gets the whole screen ----------
+   Everything that was chrome — the cut list, the notes, the eleven layer
+   toggles stacked down the right — goes into a drawer. What is left over the
+   model is one row of view buttons and, only once you have tapped a board,
+   the readout. The rail used to take 56vh of a phone screen; now it takes
+   none until you ask for it. */
 @media (max-width:860px){
-  #app{grid-template-columns:1fr;grid-template-rows:56vh 1fr}
-  #rail{border-right:0;border-top:1px solid var(--rule);order:2}
-  #stage{order:1}
-  #layers{top:auto;bottom:60px;right:10px}
-  #slider,#hint{display:none}
-  #readout{left:10px;bottom:10px;min-width:0}
+  #app{grid-template-columns:1fr;grid-template-rows:1fr}
+  #rail{
+    position:fixed;top:0;bottom:0;left:0;width:min(86vw,340px);z-index:40;
+    border-right:1px solid var(--rule);
+    box-shadow:0 0 44px rgba(0,0,0,.55);
+    transform:translateX(-100%);
+    transition:transform .26s cubic-bezier(.4,0,.2,1);
+  }
+  #rail.open{transform:none}
+  #scrim{display:block}
+  #menubtn,#railclose,#ro-close{display:inline-block}
+
+  #railclose{position:absolute;top:12px;right:12px;z-index:1;padding:6px 9px;line-height:1}
+  .railhead{padding-right:52px}
+
+  /* topbar: one row, smaller hit targets so all seven fit across a phone */
+  #topbar{padding:10px;gap:4px}
+  #topbar .btn{padding:6px 8px;font-size:10px;letter-spacing:.06em}
+
+  /* layers become a wrapped chip block inside the drawer */
+  .layersect{display:block}
+  #layers{
+    position:static;flex-direction:row;flex-wrap:wrap;align-items:stretch;
+    gap:5px;padding:2px 18px 6px;
+  }
+  #layers .btn{min-width:0;text-align:center;padding:7px 9px}
+
+  /* the explode slider used to be hidden outright on a phone; it fits the
+     drawer, so it survives now. Only the orbit hint goes. */
+  #hint{display:none}
+  #slider{
+    position:static;margin:0 18px 14px;background:none;border:0;padding:0;
+    backdrop-filter:none;
+  }
+  #slider input[type=range]{width:100%}
+
+  /* readout is a bottom sheet, and only when there IS a selection */
+  #readout{left:10px;right:10px;bottom:10px;min-width:0;padding-right:38px}
+  #readout.empty{display:none}
+  #readout .rr,#ro-cuts table{max-width:none}
+  #ro-close{position:absolute;top:8px;right:8px;padding:5px 8px;line-height:1}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
 <div id="app">
-  <aside id="rail">
+  <div id="scrim" hidden></div>
+  <aside id="rail" aria-label="Cut list and layers">
+    <button id="railclose" class="btn" aria-label="Close panel">✕</button>
     <div class="railhead">
       <div class="eyebrow">front · back · sides</div>
       <h1>Elevated fort<br>framing model</h1>
@@ -166,6 +224,28 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
     </div>
 
     <div class="railscroll">
+      <!-- Lives in the rail so the phone drawer can hold it; on desktop CSS
+           pins it back over the stage, position:fixed, exactly where it was. -->
+      <div class="sect layersect"><h2>Layers <span>tap to toggle</span></h2></div>
+      <div class="hud" id="layers">
+        <button class="btn on" data-layer="ground">Footings</button>
+        <button class="btn on" data-layer="posts">6x6 posts</button>
+        <button class="btn on" data-layer="deck">Deck frame</button>
+        <button class="btn on" data-layer="fasteners">Fasteners</button>
+        <button class="btn on" data-layer="joists">Floor joists</button>
+        <button class="btn on" data-layer="braces">Knee braces</button>
+        <button class="btn on" data-layer="walls">Room walls</button>
+        <button class="btn on" data-layer="roof">Roof</button>
+        <button class="btn on" data-layer="skin">OSB skin</button>
+        <button class="btn on" data-layer="decking">Decking</button>
+        <button class="btn on" data-layer="stairs">Stair</button>
+      </div>
+
+      <div class="hud" id="slider">
+        <label for="ex">Explode</label>
+        <input type="range" id="ex" min="0" max="100" value="0">
+      </div>
+
       <div class="sect"><h2>Cut list <span>bars to scale</span></h2></div>
       <div id="cutlist"></div>
 
@@ -192,6 +272,8 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 
   <main id="stage">
     <div class="hud" id="topbar">
+      <button class="btn" id="menubtn" aria-expanded="false" aria-controls="rail"
+              aria-label="Cut list and layers">☰</button>
       <button class="btn" data-view="iso">Iso</button>
       <button class="btn" data-view="front">Front</button>
       <button class="btn" data-view="side">Side</button>
@@ -200,29 +282,12 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
       <button class="btn" id="resetiso">Reset</button>
     </div>
 
-    <div class="hud" id="layers">
-      <button class="btn on" data-layer="ground">Footings</button>
-      <button class="btn on" data-layer="posts">6x6 posts</button>
-      <button class="btn on" data-layer="deck">Deck frame</button>
-      <button class="btn on" data-layer="fasteners">Fasteners</button>
-      <button class="btn on" data-layer="joists">Floor joists</button>
-      <button class="btn on" data-layer="braces">Knee braces</button>
-      <button class="btn on" data-layer="walls">Room walls</button>
-      <button class="btn on" data-layer="roof">Roof</button>
-      <button class="btn on" data-layer="skin">OSB skin</button>
-      <button class="btn on" data-layer="decking">Decking</button>
-    </div>
-
     <div class="hud" id="readout">
+      <button id="ro-close" class="btn" aria-label="Clear selection">✕</button>
       <div class="rk">Selected member</div>
       <div class="rv" id="ro-size">—</div>
       <div class="rr" id="ro-role">Click a board to identify it. Shift-click more to measure the gap.</div>
       <div id="ro-cuts"></div>
-    </div>
-
-    <div class="hud" id="slider">
-      <label for="ex">Explode</label>
-      <input type="range" id="ex" min="0" max="100" value="0">
     </div>
 
     <div class="hud" id="hint">drag to orbit · scroll to zoom · shift-click boards to measure</div>
@@ -252,7 +317,7 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 var COLOR = {
   "2x4":0xE6CB92, "2x6":0xCFA35F, "2x8":0xB07C41, "2x10":0x8F5A32,
   "4x4":0x8E6E4A, "4x6":0x6F5A3E, "6x6":0x4E4132, "OSB":0x9E9378, "1x5.5":0xC9B48F,
-  "screw":0x8A9198, "bolt":0x565C62
+  "2x12":0x7A4A28, "screw":0x8A9198, "bolt":0x565C62
 };
 function nominalOf(sz){
   if(sz.indexOf("OSB")===0) return "OSB";
@@ -277,6 +342,9 @@ var POST_LEN = 144, POST_BURY = 38.5;
 var POST_TOP = POST_LEN - POST_BURY;     // 105.5 above grade
 var DECK_TOP = POST_TOP;                 // rim top flush with the post tops
 var FLOOR_T = 1.0;                    // 1 in OSB room floor
+/* landing decking — hoisted above the stair (7b), which needs DK_T to find the
+   walking surface it climbs to. It used to sit down in section 8. */
+var DK_T = 1.0, DK_W = 5.5, DK_GAP = 0.25, DK_P = DK_W + DK_GAP;
 var WALL_BASE = DECK_TOP + FLOOR_T;   // walls stand on top of the floor, not beside it
 var PITCH = 36.6 * Math.PI/180;
 /* Ridge is a doubled 2x8, not the 4x6 it was drawn as. The rafters bear ON it
@@ -614,7 +682,14 @@ var HDR_D        = 7.25;                       // doubled 2x8 over every opening
 var OPENING_HEAD = WALL_BASE + DOOR_RO_H;      // 189.0 — all three heads
 var STUD_TOP     = OPENING_HEAD + HDR_D;       // 196.25
 var STUD_LEN     = STUD_TOP - STUD_BOT;        // 88.25 — both walls, same stud
-var JACK_LEN     = OPENING_HEAD - STUD_BOT;    // 81.0 — jacks carry the headers
+var JACK_LEN     = OPENING_HEAD - STUD_BOT;    // 81.0
+/* GABLE walls carry a single doubled 2x8 spanning the whole 113 in above the
+   plate, rather than a header over each opening. So their studs stop at the
+   opening head and the beam sits above the plate: 189 + 1.5 plate + 7.25 beam
+   = 197.75 = PLATE_TOP, so the roof does not move either way. King and jack at
+   every opening edge still, which is what makes it sturdy — see §4.18. */
+var GBL_STUD_LEN = OPENING_HEAD - STUD_BOT;    // 81.0
+var GBL_PLATE    = OPENING_HEAD;               // 189.0, underside of the top plate
 var PLATE_TOP    = STUD_TOP + 1.5;             // 197.75
 /* --- side wall window: 60 x 48 unit, 61 x 49 rough opening, on the Z = 0 wall ---
    Unlike the front, this wall CAN take a proper header. Its studs are 88.75
@@ -712,9 +787,16 @@ function gable(x, isFront){
      directly under the king post" — is finally available. A 4x4 carries it
      straight to the bottom plate and on into the doubled carrier joist. Each
      opening gets its own header instead. See §4.16. */
-  box("2x4x113", (isFront?"Front":"Back")+" wall top plate","walls", x, STUD_TOP, 3.5, 3.5, 1.5, 113);
-  box("4x4x"+STUD_LEN, (isFront?"Front":"Back")+" post under the king post","walls",
-      x, STUD_BOT, 58.25, 3.5, STUD_LEN, 3.5);
+  box("2x4x113", (isFront?"Front":"Back")+" wall top plate","walls", x, GBL_PLATE, 3.5, 3.5, 1.5, 113);
+  box("2x8x113", (isFront?"Front":"Back")+" header (outer) — spans the whole wall","walls",
+      x,       GBL_PLATE+1.5, 3.5, 1.5, HDR_D, 113);
+  box("2x8x113", (isFront?"Front":"Back")+" header (inner) — spans the whole wall","walls",
+      x + 2.0, GBL_PLATE+1.5, 3.5, 1.5, HDR_D, 113);
+  /* kept from §4.16: the king post's load still reaches the bottom plate on a
+     column rather than only through the beam. Optional now — the doubled 2x8
+     carries it at ~109 psi on its own — but it costs one board per gable. */
+  box("4x4x"+GBL_STUD_LEN, (isFront?"Front":"Back")+" post under the king post","walls",
+      x, STUD_BOT, 58.25, 3.5, GBL_STUD_LEN, 3.5);
   /* Length derived so it tracks the ridge. TT is irrational, so the raw figure
      carries a ten-thousandth of an inch of noise: keep the GEOMETRY exact so
      the post still meets the ridge underside, and snap only the cut-list LABEL
@@ -783,25 +865,18 @@ function gable(x, isFront){
     box("2x4x"+len8(BP2),"Front bottom plate \u2014 past the doorway","walls",
         x, WALL_BASE, DOOR_Z1, 3.5, 1.5, BP2);
 
-    /* corners and kings run full height; jacks stop under their header */
+    /* King AND jack at every opening edge, both full height. With the beam
+       spanning the whole wall above the plate there is no separate header for
+       the jack to stop under — what the pair buys is 3 in of bearing under the
+       plate at each edge instead of 1.5, which is the bracing the contractor
+       was describing. */
     [[3.5,"corner"], [115.0,"corner"],
-     [WIN_Z0-3.0,"window king"], [WIN_Z1+1.5,"window king"],
-     [DOOR_Z0-3.0,"door king"],  [DOOR_Z1+1.5,"door king"]].forEach(function(t){
-      box("2x4x"+STUD_LEN,"Front wall stud \u2014 "+t[1],"walls", x, STUD_BOT, t[0], 3.5, STUD_LEN, 1.5);
-    });
-    [[WIN_Z0-1.5,"window jack"], [WIN_Z1,"window jack"],
-     [DOOR_Z0-1.5,"door jack"],  [DOOR_Z1,"door jack"]].forEach(function(t){
-      box("2x4x"+JACK_LEN,"Front wall stud \u2014 "+t[1]+", carries the header","walls",
-          x, STUD_BOT, t[0], 3.5, JACK_LEN, 1.5);
-    });
-
-    /* doubled 2x8 headers, 1/2 in spacer between the plies to make 3.5 */
-    [[WIN_Z0, WIN_W, "window"], [DOOR_Z0, DOOR_W, "door"]].forEach(function(h){
-      var L = h[1] + 3;                           // bears 1.5 on each jack
-      box("2x8x"+L,"Front "+h[2]+" header (outer)","walls",
-          x,       OPENING_HEAD, h[0]-1.5, 1.5, HDR_D, L);
-      box("2x8x"+L,"Front "+h[2]+" header (inner)","walls",
-          x + 2.0, OPENING_HEAD, h[0]-1.5, 1.5, HDR_D, L);
+     [WIN_Z0-3.0,"window king"],  [WIN_Z0-1.5,"window jack"],
+     [WIN_Z1,"window jack"],      [WIN_Z1+1.5,"window king"],
+     [DOOR_Z0-3.0,"door king"],   [DOOR_Z0-1.5,"door jack"],
+     [DOOR_Z1,"door jack"],       [DOOR_Z1+1.5,"door king"]].forEach(function(t){
+      box("2x4x"+GBL_STUD_LEN,"Front wall stud \u2014 "+t[1],"walls",
+          x, STUD_BOT, t[0], 3.5, GBL_STUD_LEN, 1.5);
     });
 
     box("2x4x"+WIN_W,"Window sill (lower)","walls", x, WIN_SILL-3.0, WIN_Z0, 3.5, 1.5, WIN_W);
@@ -815,7 +890,7 @@ function gable(x, isFront){
   } else {
     box("2x4x113","Back wall bottom plate","walls", x, WALL_BASE, 3.5, 3.5, 1.5, 113);
     [3.5,27.5,51.5,75.5,99.5,115.0].forEach(function(sz){
-      box("2x4x"+STUD_LEN,"Back wall stud — 24 in o.c.","walls", x, STUD_BOT, sz, 3.5, STUD_LEN, 1.5);
+      box("2x4x"+GBL_STUD_LEN,"Back wall stud — 24 in o.c.","walls", x, STUD_BOT, sz, 3.5, GBL_STUD_LEN, 1.5);
     });
   }
 }
@@ -869,19 +944,206 @@ RAFT_X.forEach(function(rx){
      layer:"roof", kind:"rotX", c:[29.5, y, 120-z], s:[33, 3.5, 1.5], rot:-PITCH});
 });
 
+/* ---------- 7b. side landing + stair ----------
+   §9 item 5. The stair runs in X, OUTBOARD OF THE Z = 120 SIDE, parallel to
+   that line of three 6x6 posts. It climbs from the back of the building toward
+   the front and arrives at a landing tucked against the deck's side edge; you
+   step sideways onto the open deck and walk to the door.
+
+   Stringers are the AC2 14-step PRE-CUT (Menards 1114005): 7 in rise, 11 in
+   tread, first rise 6¾, cut from #1 SYP 2x12, ground-contact treated. That
+   covers 104.75 in of rise against our 106.5, so the pad is poured 1¾ in proud
+   of grade and the top lands dead on the landing surface — you want the pad
+   above grade for drainage anyway. See §4.17.
+
+   No guards drawn: Marshall is still choosing rail. Both the landing and the
+   stair need them before anyone uses this. */
+/* ---------- 4x4 cleats and screws (§4.19) ----------
+   Same idea as the deck's 6x6 detail: the cleat bears, the lap screws restrain.
+   Two things differ because the post is 3.5 in wide, not 5.5.
+
+   ONE COLUMN OF SCREWS, not two. ESR-1782 wants 1¾ in edge distance for the
+   5/16 PowerLag; two of those on a 3.5 in face use the whole board, so a single
+   column dead on the centreline is the only layout that exists — and it meets
+   1¾ with exactly zero to spare, which is not a tolerance you can hold in the
+   field. So these are the 1/4 in PowerLag instead. Same series, same ESR, same
+   HCR coating; its Table 6 minimums are looser than the 5/16's, so laying the
+   column out to the 5/16 numbers below is conservative. Confirm before ordering.
+
+   NO BACKER, NO BOLT. The deck backers exist to give a through-bolt a second
+   shear plane. Nothing here is bolted — a 4x4 has no room for a bolt line
+   beside the screw column — so the cleat's own screws are the gravity path and
+   the cleat is sized to hold enough of them: a 2x10 block, 9¼ tall, three
+   screws at the same 2³⁄₁₆ spacing. Worst case is a stair post at ~535 lb, so
+   ~178 lb a screw. */
+var CLEAT4_H = JOIST_DEPTH;                    // 9.25 — 2x10, from the leftovers
+var CLEAT4_ROLE = "Bearing cleat, 4x4 post \u2014 beam sits on this (\u00A74.19)";
+var SCREW4 = "SPAX 1/4 x 4 screw";
+/* `face` is the plane the screw enters, `dir` the way it drives, `across` the
+   post centreline it sits on. Two runs: through the lap, and through the cleat. */
+function postScrews(axis, face, dir, across, beamLo, beamHi, postTop){
+  [[beamLo, Math.min(beamHi, postTop), "lap"],
+   [beamLo - CLEAT4_H, beamLo, "cleat"]].forEach(function(sp){
+    var lo = sp[0], hi = sp[1];
+    var usable = (hi - lo) - 2*SCREW_EDGE;
+    if(usable < 0) return;
+    var n = Math.floor(usable/SCREW_ROW_OC) + 1;
+    var y0 = (lo + hi)/2 - (n-1)*SCREW_ROW_OC/2;
+    for(var i = 0; i < n; i++)
+      fastener(SCREW4, sp[2] === "cleat"
+                 ? "Cleat screw \u2014 the gravity path on a 4x4 (\u00A74.19)"
+                 : "Beam-to-post screw \u2014 restraint, not gravity (\u00A74.19)",
+               SCREW_R, 4, axis, across, y0 + i*SCREW_ROW_OC, face + dir*2);
+  });
+}
+
+var ST_RISE = 7.0, ST_RUN = 11.0, ST_FIRST = 6.75, ST_TREADS = 14;
+var ST_TREAD_T = 1.5;
+var ST_TOP_Y = DECK_TOP + DK_T;                // 106.5
+/* landing -> tread 1 is one rise, tread 1..14 is 13 more, then the short
+   first rise down to the pad. 106.5 - 14x7 - 6.75 = 1.75 */
+var ST_PAD   = ST_TOP_Y - ST_TREADS*ST_RISE - ST_FIRST;   // 1.75
+var ST_W     = 32;                             // clear width, Marshall's call
+/* the side rim's outer face is 119.75 but the decking overhangs it to 120,
+   so butt to 120 or the two decks overlap a quarter inch */
+var ST_Z0    = 120;
+var ST_Z1    = ST_Z0 + ST_W;                   // 151.75
+var ST_XTOP  = RM_X0;                          // 46.5 — the room's front wall line
+var ST_LEN   = ST_TREADS*ST_RUN;               // 154
+var ST_SLOPE = ST_RISE/ST_RUN;
+var ST_HYP   = Math.hypot(ST_RISE, ST_RUN);
+var ST_THROAT= 11.25 - (ST_RISE*ST_RUN)/ST_HYP;
+var ST_CUT0  = ST_TOP_Y - ST_RISE - ST_TREAD_T;
+var ST_UNDER0= ST_CUT0 - ST_THROAT/(ST_RUN/ST_HYP);
+function stairUnder(x){ return ST_UNDER0 - ST_SLOPE*(x - ST_XTOP); }
+
+/* --- landing: same depth as the open deck (X -3 to 46.5), 32 wide to match ---
+   Framed in 2x10 out of Marshall's leftovers, which also puts it at exactly the
+   deck's own joist depth (Y 96.25 - 105.5) so the two frame flush and the deck
+   boards can run straight across.
+
+   JOISTS RUN IN X, not Z. That is what lets the decking continue in Z over both
+   without changing direction — decking has to cross its joists, so joists in Z
+   would have forced short boards the other way. Two beams in Z carry them. */
+var LND_X0 = -3.0, LND_X1 = ST_XTOP;           // 49.5 deep
+var LND_D  = LND_X1 - LND_X0;
+var LND_JOIST_D = JOIST_DEPTH;                 // 9.25 — 2x10, same as the deck
+var LND_BEAR = DECK_TOP - LND_JOIST_D;         // 96.25, same line as the deck joists
+var LND_BEAM_L = ST_Z1 - ST_Z0;                // 32
+
+/* two beams running in Z, one at each edge, each on a post at the far end */
+[LND_X0, LND_X1-1.5].forEach(function(bx){
+  box("2x10x"+LND_BEAM_L,"Landing beam — carries the joists","stairs",
+      bx, LND_BEAR, ST_Z0, 1.5, LND_JOIST_D, LND_BEAM_L);
+});
+/* POSTS ARE INSET, exactly like the 6x6s (§4.19). The beam laps the post's
+   outer face and the post runs up beside it to the beam's own top, so nothing
+   bears on a post top and no post has to be cut to an elevation. A 2x10 cleat
+   under the beam is the gravity path; the screws through the lap are restraint.
+   Inset in Z as well, so the end joist laps the other face — the same
+   two-members-on-adjacent-faces condition as a deck corner post. */
+var STP_TOP  = DECK_TOP;                       // 105.5, flush with the beam top
+var LND_PLEN = len8(STP_TOP + POST_BURY);      // 144.0 — a 12 ft 4x4
+var LND_PZ   = ST_Z1 - 1.5 - 3.5;              // 147.0, the end joist laps at 150.5
+[[LND_X0+1.5, LND_X0,      "front"],           // beam at X -3.0 laps its -X face
+ [LND_X1-5.0, LND_X1-1.5,  "back" ]].forEach(function(t){
+  box("4x4x"+LND_PLEN,"Landing post — inset, "+POST_BURY+" in below grade (§4.19)","stairs",
+      t[0], -POST_BURY, LND_PZ, 3.5, LND_PLEN, 3.5);
+  box("2x10x3.5", CLEAT4_ROLE, "stairs",
+      t[1], LND_BEAR-CLEAT4_H, LND_PZ, 1.5, CLEAT4_H, 3.5);
+  postScrews("x", t[1] + (t[1] < t[0] ? 0 : 1.5), t[1] < t[0] ? +1 : -1,
+             LND_PZ + 1.75, LND_BEAR, LND_BEAR + LND_JOIST_D, STP_TOP);
+});
+/* joists span X between the beams, 16 in o.c. along Z */
+var LND_JL = (LND_X1-1.5) - (LND_X0+1.5);      // 46.5
+var LND_JZ = [];
+for(var lz = ST_Z0; lz + 1.5 < ST_Z1; lz += 16) LND_JZ.push(lz);
+LND_JZ.push(ST_Z1-1.5);
+LND_JZ.forEach(function(jz){
+  box("2x10x"+LND_JL,"Landing joist — 16 in o.c.","stairs",
+      LND_X0+1.5, LND_BEAR, jz, LND_JL, LND_JOIST_D, 1.5);
+});
+
+/* --- stringers: profile in world XY, extruded +Z --- */
+/* top corner is where the board's own top edge lands, one rise above the
+   first cut — not the landing surface, which is above the stringer */
+var ST_PROFILE = [[ST_XTOP, ST_CUT0 + ST_RISE]];
+for(var sn = 1; sn <= ST_TREADS; sn++){
+  var cy = ST_TOP_Y - sn*ST_RISE - ST_TREAD_T;
+  ST_PROFILE.push([ST_XTOP + (sn-1)*ST_RUN, cy]);
+  ST_PROFILE.push([ST_XTOP + sn*ST_RUN,     cy]);
+}
+ST_PROFILE.push([ST_XTOP + ST_LEN, ST_PAD]);
+ST_PROFILE.push([ST_XTOP + (ST_UNDER0 - ST_PAD)/ST_SLOPE, ST_PAD]);
+ST_PROFILE.push([ST_XTOP, ST_UNDER0]);
+/* Sized as the 2x12 it is cut from so the rail's colour and bar scale work;
+   the role carries the part number, because you buy this cut, not by length. */
+var ST_STRINGER_L = Math.round(Math.hypot(ST_LEN, ST_TOP_Y-ST_PAD)*8)/8;
+[ST_Z0, ST_Z0 + (ST_W-1.5)/2, ST_Z1 - 1.5].forEach(function(sz){
+  prism("2x12x"+ST_STRINGER_L,
+        "Stair stringer — AC2 14-step PRE-CUT, Menards 1114005 (do not cut)","stairs",
+        ST_PROFILE, "z", sz, [1, -ST_SLOPE, 0]);
+});
+for(var sn = 1; sn <= ST_TREADS; sn++){
+  var ty = ST_TOP_Y - sn*ST_RISE, tx = ST_XTOP + (sn-1)*ST_RUN;
+  [0, 5.75].forEach(function(off){
+    box("2x6x"+ST_W,"Stair tread","stairs", tx+off, ty-ST_TREAD_T, ST_Z0, 5.5, ST_TREAD_T, ST_W);
+  });
+}
+
+/* Mid-span support. A cut stringer is only as deep as its throat, so 154 in of
+   run is far past what a 2x12 carries unaided.
+
+   THE BEAM IS A 2x10 ON EDGE, not the 4x4 this used to claim. Because the top
+   is ripped to the pitch, a beam 3.5 wide in X drops 2.23 in across its own
+   width — so the uphill edge measured 5.73 in deep on a board sold 3.5 x 3.5.
+   The piece could not be cut. Narrowing it to 1.5 in of stock cuts that drop to
+   0.95 and the whole thing becomes one bevel rip; 2x10 is what the landing is
+   already framed in, out of the same leftovers (§4.19).
+
+   Narrow stock is also what lets the posts inset: a cleat can only bear a
+   member as thick as it projects, and 1.5 in is the projection a 2x cleat
+   fastened flat to a post face gives you. */
+var ST_MX  = ST_XTOP + ST_LEN/2;               // 123.5
+var ST_MX0 = ST_MX - 0.75, ST_MX1 = ST_MX + 0.75;
+var ST_MU0 = stairUnder(ST_MX0), ST_MU1 = stairUnder(ST_MX1);
+var ST_MBOT = ST_MU0 - JOIST_DEPTH;            // deep edge is the full 9.25
+prism("2x10x"+ST_W,"Stair mid-span beam — top bevel-ripped to the stair pitch","stairs",
+      [[ST_MX0, ST_MU0], [ST_MX1, ST_MU1], [ST_MX1, ST_MBOT], [ST_MX0, ST_MBOT]],
+      "z", ST_Z0, [0,0,1], ST_W);
+/* Posts stand on the UPHILL side, where the stringer above is climbing away
+   from them. Top cut level with the beam's low edge, which is the highest a
+   level cut can go and still clear the stringer over the post's whole width —
+   0.95 in at the near corner, 3.18 at the far one. Nothing bears on it; trim it
+   in place once the beam is hung. */
+var ST_PTOP = ST_MU1;
+var ST_PH   = ST_PTOP + POST_BURY;             // exact; only the label rounds
+[ST_Z0, ST_Z1-3.5].forEach(function(pz){
+  box("4x4x"+len8(ST_PH),"Stair support post — inset, "+POST_BURY+" in below grade (§4.19)","stairs",
+      ST_MX0-3.5, -POST_BURY, pz, 3.5, ST_PH, 3.5);
+  box("2x10x3.5", CLEAT4_ROLE, "stairs",
+      ST_MX0, ST_MBOT-CLEAT4_H, pz, 1.5, CLEAT4_H, 3.5);
+  postScrews("x", ST_MX1, -1, pz + 1.75, ST_MBOT, ST_MU1, ST_PTOP);
+});
+
 /* ---------- 8. decking : 1 x 5.5 boards, 1/4 in gaps (landing only) ----------
    Boards run perpendicular to the joists in each bay, which is why the
    plan turns the joists 90 deg at the landing. The room floor is 1 in OSB
    instead — see 8b — swapped from decking boards at Marshall's request. */
-var DK_T = 1.0, DK_W = 5.5, DK_GAP = 0.25, DK_P = DK_W + DK_GAP;
 
 /* landing: joists run the length, so boards run across the width */
+/* Boards run the WHOLE length now — Z 0 straight over the side landing to
+   Z 152 — instead of stopping at the deck edge and starting again crosswise.
+   That is why the landing's joists run in X (see 7b): decking has to cross its
+   joists, so the two frames have to disagree about direction. 152 in wants
+   14 ft stock. */
+var DK_LEN = ST_Z1;                            // 152
 for(var dx = -3; dx < RM_X0 - 0.01; dx += DK_P){
   var dw = Math.min(DK_W, RM_X0 - dx);
-  box("1x5.5x120",
-      dw < DK_W ? "Landing deck board \u2014 rip to " + q8(dw) + " in"
-                : "Landing deck board \u2014 \u00BC in gap",
-      "decking", dx, DECK_TOP, 0, dw, DK_T, 120);
+  box("1x5.5x"+DK_LEN,
+      dw < DK_W ? "Deck board \u2014 rip to " + q8(dw) + " in, runs over the landing"
+                : "Deck board \u2014 \u00BC in gap, runs over the landing",
+      "decking", dx, DECK_TOP, 0, dw, DK_T, DK_LEN);
 }
 
 /* ---------- 8b. room floor : 1 in OSB, real 4x8 sheets, staggered joints ----------
@@ -1045,7 +1307,7 @@ var grid = new THREE.GridHelper(1200, 50, 0x36423E, 0x2B3532);
 grid.position.set(95,0.1,60); scene.add(grid);
 
 /* groups */
-var LAYERS = ["ground","posts","deck","fasteners","joists","decking","braces","walls","roof","skin"];
+var LAYERS = ["ground","posts","deck","fasteners","joists","decking","stairs","braces","walls","roof","skin"];
 var groups = {};
 LAYERS.forEach(function(k){ groups[k]=new THREE.Group(); scene.add(groups[k]); });
 
@@ -1119,13 +1381,57 @@ pieces.forEach(function(p){
    ============================================================ */
 var target = new THREE.Vector3(95,112,60);
 var sph = {r:640, th:0.86, ph:1.14};
+/* ---- framing -----------------------------------------------------------
+   The fov is VERTICAL, so a portrait viewport narrows the horizontal field and
+   a radius tuned on a wide screen lets the model run off both sides — which is
+   what a phone got the moment the stage went full height.
+
+   Pulling back by 1/aspect would fix the width but overshoots badly: it also
+   loosens the vertical framing by the same factor, and at 375 x 760 that is
+   more than double, which buries the model in the fog and leaves it a stamp in
+   the middle of the screen. So measure instead. Project the model's own bounding
+   box onto the camera's right and up axes and ask what radius actually contains
+   it. On a wide screen the answer comes out under the hand-tuned view radii, so
+   max() leaves every desktop view exactly as it was.
+
+   Only fly() and startup apply it — the moments that mean "frame the whole
+   thing". Zoom stays free, or the fit would become a floor you cannot get past. */
+var FIT_PTS = (function(){
+  var b = new THREE.Box3();
+  Object.keys(groups).forEach(function(k){
+    if(k === "ground") return;                 // the grid is decoration, not the model
+    b.expandByObject(groups[k]);
+  });
+  var o = [];
+  [b.min.x,b.max.x].forEach(function(x){ [b.min.y,b.max.y].forEach(function(y){
+    [b.min.z,b.max.z].forEach(function(z){ o.push(new THREE.Vector3(x,y,z)); }); }); });
+  return o;
+})();
+
+function fitR(th, ph, t){
+  var f = new THREE.Vector3(Math.sin(ph)*Math.sin(th), Math.cos(ph), Math.sin(ph)*Math.cos(th));
+  var right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), f).normalize();
+  var up    = new THREE.Vector3().crossVectors(f, right).normalize();
+  var tn = Math.tan(camera.fov*Math.PI/360), a = camera.aspect || 1, need = 0;
+  var d = new THREE.Vector3();
+  FIT_PTS.forEach(function(pt){
+    d.copy(pt).sub(t);
+    need = Math.max(need, Math.abs(d.dot(right))/(tn*a), Math.abs(d.dot(up))/tn);
+  });
+  return need*1.08;                            // a little air around the silhouette
+}
+
 function place(){
+  var r = sph.r;
   camera.position.set(
-    target.x + sph.r*Math.sin(sph.ph)*Math.sin(sph.th),
-    target.y + sph.r*Math.cos(sph.ph),
-    target.z + sph.r*Math.sin(sph.ph)*Math.cos(sph.th)
+    target.x + r*Math.sin(sph.ph)*Math.sin(sph.th),
+    target.y + r*Math.cos(sph.ph),
+    target.z + r*Math.sin(sph.ph)*Math.cos(sph.th)
   );
   camera.lookAt(target);
+  /* fog was 620/1500 against a 640 radius; hold that ratio so pulling back on a
+     phone does not just turn the model grey */
+  scene.fog.near = r*0.97; scene.fog.far = r*2.34;
 }
 var VIEWS = {
   iso:  {r:640, th:0.86, ph:1.14, t:[95,112,60]},
@@ -1134,7 +1440,10 @@ var VIEWS = {
   top:  {r:600, th:0.0001, ph:0.06, t:[95,100,60]}
 };
 var goal=null;
-function fly(v){ goal={r:v.r, th:v.th, ph:v.ph, t:new THREE.Vector3(v.t[0],v.t[1],v.t[2])}; }
+function fly(v){
+  var t = new THREE.Vector3(v.t[0],v.t[1],v.t[2]);
+  goal = {r:Math.max(v.r, fitR(v.th, v.ph, t)), th:v.th, ph:v.ph, t:t};
+}
 
 var down=false, pan=false, lx=0, ly=0;
 var el = renderer.domElement;
@@ -1320,9 +1629,11 @@ function drawCuts(m){
 /* ---- readout ---------------------------------------------------------- */
 var roK = document.getElementById("ro-size"), roR = document.getElementById("ro-role");
 var roLabel = document.querySelector("#readout .rk");
+var roEl = document.getElementById("readout");
 
 function draw(){
   drawCuts(picked.length === 1 ? picked[0] : null);
+  roEl.classList.toggle("empty", picked.length === 0);
   if(picked.length === 0){
     roLabel.textContent = "Selected member";
     roK.textContent = "\u2014";
@@ -1406,19 +1717,24 @@ var CUT = [
   ["2x10x120",5,"Cross rims — front pair, back, and two low"],
   ["2x10x116.5",9,"Room floor joists + doubled wall carrier"],
   ["2x10x105.5",1,"Centre joist, hung off the 6x6 posts"],
-  ["2x10x46.5",7,"Landing joists, turned 90°"],
+  ["2x10x46.5",10,"Landing joists — 7 deck, 3 side landing"],
+  ["2x10x32",3,"Side landing beams \u00d7 2 + the stair mid-span beam (§4.19)"],
   ["OSB 1",6,"Room floor sheathing — full footprint, cut from 5 sheets"],
-  ["1x5.5x120",9,"Landing boards, turned 90\u00b0"],
-  ["2x8x40",2,"Front window header, doubled"],
-  ["2x8x37",2,"Front door header, doubled"],
+  ["1x5.5x152",9,"Deck boards \u2014 run the full length, over the side landing"],
+  ["2x12x186.25",3,"Stair stringers — AC2 14-step PRE-CUT, Menards 1114005"],
+  ["2x6x32",28,"Stair treads — two 2x6 per step"],
+  ["4x4x144",2,"Side landing posts — inset, 38½ in below grade (§4.19)"],
+  ["4x4x80.75",2,"Stair mid-span posts — inset, 38½ in below grade (§4.19)"],
+  ["2x10x3.5",4,"Bearing cleats at the four 4x4 posts (§4.19)"],
   ["2x6x92",20,"Rafters, 24 in o.c."],
   ["2x6x57.5",12,"45° knee braces"],
   ["2x6x5.5",24,"Bearing cleats + double-shear backers, at the posts"],
   ["2x4x144",4,"Side wall plates"],
   ["2x4x113",3,"Gable top plates \u00d7 2 + back bottom plate"],
-  ["2x4x88.25",25,"Wall studs — sides, gables, and every opening king"],
-  ["2x4x81",6,"Jacks — 4 front openings + 2 side window"],
-  ["4x4x88.25",2,"Posts under the king posts (§4.16)"],
+  ["2x8x113",4,"Front and back headers — doubled, span the whole gable wall (§4.18)"],
+  ["2x4x88.25",13,"Side wall studs — 11 at 24 in o.c. + 2 window kings"],
+  ["2x4x81",18,"Gable wall studs — stop under the plate: kings, jacks, corners, backs, side jacks"],
+  ["4x4x81",2,"Posts under the king posts (§4.18)"],
   ["2x8x64",2,"Side window header, doubled — 60x48 window (§4.15)"],
   ["2x4x61",2,"Side window sill, doubled"],
   ["2x4x66.125",1,"Front plate to the doorway"],
@@ -1429,7 +1745,7 @@ var CUT = [
   ["2x4x20",4,"Gable infill studs, outer pair — bevelled top"],
   ["2x4x12.875",1,"Front plate past the doorway"]
 ];
-var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","2x10":"#8F5A32","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
+var HEX = {"2x4":"#E6CB92","2x6":"#CFA35F","2x8":"#B07C41","2x10":"#8F5A32","2x12":"#7A4A28","4x4":"#8E6E4A","4x6":"#6F5A3E","6x6":"#4E4132","OSB":"#9E9378","1x5.5":"#C9B48F"};
 var cl = document.getElementById("cutlist");
 var isolated = null;
 
@@ -1457,6 +1773,7 @@ Object.keys(COLOR).forEach(function(k){
 
 function toggleIsolate(size){
   isolated = (isolated===size) ? null : size;
+  if(isPhone()) setRail(false);
   paint();
   Array.prototype.forEach.call(cl.children, function(c){
     c.classList.toggle("on", c.dataset.size===isolated);
@@ -1467,6 +1784,28 @@ function toggleIsolate(size){
 /* ============================================================
    layer toggles / views / explode
    ============================================================ */
+/* ---- the phone drawer -------------------------------------------------
+   One switch, three ways to close it. Toggling a layer deliberately does NOT
+   close it — you usually flip several at once — but picking a cut-list row
+   does, because the whole point of that tap is to look at what it isolated. */
+var railEl = document.getElementById("rail"), scrimEl = document.getElementById("scrim");
+var menuBtn = document.getElementById("menubtn");
+function setRail(open){
+  railEl.classList.toggle("open", open);
+  scrimEl.classList.toggle("on", open);
+  menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+function isPhone(){ return window.matchMedia("(max-width:860px)").matches; }
+menuBtn.addEventListener("click", function(){ setRail(!railEl.classList.contains("open")); });
+scrimEl.addEventListener("click", function(){ setRail(false); });
+document.getElementById("railclose").addEventListener("click", function(){ setRail(false); });
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") setRail(false); });
+window.addEventListener("resize", function(){ if(!isPhone()) setRail(false); });
+
+document.getElementById("ro-close").addEventListener("click", function(){
+  picked = []; paint(); draw();
+});
+
 document.querySelectorAll("[data-layer]").forEach(function(btn){
   btn.addEventListener("click", function(){
     var k = btn.dataset.layer;
@@ -1494,7 +1833,7 @@ mBtn.addEventListener("click", function(){
 });
 
 var EXPLODE = {ground:[0,-1,0], posts:[0,0,0], deck:[0,0.35,0], fasteners:[0,0.45,0], joists:[0,0.55,0],
-               decking:[0,0.75,0], braces:[0,0.2,0], walls:[0,1.15,0], roof:[0,2.0,0], skin:[0,2.6,0]};
+               decking:[0,0.75,0], stairs:[0,0.1,0], braces:[0,0.2,0], walls:[0,1.15,0], roof:[0,2.0,0], skin:[0,2.6,0]};
 document.getElementById("ex").addEventListener("input", function(e){
   var f = e.target.value/100 * 90;
   LAYERS.forEach(function(k){
@@ -1510,13 +1849,16 @@ function resize(){
   var w = stage.clientWidth, h = stage.clientHeight;
   camera.aspect = w/h; camera.updateProjectionMatrix();
   renderer.setSize(w,h);
+  place();
 }
 window.addEventListener("resize", resize);
-resize(); place();
+resize();
+sph.r = Math.max(sph.r, fitR(sph.th, sph.ph, target));
+place();
 
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 var t0 = performance.now();
-var ORDER = ["ground","posts","deck","fasteners","joists","decking","braces","walls","roof","skin"];
+var ORDER = ["ground","posts","deck","fasteners","joists","decking","stairs","braces","walls","roof","skin"];
 if(!reduce) ORDER.forEach(function(k){ groups[k].visible=false; });
 
 function tick(now){

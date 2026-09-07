@@ -724,7 +724,11 @@ a 4x6 (it is a doubled 2x8 since §4.10), studs 2 in short throughout, and the
 side plates at 144.5 (they are 144 since §4.14). The framing above came from the
 model's own geometry.
 
-### 4.16 The wall height is derived from the door, and §4.7 is superseded
+### 4.16 The wall height is derived from the door
+
+*(The header half of this section was reversed by §4.18 — the wall-length beam
+is back on the gables. The door R.O. and the derived-height chain below still
+stand; they are what makes either header arrangement land on the same plate.)*
 
 Marshall's question — *what rough opening should the door actually be, and can
 we then shorten the studs to suit?* — is the right way round, and following it
@@ -747,15 +751,14 @@ floor                        106.50
 + top plate 1.5              197.75   =  PLATE_TOP
 ```
 
-`STUD_LEN` = 88.25, `JACK_LEN` = 81.0. **One stud length for every wall** —
-sides and gables both — where before the gables were 7.25 shorter to make room
-for the wall-length beam.
+`STUD_LEN` = 88.25, `JACK_LEN` = 81.0. The **side** walls use 88.25; the gables
+went back to 81.0 under §4.18. Either way the stack lands on 197.75.
 
 | | Was | Now |
 |---|---|---|
 | Door R.O. height | 83 (½ proud) | **82.5** |
 | Side wall studs | 88.75 | **88.25** |
-| Gable wall studs | 81.5 | **88.25** |
+| Gable wall studs | 81.5 | **81.0** (§4.18) |
 | PLATE_TOP | 198.25 | 197.75 |
 | Peak | 251.26 | **250.76** |
 
@@ -769,22 +772,208 @@ is what Marshall was asking for from the start; it was blocked only because the
 old 81.5 in studs were shorter than the 83 in door opening, leaving nowhere to
 put one.
 
-**§4.7 is superseded.** It put a wall-length doubled 2x8 above the plate because
-the king post landed inside the old 62 in window. Its own preferred fix was:
+**§4.7's wall-length beam was dropped here and reinstated in §4.18.** The
+reason it existed — the king post landing inside the old 62 in window — went
+away when the openings moved in §4.15, so a 4x4 post under each king post became
+possible and the per-opening headers went in. §4.18 puts the beam back on a
+contractor's advice; the 4x4 posts stay, so the model now has both.
 
-> *"Add a support stud directly under the king post — structurally the most
-> direct fix, but it lands inside the glass."*
+### 4.18 Back to a solid header on the gables
 
-The openings moved in §4.15, so the king post now sits over solid wall and that
-fix is available. A **4x4 post** runs from the bottom plate to the top plate
-directly under each king post, aligned in Z, separated only by the 1.5 in plate.
-Load path is now ridge → king post → 4x4 → bottom plate → doubled carrier joist
-→ side rims → 6x6 posts: a continuous column rather than a point load spread
-through a beam. The four `2x8x113` wall beams are gone.
+Marshall's contractor: a **solid header above the door and window** is sturdy
+provided there is proper 2x4 bracing around each opening. Both halves of that
+are worth taking at face value, and the second half is the load-bearing one.
 
-**Lumber.** 2x4 +1 board, 4x4 +1 (a 14 footer for the two 88.25 posts). 2x8
-unchanged — the four 113 in beams are replaced by two 40 in and two 37 in
-headers, which fit the boards already on the list.
+**It costs nothing in height.** That is the fact that makes this a free choice
+rather than a trade. The wall spends the same 7.25 in on a doubled 2x8 either
+way — the only question is whether that beam sits *inside* the wall over each
+opening or *on top of* the plate across the whole wall:
+
+```
+per-opening (§4.16)              wall-length (§4.7, §4.18)
+  108.00  studs start              108.00  studs start
+  189.00  opening head             189.00  opening head = studs end
+  196.25  studs end                190.50  top plate on
+  197.75  top plate on             197.75  doubled 2x8 across all 113
+  ------  PLATE_TOP 197.75         ------  PLATE_TOP 197.75
+```
+
+Same `PLATE_TOP`, same 250.76 peak, same rafters, same everything above. The
+gable studs go 88.25 → **81.0**; the side walls stay 88.25 because their window
+header is still a per-opening one and there is room for it.
+
+**The bracing is what carries it, and it is already there.** A wall-length beam
+is only as good as what it bears on, and the answer at an opening is the
+king/jack pair: king full height beside the opening, jack tight against it,
+3 in of solid bearing under the plate at every opening edge rather than 1.5.
+Ten studs in the front wall — two corners and a king+jack at each of the four
+opening edges. Under §4.16's arrangement the jacks stopped at 81.0 to carry
+their header; now both run to 81.0 together, because the plate is at 189.0.
+
+**Why either is legitimate.** A per-opening header is the tighter engineering
+answer: the load goes straight down the jack beside the opening on the shortest
+path. A wall-length beam spreads it, and it takes a bit more material to do the
+same job. But it is also far more forgiving to build — one straight beam laid
+across a wall you have already stood up, no header pockets to size and no
+opening head to get level independently of the others — and on a wall this
+short (113 in, spanning at most 34 in of daylight) the spread is small enough
+that the extra material covers it easily. On a wall framed once by hand, easier
+to get right is worth something.
+
+**The king post still checks out.** The ridge king post lands on the beam at
+Z 60, between the door king at Z 50.83 and the corner at Z 115 — a 10.33 in
+clear span front, 22.5 in back where the studs are 24 in o.c. At ~1112 lb:
+
+| | Doubled 2x6 | Doubled 2x8 |
+|---|---|---|
+| Front, 10.33 in span | 190 psi | **109 psi** |
+| Back, 22.5 in span | 414 psi | **238 psi** |
+
+against ~1550 psi allowable. The 2x8 has a wide margin at both, which is why it
+is a 2x8 and not the 2x6 of the original screenshots.
+
+**The 4x4 posts under the king posts stay.** §4.16 added them and the numbers
+above say the beam does not need them — 109 psi is not close to anything. They
+are kept anyway: one board per gable, and they turn the ridge load into a
+continuous column from king post to bottom plate to carrier joist to 6x6 rather
+than something a beam has to redistribute. Cheap belt and braces.
+
+**Lumber.** 2x8: the two 40 in and two 37 in headers become four `2x8x113`, and
+the boards already on the list absorb it — two 16 footers for the ridge, four
+10 footers for the 113s, one 12 footer for the pair of side-window 64s. 2x4:
+88.25 drops 25 → 13, 81 rises 6 → 18, a net 87 in *less*. 4x4: the two king
+posts go 88.25 → 81. **The purchase list does not change** — 120 boards,
+1,292 lf — but one 2x4 and one 4x4 now go untouched, so there is a spare of
+each.
+
+### 4.19 The stair 4x4s are inset too, on cleats and screws
+
+Marshall: *can the stair 4x4 posts be inset like the 6x6s, with structural
+screws and cleats?* Yes — and it is the better detail for the same reason §4.8
+gave. **Nothing should bear on a post top you have to cut to an elevation.**
+
+Before this, both pairs of stair posts were plain columns with a beam sitting on
+them: the landing beams on two post tops at Y 96.25, the mid-span beam on two
+more at a sloped-derived Y 38.05. Every one of those tops had to be cut to a
+number, in the field, on a post already in concrete. Inset, none of them do.
+
+| | Was | Now |
+|---|---|---|
+| Landing posts | X −3.0 / 43.0, top 96.25, beam **on top** | X −1.5 / 41.5, top **105.5**, beam **laps the face** |
+| Landing post length | 134.75 | **144.0** — a 12 ft 4x4 |
+| Mid-span posts | X 121.75, top 38.05, beam on top | X 119.25, top 42.19, beam laps the face |
+| Mid-span beam | "4x4x32" | **2x10x32** |
+
+The landing posts inset in **both** directions — the beam laps one face, the end
+joist laps the other — which is the same two-members-on-adjacent-faces condition
+as a deck corner post. Post tops land at 105.5, flush with the beam tops and the
+whole deck frame, so the deck boards run over unbroken.
+
+**The mid-span beam was un-buildable, and this fixes it.** Its top is ripped to
+the pitch so it beds against the sloping stringer underside. At 7:12 that top
+drops 0.64 in per inch of width — so across a 3.5 in wide member it drops 2.23,
+and the piece measured **5.73 in deep at its uphill edge on a board sold
+3.5 × 3.5**. It could not be cut from the 4x4 the list called for. Nobody would
+have got far before noticing, but the list would have bought the wrong board.
+
+Narrowing to 1.5 in of stock fixes it twice over: the drop across the width
+falls to 0.95 so the whole thing is one bevel rip rather than a compound
+removal, and 9.25 in of 2x10 swallows it with room to spare. 2x10 is also what
+the landing is already framed in, from Marshall's leftovers — and it is what the
+cleats are cut from, so the entire stair support is one stock.
+
+**Narrow stock is what lets the posts inset at all.** A cleat bears a member
+only as thick as the cleat projects, and a 2x block fastened flat to a post face
+projects 1.5. A 3.5 in beam on a face cleat would need a 3.5 in cantilevered
+block; a 1.5 in beam gets full bearing off a standard one.
+
+**Mid-span posts stand on the uphill side**, where the stringer above is
+climbing away from them. Their tops are cut level with the beam's low edge —
+the highest a level cut can go and still clear the stringer across the post's
+whole width: 0.95 in of clearance at the near corner, 3.18 at the far one. Cut
+them long and trim in place; nothing bears there.
+
+**Two things change about the fasteners on a 3.5 in face.**
+
+*One column of screws, not two.* ESR-1782 wants 1¾ in edge distance for the
+5/16 PowerLag. Two columns of those need 3.5 in of edge distance alone, so on a
+4x4 face a single column dead on the centreline is the only layout that exists —
+and it meets 1¾ with **exactly zero to spare**, which is not a tolerance anyone
+holds in the field. So these are the **1/4 in PowerLag**: same series, same ESR,
+same HCR coating. Its Table 6 minimums are looser than the 5/16's, so laying the
+column out to the 5/16 numbers is conservative. *Confirm the 1/4 in row before
+ordering* — §4.9's caveat still applies, none of this is a sized design.
+
+*No backer, no bolt.* The deck backers exist only to give a through-bolt its
+second shear plane. Nothing here is bolted — a 4x4 has no room for a bolt line
+beside the screw column — so **the cleat's own screws are the gravity path**,
+and the cleat is sized to hold enough of them: a 2x10 block, 9¼ tall, three
+screws at 2³⁄₁₆ o.c., three more through the lap above. Six per post, 24 in all.
+
+**The loads are small, which is why screws are enough.** The landing is 46.5 ×
+32 in — about 10 sq ft, so ~515 lb at 40 live + 10 dead, over four supports:
+**~130 lb a post**. The stair is 34 sq ft, ~1,710 lb, and a two-span stringer
+puts about ⅝ of it on the mid-span: **~535 lb a post**, ~178 lb per cleat screw.
+A ¼ in structural screw in single shear covers that several times over, and the
+cleat means the screws are not carrying it in the first place.
+
+### 4.17 Side landing and stair — §9 item 5
+
+The stair runs in **X, outboard of the Z = 120 side**, parallel to that line of
+three 6x6 posts. It climbs from the back of the building toward the front and
+arrives at a landing against the deck's side edge; you step sideways onto the
+open deck and walk to the door.
+
+**Stringers are the AC2 14-step PRE-CUT** — Menards 1114005, $64.99 each, cut
+from #1 Southern Yellow Pine 2x12 and **ground-contact** treated. Buying it cut
+saves laying out and sawing 42 notches, and it gives a *better* stair than the
+one I laid out by hand: 11 in treads instead of 10.
+
+| | |
+|---|---|
+| Rise / tread | **7 in / 11 in**, first rise 6¾ |
+| Steps | 14 treads, 15 rises |
+| Rise covered | **104.75 in** |
+| Run | 154 in, X 46.5 → 200.5 |
+| Width | **32 in**, Z 120 → 152 |
+| 2R + T | 25.0 |
+
+**The pad is poured 1¾ in proud of grade.** The stringer covers 104.75 against
+our 106.5, and that 1¾ is the difference. You want the pad above grade for
+drainage regardless, so it costs nothing.
+
+**Butt the stair at Z 120, not 119.75.** The side rim's outer face is 119.75 but
+the deck boards overhang it to 120 — building to the rim face overlapped the two
+decks by a quarter inch.
+
+**Landing: X −3 to 46.5, which is 49.5 — the same depth as the open deck**, and
+32 wide to match the stair. **Framed in 2x10** out of Marshall's leftovers,
+which also lands it at exactly the deck's own joist depth (Y 96.25 – 105.5), so
+the two frames sit flush and the deck boards run straight across.
+
+**Its joists run in X, not Z**, and that is not arbitrary: decking has to cross
+its joists, so joists running in Z would have forced the boards to turn 90° at
+the deck edge and become short pieces. Two 2x10 beams run in Z along the
+landing's two edges and carry three joists at 16 in o.c.; a 4x4 post under each
+beam's outer end, buried 38½ in.
+
+**The deck boards now run the whole length** — Z 0 straight over the landing to
+Z 152, one direction, no change of run. That wants **14 ft stock** rather than
+the 10 ft they were. Verified: no unsupported stretch over 16 in anywhere along
+the 152 in run.
+
+**Mid-span support at X 123.5**, beam top ripped to the stair pitch so it beds
+along its whole width. A cut stringer is structurally only as deep as its throat
+(5.34 in here), so 154 in unsupported is well past what a 2x12 does.
+
+**No guards drawn** — Marshall is still choosing rail. Both the landing and the
+stair need them: this is 106 in up, and so is the deck itself, which has never
+had one.
+
+**Fastener note from the listing:** *"triple-coated, hot-dipped galvanized, or
+stainless steel fasteners are recommended."* Same requirement as §4.9.
+
+**Still open:** the pad and the post footings.
 
 ## 5. Decisions and assumptions made
 
@@ -901,17 +1090,16 @@ Framing, as drawn:
 | 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
 | 2x10x116.5 | 9 | room floor joists + doubled wall carrier (widened from 2x8 to match the rim) |
 | 2x10x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
-| 2x10x46.5 | 7 | landing joists, turned 90° |
-| 2x8x40 | 2 | front window header, doubled |
-| 2x8x37 | 2 | front door header, doubled |
+| 2x10x46.5 | 10 | landing joists — 7 deck, 3 side landing |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
 | 2x6x57.5 | 12 | 45° knee braces |
 | 2x6x5.5 | 24 | 12 bearing cleats + 12 double-shear backers, at the posts (§4.8) |
 | 2x4x144 | 4 | side wall plates (§4.14) |
 | 2x4x113 | 3 | gable top plates + back bottom plate (see §4.2) |
-| 2x4x88.25 | 25 | wall studs — sides, gables, and every opening king (§4.16) |
-| 2x4x81 | 6 | jacks — 4 front openings + 2 side window |
-| 4x4x88.25 | 2 | posts under the king posts (§4.16) |
+| 2x8x113 | 4 | front and back headers — doubled, span the whole gable wall (§4.18) |
+| 2x4x88.25 | 13 | side wall studs — 11 at 24 o.c. + 2 window kings |
+| 2x4x81 | 18 | gable wall studs — stop under the plate: kings, jacks, corners, backs, side jacks (§4.18) |
+| 4x4x81 | 2 | posts under the king posts (§4.18) |
 | 2x8x64 | 2 | side window header, doubled (§4.15) |
 | 2x4x61 | 2 | side window sill, doubled |
 | 2x4x66.125 | 1 | front bottom plate, corner to the doorway |
@@ -921,7 +1109,13 @@ Framing, as drawn:
 | 2x4x29 | 10 | cripples — 4 front window, 6 side window |
 | 2x4x20 | 4 | gable infill studs, outer pair — bevelled top, long point |
 | 2x4x12.875 | 1 | front bottom plate, doorway to the corner |
-| 1x5.5x120 | 9 | landing boards, turned 90° |
+| 1x5.5x152 | 9 | deck boards — run the full length, over the side landing |
+| 2x12x186.25 | 3 | stair stringers — AC2 14-step PRE-CUT, Menards 1114005 (§4.17) |
+| 2x6x32 | 28 | stair treads — two 2x6 per step |
+| 4x4x144 | 2 | side landing posts — inset, 38½ in below grade (§4.19) |
+| 2x10x32 | 3 | side landing beams × 2 + the stair mid-span beam (§4.19) |
+| 4x4x80.75 | 2 | stair mid-span posts — inset, 38½ in below grade (§4.19) |
+| 2x10x3.5 | 4 | bearing cleats at the four 4x4 posts (§4.19) |
 | OSB ¼ | 22 sheets | walls, gables, roof |
 | OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
 
@@ -942,10 +1136,13 @@ Layout positions:
   last bay is a 7 in half-bay)
 - Gable infill studs, Z: 24, 48, 72, 96 (24 in o.c., symmetric about the
   ridge at Z 60) — four per gable, both gables the same
-- Front window R.O. Z 16.33 – 53.33, Y 140.5 – 189.5 (37 × 49); doubled sill
+- Front window R.O. Z 16.33 – 53.33, Y 140.5 – 189.0 (37 × 49); doubled sill
   137.5 – 140.5; 4 cripples at Z 16.33, 28.17, 40.0, 51.83
-- Door R.O. Z 69.67 – 103.67, Y 106.5 – 189.0 (34 × 82.5); doubled 2x8x37
-  header 189.0 – 196.25 (§4.16)
+- Door R.O. Z 69.67 – 103.67, Y 106.5 – 189.0 (34 × 82.5) — no header of its
+  own; the wall-length beam carries it (§4.18)
+- Gable walls: studs 108.0 – 189.0 (81.0), top plate 189.0 – 190.5, doubled
+  2x8x113 190.5 – 197.75 across the whole wall = PLATE_TOP (§4.18). Side walls
+  run studs 108.0 – 196.25 (88.25) with the plate on top, same 197.75.
 - Side window R.O. X 88 – 149, Y 140.5 – 189.5 (61 × 49) on the Z = 0 wall;
   kings at X 85 and 150.5, jacks 86.5 and 149, doubled 2x8x64 header
   189.5 – 196.75, doubled sill 137.5 – 140.5, 6 cripples at X 88, 93.75,
@@ -955,15 +1152,17 @@ Layout positions:
 
 ## 7. Purchase list
 
-**Framing — 105 boards, 1,092 linear feet**
+**Framing — 121 boards, 1,300 linear feet**, plus **3 AC2 14-step pre-cut
+stringers** (Menards 1114005, $64.99 ea) which are bought as a part, not cut
+from stock — so 2x12 is off the lumber list entirely
 
 | Size | Buy |
 |---|---|
-| 2x4 | 17 @ 8' · 4 @ 10' · 7 @ 12' · 2 @ 14' · 7 @ 16' |
-| 2x6 | 22 @ 8' · 6 @ 10' |
+| 2x4 | 18 @ 8' · 4 @ 10' · 8 @ 12' · 2 @ 14' · 7 @ 16' |
+| 2x6 | 22 @ 8' · 6 @ 10' · 6 @ 16' |
 | 2x8 | 4 @ 10' · 1 @ 12' · 2 @ 16' |
-| 2x10 | 4 @ 16' · 15 @ 10' · 4 @ 8' |
-| 4x4 | 1 @ 8' · 1 @ 14' · 2 @ 16' |
+| 2x10 | 4 @ 16' · 1 @ 14' · 15 @ 10' · 5 @ 8' |
+| 4x4 | 3 @ 8' · 1 @ 10' · 1 @ 12' · 1 @ 14' · 4 @ 16' |
 | 6x6 | 6 @ 12' |
 
 *(Two of the three 113 in 2x4 plates were missing from the rail, and the buy
@@ -973,7 +1172,10 @@ twenty-four cleats and backers are 132 in of stock all told — an 8 ft 2x6
 yields seventeen, so budget two boards and keep the offcuts. It was 90
 boards / 936 lf before the gable infill studs — those added
 three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
-37⅞ in inner studs, two per board.)*
+37⅞ in inner studs, two per board. §4.18 changed nothing here — the four
+113 in gable beams pack into the same 2x8 that the four per-opening headers
+did, and the shorter gable studs left one 2x4 and one 4x4 untouched, so keep
+them as spares.)*
 
 **Fasteners — 80, all HDG-equivalent or better.** Six screws per face rather
 than eight: the 5/16 SPAX needs a 1¾ in edge distance where the Grip Fast
@@ -986,7 +1188,8 @@ wanted ⅝, and that is what a 5½ in post face runs out of (§4.9).
 | ½ all-thread, ~14 in | 4 | two front corner cleat lines, 11½ in of material |
 | ½ washers / nuts | 40 / 20 | two washers per bolt |
 
-**Decking — 9 boards, 90 linear feet:** 9 @ 10 ft, landing only. The room
+**Decking — 9 boards @ 14 ft:** the boards run the full 152 in, over the side
+landing as well, so they no longer fit 10 ft stock (§4.17). The room
 floor is OSB now, see below — it used to be 20 more boards at 12 ft.
 
 **Sheathing — 620.3 sq ft:** the model computes this from the actual clipped
@@ -1077,8 +1280,9 @@ profiles, cut angles, notch depths, roof sheathing and peak height all follow.
    2x8, good for ~24 psf of roof snow; deeper plies are a drop-in if not
 4. **Re-derive the 22-sheet sheathing layout** (§7) — the area is computed, the
    sheet count is still a hand estimate
-5. **No way up.** There is still no ladder or stair to a platform nearly 9 ft in
-   the air. Nothing in any drawing or cut list.
+5. **Guards, everywhere.** Nothing has one now — not the deck, not the side
+   landing, not the stair. All of it is around 106 in up. Marshall is choosing
+   rail (§4.17). Also decide the stair pad and post footings.
 6. **Decide the OSB thickness** — ¼ as drawn, or 7/16 as the 24 in o.c. framing
    wants (§5)
 7. Fix the 92 → 93.1 rafter length on the source drawing (§4.3). The three
@@ -1282,3 +1486,93 @@ Built over one session, in this order:
     on jacks. Supersedes §4.7: the wall-length 2x8x113 beams are replaced by a
     4x4 post under each king post, which §4.7 wanted but could not have while
     the old window was in the way. 105 boards, 1,092 lf.
+37. Built the stair (§4.17), closing §9 item 5. Parallel to the front face,
+    arriving at the deck's Z = 0 corner: 15 risers at 7.100, 14 treads at 10,
+    36 in wide, three cut 2x12 stringers on a mid-span 4x4 beam and posts, and
+    a 36 in guard. The 140 in run overhangs the 120 in deck by 20 — unavoidable,
+    since the steepest legal run is still 130. Cut lines are set one tread
+    thickness low so every riser measures 7.100 underfoot including the bottom
+    one. Needed DK_T hoisted above the stair, the same defined-too-late bug as
+    GBL_TOP. New nominal in the model: 2x12. 117 boards, 1,266 lf.
+38. Moved the stair to the RIGHT-hand end and gave it a 36 x 48 top landing on
+    two 4x4 posts, per Marshall's screenshot (§4.17). Landing tucks into the
+    deck's front-right corner so you step on from either the front rim or the
+    end; the stair leaves its right edge and descends in +Z. Guards added on the
+    landing too. Two real defects on the way: guard posts placed INSIDE the
+    framing gave 22 clashes (they bolt to the outside face), and the mid-span
+    beam's flat top bit 1.09 sq in into the sloping stringer, so its top is
+    ripped to the pitch. Zero box-box and prism-prism clashes now; box-prism is
+    back to the 8 known gable-sheathing notches. 122 boards, 1,326 lf.
+39. Re-laid the stair to run in X alongside the Z = 120 side, parallel to that
+    line of three 6x6 posts, 32 in wide, up to a landing the same depth as the
+    open deck (§4.17). Switched the stringers to the AC2 14-step PRE-CUT that
+    Marshall found — 7/11 rather than my 7.1/10, so better treads and no
+    notch-cutting, and 2x12 leaves the lumber list altogether. Guards removed
+    for now, his call. Three real errors caught on the way: a stray + ST_RISE
+    put the pad 7 in too high; building to the side rim face at 119.75 overlapped
+    the deck boards, which overhang to 120; and the stringer profile started at
+    the landing surface rather than the board's own top edge, inventing 1.5 in
+    of material. 119 boards, 1,278 lf + 3 pre-cut stringers.
+40. Ran the deck boards the whole way over the side landing instead of turning
+    them 90° into short pieces, and reframed the landing in 2x10 from Marshall's
+    leftovers (§4.17). The two go together: decking has to cross its joists, so
+    continuous boards in Z force the landing's joists to run in X — two 2x10
+    beams in Z now carry three joists. 2x10 also puts the landing frame at the
+    deck's own joist depth, so they sit flush. Boards go to 152 in, which needs
+    14 ft stock rather than 10. Nothing along the 152 in run is unsupported for
+    more than 16 in. 120 boards, 1,292 lf.
+41. Put the **solid, wall-length header back on both gables** (§4.18), on
+    Marshall's contractor's advice — reversing the header half of §4.16 and
+    reinstating §4.7's beam. Four 2x8x113 doubled across the whole 113 in above
+    each top plate; the two 40 in and two 37 in per-opening headers are gone.
+    The key fact is that this is free: the wall spends 7.25 in on a doubled 2x8
+    either way, so PLATE_TOP stays 197.75 and the peak stays 250.76 — only the
+    gable studs move, 88.25 → 81.0, because the plate drops to 189.0 and the
+    beam sits above it. Sides stay 88.25, their window header unchanged. The
+    contractor's "proper 2x4 bracing" is the king/jack pair at every opening
+    edge, already there since §4.15 — ten studs in the front wall, both members
+    now running the full 81.0 together since there is no separate header for a
+    jack to stop under. Kept the 4x4 posts under the king posts even though the
+    beam carries them fine on its own (109 psi front, 238 psi back against 1550
+    allowable) — one board per gable to make the ridge load a continuous column.
+    Purchase list unchanged at 120 boards, 1,292 lf, with one spare 2x4 and one
+    spare 4x4 falling out of the shorter studs.
+42. **Inset the four stair 4x4 posts** the way the 6x6s are, on cleats and
+    structural screws, at Marshall's request (§4.19) — the beam laps the post
+    face and the post runs up beside it, so no post top is cut to an elevation
+    and nothing bears on one. Landing posts move in 1.5 in and go to 144
+    (a clean 12 ft), tops flush with the deck frame at 105.5; mid-span posts
+    move to the uphill side with 0.95–3.18 in of clearance under the stringer.
+    Four 2x10x3.5 cleats, 24 quarter-inch PowerLags in single columns — a 4x4
+    face cannot take two columns of the 5/16 without breaching its 1¾ in edge
+    distance, which is a real finding, not a preference.
+    **Caught a genuine defect doing it:** the mid-span beam's top is ripped to
+    the pitch, which across a 3.5 in width drops 2.23 in — so the piece was
+    5.73 in deep at its uphill edge while the list bought a 4x4. Un-cuttable.
+    It is a 2x10 on edge now: the rip drops to 0.95 across 1.5 in of stock, one
+    bevel pass, and it matches the landing's own leftovers. 121 boards, 1,300 lf.
+43. **Phone layout: the chrome slid into a drawer.** The rail used to take 56vh
+    of a phone screen and the eleven layer toggles stacked down the right took
+    much of what was left, so the model got about a third of the display. Now
+    the stage is the whole screen and the rail is an off-canvas drawer behind a
+    ☰ — scrim, close button, Escape, and it shuts itself when you tap a cut-list
+    row, because the point of that tap is to see what got isolated. Layers moved
+    into the drawer as a chip block, and the explode slider with them (it used
+    to be hidden outright on a phone). The readout only appears once a board is
+    selected, as a bottom sheet with its own ✕. Left over the model: one row of
+    view buttons.
+    **Desktop is byte-for-byte the same layout** — layers and the slider are
+    position:fixed at their old coordinates, so moving them in the DOM costs
+    nothing there. Two things that had to be got right: they need a z-index now,
+    because #stage is positioned and comes after #rail, so at auto the canvas
+    painted straight over them; and the camera had to learn to frame a portrait
+    viewport. The fov is vertical, so a narrow screen shrinks the HORIZONTAL
+    field and the model ran off both sides once the stage went full height.
+    Pulling back by 1/aspect fixes the width but overshoots — it loosens the
+    vertical framing by the same factor and buried the model in the fog — so
+    fly() now measures instead, projecting the model's bounding box onto the
+    camera axes and asking what radius actually contains it. On a wide screen
+    that lands under the hand-tuned view radii, so max() leaves the desktop
+    views untouched. Fog near/far track the radius on the same ratio they always
+    had. No geometry changed: still 121 boards, 1,300 lf.
+
