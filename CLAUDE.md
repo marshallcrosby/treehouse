@@ -31,7 +31,8 @@ An elevated fort on six buried 6x6 posts:
 | Enclosed room | 144½ × 120 in, at the back of the platform |
 | Open landing | 46 in deep, at the front, under the gable overhang |
 | Roof | gable, 8.91:12, ridge runs the long axis |
-| Grade to peak | 253 in (21 ft 1 in) |
+| Wall height | 87½ in floor to plate (7 ft 3½ in) — §4.21 |
+| Grade to peak | 247 in (20 ft 7 in) |
 | Total pieces | 177 boards + panels |
 
 The front gable wall has a 62 × 50 in window and a 34 in doorway opening onto
@@ -130,9 +131,12 @@ agreed the post was off-centre by 4 in but disagreed on the direction, because
 spans. That is exactly halfway between the two conflicting values, so it is
 consistent with both drawings being 2 in off in opposite directions.
 
-Alternative reading, if it ever matters: centring on the *overall* deck
-(X −3 to 190.5) would put them at 93.75, but that gives unequal spans of 91.0
-and 92.5. Equal spans is the structurally meaningful choice.
+Alternative reading, if it ever mattered: centring on the *overall* deck used
+to disagree. With the front rim doubled the deck ran X −3 to 190.5, whose centre
+is 93.75 — 0.75 off the built position, giving unequal 91.0 and 92.5 spans, so
+equal spans won. The front rim is single now (§4.20), the deck runs X −1.5 to
+190.5, and its centre is **94.5 — exactly where the posts already are.** The two
+readings agree; nothing to choose between.
 
 **Consequence — see §4.6.**
 
@@ -285,8 +289,9 @@ thickness, full bearing.
 what earns the detail its keep: bolt through cleat, post and backer and the
 fastener picks up **two shear planes instead of one**. Double shear is worth
 roughly twice single shear per bolt, for the price of one extra block. Twenty
-four blocks all told — twelve cleats, twelve backers, every one a 2x6 cut to
-5½ in.
+blocks all told — ten cleats, ten backers, every one a 2x6 cut to 5½ in. It was
+twenty four until the front rim went single (§4.20) and the two front corners
+dropped from two blocks a side to one.
 
 Ten bolt lines, verified continuous end to end with a cleat count matching the
 backer count on every one:
@@ -295,14 +300,14 @@ backer count on every one:
 |---|---|---|
 | 6 side rims, one per post | 1 cleat + 1 backer | 1½ + 5½ + 1½ = **8½ in** |
 | 2 back corner posts, cross rim | 1 cleat + 1 backer | 1½ + 5½ + 1½ = **8½ in** |
-| 2 front corner posts, cross rim | 2 cleats + 2 backers | 3 + 5½ + 3 = **11½ in** |
+| 2 front corner posts, cross rim | 1 cleat + 1 backer | 1½ + 5½ + 1½ = **8½ in** |
 
-The front pair is deeper because the front cross rim is a doubled 2x10 and both
-plies want bearing. Its outer cleat is the one block in the model that does not
-touch a post — it sits alongside the inner cleat and the bolt runs through both,
-so the pair acts as one 3 in side member. Buy ½ in × 10 in for the eight shallow
-lines; the two front ones are ½ in all-thread cut to length rather than an
-off-the-shelf carriage bolt.
+**All ten lines are the same now (§4.20).** The front two used to be deeper —
+the front cross rim was a doubled 2x10, both plies wanted bearing, and its outer
+cleat was the one block in the model that did not touch a post. That made them
+3 + 5½ + 3 = 11½ in, which is past an off-the-shelf carriage bolt and meant
+cutting ½ in all-thread to length for two lines. The front rim is single now, so
+**every line is 8½ in and every bolt is a ½ × 10.** One part, no all-thread.
 
 **Why not notch the posts.** Cutting a 1½ in × 7½ in notch so the rim bears
 directly on the shoulder puts *no* fastener in the gravity path, which is
@@ -329,10 +334,10 @@ Two jobs, two fasteners. Once the cleats bear the rim, the rim's own fasteners
 stop being the gravity path, so they do not need to be bolts.
 
 **Cleats and backers — the gravity path. Bolt these.**
-½ in through-bolts in double shear, washers both ends. Eight lines need 1½ +
-5½ + 1½ = 8½ in of material, so ½ in × 10 in. The two front corner lines need
-3 + 5½ + 3 = 11½ in — ½ in all-thread cut to length, not an off-the-shelf
-carriage bolt. At the four corner posts a side-rim line and a cross-rim line
+½ in through-bolts in double shear, washers both ends. All ten lines need 1½ +
+5½ + 1½ = 8½ in of material, so ½ in × 10 in throughout — the two front corner
+lines were 11½ and wanted all-thread until the front rim went single (§4.20).
+At the four corner posts a side-rim line and a cross-rim line
 land on adjacent faces: offset them vertically so the bolts pass rather than
 intersect inside the post.
 
@@ -351,7 +356,7 @@ originally specced.
 | Diameter | 0.315 outside thread · 0.217 shank · 0.189 minor |
 | Drive | T-40, no pilot hole |
 | Report requires | 2⅜ in minimum penetration into the main member |
-| Our condition | 4½ in at the side rims, 3 in at the doubled front cross rim — **both clear it** |
+| Our condition | 4½ in everywhere, now that the front cross rim is single (§4.20) — **clears it** |
 | Coating | HCR, an ICC-recognised alternate to HDG ASTM A153 Class D, **explicitly evaluated for ACQ-D treated wood** (Exposure Condition 3) |
 
 **This closes the approval caveat.** The Grip Fast was covered by a DrJ report —
@@ -726,6 +731,10 @@ model's own geometry.
 
 ### 4.16 The wall height is derived from the door
 
+*(§4.21 later cut `HDR_D` from 7.25 to 3.5, so every elevation below is 3¾ in
+high now. The chain itself is exactly as described — that is what let one
+number move the whole wall.)*
+
 *(The header half of this section was reversed by §4.18 — the wall-length beam
 is back on the gables. The door R.O. and the derived-height chain below still
 stand; they are what makes either header arrangement land on the same plate.)*
@@ -779,6 +788,9 @@ possible and the per-opening headers went in. §4.18 puts the beam back on a
 contractor's advice; the 4x4 posts stay, so the model now has both.
 
 ### 4.18 Back to a solid header on the gables
+
+*(Still wall-length, still doubled — but sistered 2x4 rather than 2x8 since
+§4.21. The arrangement below stands; only the depth changed.)*
 
 Marshall's contractor: a **solid header above the door and window** is sturdy
 provided there is proper 2x4 bracing around each opening. Both halves of that
@@ -917,6 +929,150 @@ puts about ⅝ of it on the mid-span: **~535 lb a post**, ~178 lb per cleat scre
 A ¼ in structural screw in single shear covers that several times over, and the
 cleat means the screws are not carrying it in the first place.
 
+### 4.20 The front cross rim is a single 2x10
+
+Marshall, building it: he doesn't need the sandwiched front beam and is running
+a single. Straightforward, and it takes several other things with it.
+
+**Which ply goes.** The front posts' outer face is X 0.0, and the pair lapped it
+from 0.0 out to −3.0. A beam has to bear on the post face, so the one that stays
+is the **inner** ply at X −1.5 to 0.0 — the outer one had nothing behind it. The
+front now mirrors the back exactly: single 2x10 lapping the post faces, 189.0 to
+190.5 at the back, −1.5 to 0.0 at the front. The lower front beam was already
+single at −1.5, so the two front beams finally line up in plan.
+
+**The deck's front edge moves out of the code and into a name.** `DK_X0 = −1.5`.
+Four things read the front edge — the cleat line, the bolt run, the side
+landing, the first deck board — and typing −3 in four places is exactly how the
+landing ended up a quarter inch out of step with the decking in §4.17. Derived
+now, so a future change to the rim make-up carries the rest with it.
+
+**What follows from the 1½ in:**
+
+| | Was | Now |
+|---|---|---|
+| Front cleats + backers | 2 + 2 per corner | **1 + 1**, same as everywhere else |
+| Blocks total | 24 | **20** |
+| Front bolt lines | 3 + 5½ + 3 = 11½ in | **8½ in**, same as the other eight |
+| Front bolts | ½ all-thread, cut to length | **½ × 10, off the shelf** |
+| Screw penetration past the rim | 3 in | **4½ in** |
+| Side landing depth | 49.5 | 48.0 |
+| Side landing joists | 2x10x46.5 | 2x10x45 |
+
+**The all-thread is gone from the order.** It only existed because two lines
+needed 11½ in of bolt and nobody sells a carriage bolt that long. Every one of
+the ten cleat lines is now 1½ + 5½ + 1½, so the whole job is ½ × 10 — twenty of
+them, one part number. That also retires the §4.9 note about 3 in of screw
+penetration at the doubled rim; the 6 in SPAX now leaves 4½ in past the rim
+everywhere, the same as the sides.
+
+**Deck boards still come to nine.** The bay narrowed by 1½ in but 48 in still
+takes nine boards at the 5¾ in pitch; the last one just rips a little wider than
+it did. And the side landing has to follow the deck line — leaving it at −3
+would have left its outer beam standing 1½ in proud of the decking, which is the
+same mistake §4.17 already made once in the other direction.
+
+**Lumber.** One 2x10 @ 10 ft comes off the order, and four 2x6 cleat blocks.
+120 boards, 1,290 lf.
+
+### 4.21 Both headers become sistered 2x4, and the wall comes down with them
+
+Marshall's contractor: the gable header can be sistered 2x4s, the side window
+too, and **the walls are excessive for a fort — get them nearer 7 ft.** All of
+that is one change, because §4.16 built the wall as a derived chain. `HDR_D`
+goes 7.25 → 3.5 and everything above re-solves.
+
+```
+                       was            now
+opening head          189.00         189.00     unchanged — the door sets it
+header                  7.25           3.50     sistered 2x4
+studs end             196.25         192.50
+top plate              1.50           1.50
+PLATE_TOP             197.75         194.00     roof drops 3¾
+wall, floor to plate   91.25          87.50     7 ft 7¼  ->  7 ft 3½
+peak above grade      250.76         247.01     21 ft 1  ->  20 ft 7
+```
+
+**7 ft flat is not reachable, and it is the door that stops it.** The rough
+opening is already 82.5 for an 80 in pre-hung. A bearing wall needs a header and
+a top plate above that opening, and the shallowest pair that works is 3.5 + 1.5
+= 5.0. So the wall cannot be under 87.5 without a shorter door. If the plan ever
+becomes a slab in a site-built jamb, `DOOR_RO_H` drops to 82.0 (§4.16) and the
+wall goes to 87.0 — half an inch, not worth the shimming.
+
+**Why 3.5 and not less.** A flat sistered 2x4 header — 1.5 deep — over the 61 in
+side window runs 1,964 psi against 1,509 allowable. Over. 3.5 on edge is the
+floor, and it is the floor on the *side* wall specifically, because that is the
+one carrying roof load: the 4x4 eave beam sits on it and takes half the roof.
+
+**The numbers, at the 24 psf roof snow the doubled 2x8 ridge actually covers
+(§4.10), SPF #2, CD 1.15.** Note the 2x4 gets a *higher* allowable than the 2x8
+— size factor 1.5 against 1.2:
+
+| | Sistered 2x4 | vs allowable |
+|---|---|---|
+| Front gable, 10⅓ in clear | 526 psi | 1,509 — 35% used |
+| Back gable, 22½ in clear | 1,071 psi | 1,509 — 71% used |
+| Side window, 61 in clear | 839 psi, sag L/459 | 1,509 — 56% used |
+
+And the gable figures are pessimistic on purpose: they pretend the 4x4 post
+under the king post is not there. **It is, and it is directly under it** — king
+post and post both occupy Z 58.25–61.75, so the ridge load goes through 1½ in of
+top plate into a column, not into the header as bending.
+
+**The header still fills exactly to the plate, so there are still no cripples.**
+That was the whole reason §4.16 chose a 2x8: 7¼ in was precisely the gap from
+the opening head to the underside of the top plate, and no combination of 1.5
+and 3.5 in stock reaches 7.25. Dropping the plate 3¾ makes the gap 3.5 instead,
+which *is* a 2x4 on edge. The trick survives at the lower height — one stud
+length per wall, no blocking over any opening.
+
+**One thing the contractor said that does not hold: 16 in o.c. does nothing for
+the side header.** The header spans the 61 in opening whatever the stud spacing,
+and the tributary roof load over that opening is the same either way. Worth
+doing anyway — the ¼ in skin is thin at 24 o.c. (§5) and it helps racking — but
+not as a header argument. Studs are left at 24 o.c. here; say the word.
+
+**Lumber.** 2x8 all but disappears: the ridge plies are the only 2x8 left in the
+build, so the order goes from seven boards to **two**. 2x4 takes it back — four
+113 in gable header plies and two 64 in side plies, +4 boards @ 10 ft — and the
+side studs each shed 3¾ in. Net **119 boards, 1,278 lf**, and about 52 lf moves
+off 2x8 onto 2x4, which is roughly $55 cheaper. Sheathing drops 620.3 → 602.3
+sq ft; the sheet count is still the hand estimate §7 flags.
+
+### 4.22 Deck bay joists to 12 in o.c.
+
+Marshall: 12 in o.c., first one at 11.25, and it should only be two more boards
+than 16. It is exactly two more — **seven to nine** — and the arithmetic is worth
+writing down because it is the reason the layout was wrong before.
+
+**What was there was not a 16 o.c. layout at all.** The seven joists were typed
+as `[16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9]` — a spacing of 15.84,
+picked to divide the bay evenly rather than measured from anything. Nothing on a
+tape measure lands on 16.87. Derived now, from the one thing you can actually
+hook a tape on.
+
+**11.25 is 12 minus half a joist**, which is the mark that puts the first
+centreline on a round 12. From there every centreline is a round number:
+
+```
+centres   12  24  36  48  60  72  84  96  108
+edges   11.25  ... 10.5 in clear in every bay ...  108.75
+        then 9.5 in clear to the far rim's inner face at 118.25
+```
+
+**One thing to carry to the deck: from the rim's outer face the mark is 11, not
+11.25.** The near side rim runs Z 0.25 – 1.75, a quarter inch in from the deck's
+edge, because the decking overhangs it — the same overhang that put the stair at
+Z 120 rather than 119.75 (§4.17). 11.25 is measured from the decking edge at
+Z 0; measured from the rim face it is 11.0. Both rims are named constants now
+(`RIM_Z0`, `RIM_Z1`) so the layout reads off them instead of a typed 118.25.
+
+**Why it is worth two boards.** 12 o.c. under 1x5½ decking is the spacing that
+lets thinner boards run without bounce, and the clear bay drops from about 14½
+in to 10½. The joists themselves are unchanged — same 2x10x46.5, same bearing,
+same span. **One more 2x10 @ 8 ft** covers both new pieces; 120 boards, 1,286 lf.
+
 ### 4.17 Side landing and stair — §9 item 5
 
 The stair runs in **X, outboard of the Z = 120 side**, parallel to that line of
@@ -946,7 +1102,7 @@ drainage regardless, so it costs nothing.
 the deck boards overhang it to 120 — building to the rim face overlapped the two
 decks by a quarter inch.
 
-**Landing: X −3 to 46.5, which is 49.5 — the same depth as the open deck**, and
+**Landing: X −1.5 to 46.5, which is 48 — the same depth as the open deck** (it was 49.5 until the front rim went single, §4.20), and
 32 wide to match the stair. **Framed in 2x10** out of Marshall's leftovers,
 which also lands it at exactly the deck's own joist depth (Y 96.25 – 105.5), so
 the two frames sit flush and the deck boards run straight across.
@@ -1087,20 +1243,20 @@ Framing, as drawn:
 | 4x4x192 | 2 | eave beams |
 | 4x4x39.75 | 2 | king posts under the ridge (shortened for the deeper ridge, §4.10) |
 | 2x10x189 | 4 | side rims, deck and lower level (widened from 2x8, top kept flush) |
-| 2x10x120 | 5 | cross rims — front pair, back, two low (widened from 2x8, top kept flush) |
+| 2x10x120 | 4 | cross rims — front, back, two low (front single since §4.20) |
 | 2x10x116.5 | 9 | room floor joists + doubled wall carrier (widened from 2x8 to match the rim) |
 | 2x10x105.5 | 1 | centre joist, hung off the 6x6 posts (§4.6) |
-| 2x10x46.5 | 10 | landing joists — 7 deck, 3 side landing |
+| 2x10x46.5 | 9 | deck bay joists — 12 in o.c. (§4.22) |
+| 2x10x45 | 3 | side landing joists — 1½ shorter since the front rim went single (§4.20) |
 | 2x6x92 | 20 | rafters, 24 in o.c. (see §4.3 — really 93.1) |
 | 2x6x57.5 | 12 | 45° knee braces |
-| 2x6x5.5 | 24 | 12 bearing cleats + 12 double-shear backers, at the posts (§4.8) |
+| 2x6x5.5 | 20 | 10 bearing cleats + 10 double-shear backers, at the posts (§4.8, §4.20) |
 | 2x4x144 | 4 | side wall plates (§4.14) |
-| 2x4x113 | 3 | gable top plates + back bottom plate (see §4.2) |
-| 2x8x113 | 4 | front and back headers — doubled, span the whole gable wall (§4.18) |
-| 2x4x88.25 | 13 | side wall studs — 11 at 24 o.c. + 2 window kings |
+| 2x4x113 | 7 | gable top plates ×2, back bottom plate, + 4 sistered gable header plies (§4.21) |
+| 2x4x84.5 | 13 | side wall studs — 11 at 24 o.c. + 2 window kings (§4.21) |
 | 2x4x81 | 18 | gable wall studs — stop under the plate: kings, jacks, corners, backs, side jacks (§4.18) |
 | 4x4x81 | 2 | posts under the king posts (§4.18) |
-| 2x8x64 | 2 | side window header, doubled (§4.15) |
+| 2x4x64 | 2 | side window header, sistered 2x4 (§4.21) |
 | 2x4x61 | 2 | side window sill, doubled |
 | 2x4x66.125 | 1 | front bottom plate, corner to the doorway |
 | 2x4x37 | 2 | front window sill, doubled — 36×48, 37×49 R.O. (§4.15) |
@@ -1132,36 +1288,38 @@ Layout positions:
 - Room joists, X: 62.5, 78.5, 110.5, 126.5, 142.5, 158.5, 174.5 — a **true**
   16 o.c. run pulled from the hung centre joist at 94.5 (§4.6), plus a doubled
   carrier at 46.0 / 47.5
-- Landing joists, Z: 16.87, 32.79, 48.72, 64.64, 80.65, 96.66, 111.9 (16 o.c.,
-  last bay is a 7 in half-bay)
+- Deck bay joists, centrelines Z: 12, 24, 36, 48, 60, 72, 84, 96, 108 — 12 in
+  o.c. pulled from the deck's outside edge at Z 0, so the first near edge is
+  11.25 (§4.22). Last bay runs 108.75 to the far rim's inner face at 118.25,
+  9½ in clear.
 - Gable infill studs, Z: 24, 48, 72, 96 (24 in o.c., symmetric about the
   ridge at Z 60) — four per gable, both gables the same
-- Front window R.O. Z 16.33 – 53.33, Y 140.5 – 189.0 (37 × 49); doubled sill
-  137.5 – 140.5; 4 cripples at Z 16.33, 28.17, 40.0, 51.83
+- Front window R.O. Z 16.33 – 53.33, Y 140.0 – 189.0 (37 × 49); doubled sill
+  137.0 – 140.0; 4 cripples at Z 16.33, 28.17, 40.0, 51.83
 - Door R.O. Z 69.67 – 103.67, Y 106.5 – 189.0 (34 × 82.5) — no header of its
   own; the wall-length beam carries it (§4.18)
-- Gable walls: studs 108.0 – 189.0 (81.0), top plate 189.0 – 190.5, doubled
-  2x8x113 190.5 – 197.75 across the whole wall = PLATE_TOP (§4.18). Side walls
-  run studs 108.0 – 196.25 (88.25) with the plate on top, same 197.75.
-- Side window R.O. X 88 – 149, Y 140.5 – 189.5 (61 × 49) on the Z = 0 wall;
-  kings at X 85 and 150.5, jacks 86.5 and 149, doubled 2x8x64 header
-  189.5 – 196.75, doubled sill 137.5 – 140.5, 6 cripples at X 88, 93.75,
+- Gable walls: studs 108.0 – 189.0 (81.0), top plate 189.0 – 190.5, sistered
+  2x4x113 190.5 – 194.0 across the whole wall = PLATE_TOP (§4.21). Side walls
+  run studs 108.0 – 192.5 (84.5) with the plate on top, same 194.0.
+- Side window R.O. X 88 – 149, Y 140.0 – 189.0 (61 × 49) on the Z = 0 wall;
+  kings at X 85 and 150.5, jacks 86.5 and 149, sistered 2x4x64 header
+  189.0 – 192.5, doubled sill 137.0 – 140.0, 6 cripples at X 88, 93.75,
   109.75, 125.75, 141.75, 147.5
 
 ---
 
 ## 7. Purchase list
 
-**Framing — 121 boards, 1,300 linear feet**, plus **3 AC2 14-step pre-cut
+**Framing — 120 boards, 1,286 linear feet**, plus **3 AC2 14-step pre-cut
 stringers** (Menards 1114005, $64.99 ea) which are bought as a part, not cut
 from stock — so 2x12 is off the lumber list entirely
 
 | Size | Buy |
 |---|---|
-| 2x4 | 18 @ 8' · 4 @ 10' · 8 @ 12' · 2 @ 14' · 7 @ 16' |
+| 2x4 | 18 @ 8' · 8 @ 10' · 8 @ 12' · 2 @ 14' · 7 @ 16' |
 | 2x6 | 22 @ 8' · 6 @ 10' · 6 @ 16' |
-| 2x8 | 4 @ 10' · 1 @ 12' · 2 @ 16' |
-| 2x10 | 4 @ 16' · 1 @ 14' · 15 @ 10' · 5 @ 8' |
+| 2x8 | 2 @ 16' — **the ridge plies, and nothing else** (§4.21) |
+| 2x10 | 4 @ 16' · 1 @ 14' · 14 @ 10' · 6 @ 8' |
 | 4x4 | 3 @ 8' · 1 @ 10' · 1 @ 12' · 1 @ 14' · 4 @ 16' |
 | 6x6 | 6 @ 12' |
 
@@ -1177,15 +1335,15 @@ three 8 ft 2x4s: one yields the four 20 in outer studs, two yield the four
 did, and the shorter gable studs left one 2x4 and one 4x4 untouched, so keep
 them as spares.)*
 
-**Fasteners — 80, all HDG-equivalent or better.** Six screws per face rather
+**Fasteners — 104, all HDG-equivalent or better.** Six screws per face rather
 than eight: the 5/16 SPAX needs a 1¾ in edge distance where the Grip Fast
 wanted ⅝, and that is what a 5½ in post face runs out of (§4.9).
 
 | Item | Qty | For |
 |---|---|---|
 | SPAX PowerLag XF 5/16 × 6, T-Star washer head | 60 | every rim-to-post face — six per face (§4.9) |
-| ½ × 10 HDG bolt | 16 | eight cleat lines, 8½ in of material each |
-| ½ all-thread, ~14 in | 4 | two front corner cleat lines, 11½ in of material |
+| SPAX PowerLag XF 1/4 × 4 | 24 | the four inset 4x4 stair posts — one column of six (§4.19) |
+| ½ × 10 HDG bolt | 20 | all ten cleat lines, 8½ in of material each (§4.20) |
 | ½ washers / nuts | 40 / 20 | two washers per bolt |
 
 **Decking — 9 boards @ 14 ft:** the boards run the full 152 in, over the side
@@ -1575,4 +1733,40 @@ Built over one session, in this order:
     that lands under the hand-tuned view radii, so max() leaves the desktop
     views untouched. Fog near/far track the radius on the same ratio they always
     had. No geometry changed: still 121 boards, 1,300 lf.
+44. **Front cross rim goes from a sandwiched pair to a single 2x10** — Marshall
+    building it, not a design change (§4.20). Kept the inner ply, the one that
+    laps the post faces; the outer had nothing behind it. Front and back are now
+    identical details. Put the deck's front edge behind a name (`DK_X0`) because
+    four separate things read it and typing −3 in four places is precisely the
+    drift that put the landing a quarter inch out in §4.17 — the side landing
+    followed the line to 48 in deep, its joists to 2x10x45. The knock-ons are
+    all simplifications: front corners drop from two cleats and two backers to
+    one of each (24 blocks → 20), the two 11½ in bolt lines become 8½ like the
+    other eight, so **the ½ in all-thread leaves the order entirely** — twenty
+    ½ × 10s and nothing else — and the 6 in SPAX now leaves 4½ in of penetration
+    past the front rim instead of 3, retiring a §4.9 caveat. Still nine deck
+    boards. Zero box-box clashes; box-prism the usual 8. 120 boards, 1,290 lf.
+45. **Both headers to sistered 2x4, and the wall down to 7 ft 3½** (§4.21), on
+    the contractor's advice that the 2x8s were oversized and the walls tall for
+    a fort. This was one number: `HDR_D` 7.25 → 3.5, and §4.16's derived chain
+    carried the studs, the plate, the eave, the ridge and the peak with it. Wall
+    goes 91¼ → 87½, peak 21 ft 1 → **20 ft 7**. 7 ft flat is not available — the
+    door R.O. is 82.5 and a bearing wall needs 5 in of header-plus-plate above
+    it, so 87½ is the floor without a shorter door. The header still fills
+    exactly to the plate, so still no cripples anywhere. Checked the capacities
+    rather than taking it on trust: worst case is the back gable at 1,071 psi
+    against 1,509, and that ignores the 4x4 post which sits directly under the
+    king post. Told him the 16 o.c. part does not hold — stud spacing does not
+    change a 61 in header's span — though it is worth doing for the ¼ in skin.
+    2x8 is now **only the ridge**: seven boards down to two. 119 boards, 1,278 lf.
+46. **Deck bay joists to 12 in o.c.**, Marshall's call (§4.22) — seven to nine,
+    exactly the two extra boards he predicted. The old seven were not a 16 o.c.
+    layout at all: they were typed at a 15.84 spacing chosen to divide the bay
+    evenly, so no mark landed on a tape measure. Derived now from the deck edge
+    at Z 0, first near edge 11.25 so every centreline is a round 12, and the
+    side rims became named constants (`RIM_Z0`, `RIM_Z1`) instead of a typed
+    118.25. Worth flagging at the deck: the near rim's outer face is at Z 0.25
+    because the decking overhangs it, so **hooking the tape on the rim the first
+    mark is 11, not 11.25.** Clear bays go 14½ → 10½ in. Zero box-box clashes,
+    box-prism the usual 8. One more 2x10 @ 8 ft: 120 boards, 1,286 lf.
 
