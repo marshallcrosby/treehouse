@@ -1073,6 +1073,56 @@ lets thinner boards run without bounce, and the clear bay drops from about 14½
 in to 10½. The joists themselves are unchanged — same 2x10x46.5, same bearing,
 same span. **One more 2x10 @ 8 ft** covers both new pieces; 120 boards, 1,286 lf.
 
+### 4.23 Roof rafters laid out from the sheet module
+
+Marshall, looking at the model: the roof OSB doesn't land on the middle of some
+rafters. It didn't — and it was worse than off-centre.
+
+**Every interior seam sat on a rafter's NEAR FACE, not its centre.** The rafter
+positions were a typed array, 0.75 out from the seam grid. So at each joint the
+uphill panel got **exactly zero bearing** — its edge floating in the bay with
+nothing under it — while the downhill panel covered the whole 1.5 in face. Not
+"a bit off": nothing to nail into at all.
+
+| Seam | Rafter was | Bearing was | Rafter is now |
+|---|---|---|---|
+| X 59.5 | 59.5 – 61.0 | **0.00 / 1.50** | 58.75 – 60.25 |
+| X 107.5 | 107.5 – 109.0 | **0.00 / 1.50** | 106.75 – 108.25 |
+| X 155.5 | 155.5 – 157.0 | **0.00 / 1.50** | 154.75 – 156.25 |
+
+This is the third time this exact bug has appeared — the room floor (§4.14) and
+the side walls before it. Same cause every time: a sheet layout and a framing
+layout typed independently, agreeing by eye and not by arithmetic.
+
+**Derived now, from the module.** The roof breaks every 48 in across the
+rafters, so a 24 in o.c. grid anchored at the low rake puts a centreline under
+every second seam automatically:
+
+```
+ROOF_X0 = RM_X0 - 35   = 11.5     rake to rake, 192 in
+ROOF_X1 = RM_X1 + 13   = 203.5
+field rafters  ROOF_X0 + 24k  for k = 2..7   -> 59.5 … 179.5
+seams          ROOF_X0 + 48k                 -> 59.5, 107.5, 155.5
+```
+
+Both arrays read the same constants, so they cannot drift apart again.
+
+**The two rake rafters are the exception, deliberately.** An edge is not a seam:
+the sheathing stops flush on the outer face of the rake rafter, the way a fly
+rafter is meant to work. Both are flush now — the back one used to stop at 203.0
+with the sheathing running to 203.5, half an inch of panel over open air.
+
+**It costs nothing.** Ten rafters per slope before and after, same 2x6x92, same
+cut list. The change is where the marks go, not how much lumber there is. Gable
+rafters stay on their walls (the front already was; the back moved 0.5 to sit
+flush like it) and spacing nowhere exceeds 24 o.c. except the 35 in rake bay,
+which is framed by the ladder, not by rafters.
+
+**One more thing fell out of the check: the rake ladder was half an inch short.**
+The blocks were typed at 33, running X 13 – 46, but the gable rafter's near face
+is at 46.5 — so they butted the rake rafter and stopped shy of the other end.
+Derived face-to-face now: **2x4x33½**.
+
 ### 4.17 Side landing and stair — §9 item 5
 
 The stair runs in **X, outboard of the Z = 120 side**, parallel to that line of
@@ -1222,7 +1272,7 @@ his call.
 
 **Deck board gap = ¼ in**, giving a 5¾ in pitch. Not specified anywhere.
 
-**Rake-ladder blocks stand on edge.** The 2x4x33 blocks that frame the gable
+**Rake-ladder blocks stand on edge.** The 2x4x33½ blocks that frame the gable
 overhang over the landing are rotated to the roof pitch like the rafters, and
 now stand on edge (3.5 in vertical, 1.5 in horizontal) so it's the narrow 1½
 in face that follows the slope — the same way the rafters themselves meet the
@@ -1261,7 +1311,7 @@ Framing, as drawn:
 | 2x4x66.125 | 1 | front bottom plate, corner to the doorway |
 | 2x4x37 | 2 | front window sill, doubled — 36×48, 37×49 R.O. (§4.15) |
 | 2x4x37.875 | 4 | gable infill studs, inner pair — bevelled top, long point |
-| 2x4x33 | 4 | rake-ladder blocks |
+| 2x4x33.5 | 4 | rake-ladder blocks — rafter face to rafter face (§4.23) |
 | 2x4x29 | 10 | cripples — 4 front window, 6 side window |
 | 2x4x20 | 4 | gable infill studs, outer pair — bevelled top, long point |
 | 2x4x12.875 | 1 | front bottom plate, doorway to the corner |
@@ -1277,7 +1327,12 @@ Framing, as drawn:
 
 Layout positions:
 
-- Rafters, X: 11.5, 46, 59.5, 83.5, 107.5, 131.5, 155.5, 179.5, 188.5, 201.5
+- Rafters, **centrelines** X: 12.25, 47.25, 59.5, 83.5, 107.5, 131.5, 155.5,
+  179.5, 189.75, 202.75 (§4.23). The six field rafters sit on a 24 in grid
+  anchored at the low rake, so the 48 in roof-OSB seams at 59.5, 107.5 and
+  155.5 land dead on a centreline. The two rake rafters are flush with the roof
+  edges at 11.5 and 203.5 — an edge is not a seam — and each gable wall keeps
+  its own rafter flush with the wall's outer face
 - Side wall studs, near edges X: 46.5, 69.75, 93.75, 117.75, 141.75, 165.75,
   189 — flush at both corners, 24 o.c. marks pulled from the wall end so the
   centrelines land at 47.25, 70.5, 94.5, 118.5, 142.5, 166.5, 189.75 (§4.14)
@@ -1769,4 +1824,20 @@ Built over one session, in this order:
     because the decking overhangs it, so **hooking the tape on the rim the first
     mark is 11, not 11.25.** Clear bays go 14½ → 10½ in. Zero box-box clashes,
     box-prism the usual 8. One more 2x10 @ 8 ft: 120 boards, 1,286 lf.
+
+
+47. **Re-spaced the roof rafters onto the sheet module** (§4.23), Marshall
+    spotting that the OSB didn't land mid-rafter. It was not merely off-centre:
+    the typed rafter array was 0.75 out, so every interior seam sat on a
+    rafter's near face and **the uphill panel of each joint had zero bearing.**
+    Third appearance of this bug after the room floor (§4.14) and the side
+    walls, and the same cause — a sheet layout and a framing layout typed
+    separately. Both now derive from `ROOF_X0`/`OSB_MOD`, with the six field
+    rafters on a 24 grid anchored at the low rake so every second one lands
+    under a 48 in seam. Rake rafters are flush with the roof edges, which also
+    fixed half an inch of sheathing that ran past the back rake over open air.
+    Caught the rake ladder blocks half an inch short while checking — they were
+    typed at 33 and never reached the gable rafter; face-to-face derived now at
+    33½. Ten rafters per slope before and after, so **no lumber changes**:
+    still 120 boards, 1,286 lf. Zero box-box and prism-prism clashes.
 

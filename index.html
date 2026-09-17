@@ -957,7 +957,27 @@ var RAFT = [
 ];
 var RAFT_MIRROR = RAFT.map(function(p){ return [120-p[0], p[1]]; });
 var RAFT_ROLE = "Rafter — birdsmouth on the 4x4, seat notch over the 4x6";
-var RAFT_X = [11.5,RM_X0,59.5,83.5,107.5,131.5,155.5,179.5,188.5,201.5];
+/* RAFTERS ARE LAID OUT FROM THE SHEET MODULE (§4.23), not typed.
+
+   The roof OSB breaks every 48 in across the rafters. The old array was 0.75
+   out, which put every seam on a rafter's NEAR FACE rather than its centre —
+   so the uphill panel of each joint had exactly ZERO bearing, its edge floating
+   in the bay. Same class of bug as the room floor (§4.14) and the side walls.
+
+   A 24 in o.c. grid anchored at the low rake puts a centreline under every
+   second seam, for free. The two rake rafters sit flush with the roof edges —
+   an edge is not a seam, the sheathing stops on the outer face — and each gable
+   wall keeps its own rafter, flush with the wall's outer face. Ten per slope,
+   the same as before: this costs no lumber, it just moves the marks. */
+var RAKE_FRONT = 35, RAKE_BACK = 13;
+var ROOF_X0 = RM_X0 - RAKE_FRONT;            // 11.5
+var ROOF_X1 = RM_X1 + RAKE_BACK;             // 203.5
+var OSB_MOD = 48, RAFT_OC = 24;
+var RAFT_C = [ROOF_X0 + 0.75, ROOF_X1 - 0.75,   // rake rafters, faces flush
+              RM_X0 + 0.75,   RM_X1 - 0.75];    // one on each gable wall
+for(var rc = ROOF_X0 + 2*RAFT_OC; rc <= ROOF_X1 - RAFT_OC; rc += RAFT_OC) RAFT_C.push(rc);
+RAFT_C.sort(function(a,b){ return a-b; });
+var RAFT_X = RAFT_C.map(function(c){ return c - 0.75; });
 RAFT_X.forEach(function(rx){
   prism("2x6x92", RAFT_ROLE, "roof", RAFT,        "x", rx+1.5, [0,TT, 1]);
   prism("2x6x92", RAFT_ROLE, "roof", RAFT_MIRROR, "x", rx+1.5, [0,TT,-1]);
@@ -968,12 +988,17 @@ RAFT_X.forEach(function(rx){
    1.5 in edge is what follows the pitch, not the flat 3.5 in face. Centred
    on the rafter's own mid-depth line (half of 5.5, projected vertical by
    /CT) so it sits centred in the rafter bay regardless of orientation. */
+/* Ladder runs rafter face to rafter face: the rake rafter's far face to the
+   gable rafter's near face. It was typed at 33 and fell half an inch short of
+   the gable rafter (§4.23) — derived now, so it butts both. */
+var LAD_X0 = ROOF_X0 + 1.5, LAD_X1 = RM_X0, LAD_L = LAD_X1 - LAD_X0;   // 13 -> 46.5
 [34, 17].forEach(function(z){
   var y = U(z) + 2.75/CT;
-  P({size:"2x4x33", role:"Rake-ladder block — frames the 34½ in gable overhang",
-     layer:"roof", kind:"rotX", c:[29.5, y, z], s:[33, 3.5, 1.5], rot:PITCH});
-  P({size:"2x4x33", role:"Rake-ladder block — frames the 34½ in gable overhang",
-     layer:"roof", kind:"rotX", c:[29.5, y, 120-z], s:[33, 3.5, 1.5], rot:-PITCH});
+  [z, 120-z].forEach(function(zz){
+    P({size:"2x4x"+LAD_L, role:"Rake-ladder block \u2014 frames the 34\u00bd in gable overhang",
+       layer:"roof", kind:"rotX", c:[(LAD_X0+LAD_X1)/2, y, zz], s:[LAD_L, 3.5, 1.5],
+       rot: zz === z ? PITCH : -PITCH});
+  });
 });
 
 /* ---------- 7b. side landing + stair ----------
@@ -1290,8 +1315,12 @@ sheet(GB, "x", RM_X1+OSB,   GB_C, "Gable");
 
 /* --- roof: two slopes, 8 ft courses run across the rafters, joints staggered --- */
 var SLOPE_Z0 = -11.36, SLOPE_LEN = (60-SLOPE_Z0)/CT;
-var ROOF_COURSE = [[0, 48, [11.5,107.5,203.5]],
-                   [48, SLOPE_LEN, [11.5,59.5,155.5,203.5]]];
+/* Seams read off the same module the rafters were laid out from, so the two
+   cannot drift apart again. Courses stagger: course 1 breaks at the middle
+   seam, course 2 at the quarter seams. */
+var ROOF_SEAM = [ROOF_X0, ROOF_X0+OSB_MOD, ROOF_X0+2*OSB_MOD, ROOF_X0+3*OSB_MOD, ROOF_X1];
+var ROOF_COURSE = [[0, 48,        [ROOF_SEAM[0], ROOF_SEAM[2], ROOF_SEAM[4]]],
+                   [48, SLOPE_LEN,[ROOF_SEAM[0], ROOF_SEAM[1], ROOF_SEAM[3], ROOF_SEAM[4]]]];
 ROOF_COURSE.forEach(function(c){
   var zA = SLOPE_Z0 + c[0]*CT, zB = SLOPE_Z0 + c[1]*CT, len = c[1]-c[0];
   var zc = (zA+zB)/2, yc = T(zc) + OSB/2/CT;
@@ -1772,7 +1801,7 @@ var CUT = [
   ["2x4x66.125",1,"Front plate to the doorway"],
   ["2x4x37",2,"Front window sill, doubled — 36x48, 37x49 R.O."],
   ["2x4x37.875",4,"Gable infill studs, inner pair — bevelled top"],
-  ["2x4x33",4,"Rake-ladder blocks"],
+  ["2x4x33.5",4,"Rake-ladder blocks \u2014 rafter face to rafter face (\u00a74.23)"],
   ["2x4x29",10,"Cripples — 4 front window, 6 side window"],
   ["2x4x20",4,"Gable infill studs, outer pair — bevelled top"],
   ["2x4x12.875",1,"Front plate past the doorway"]
