@@ -32,7 +32,7 @@ An elevated fort on six buried 6x6 posts:
 | Open landing | 46 in deep, at the front, under the gable overhang |
 | Roof | gable, 8.91:12, ridge runs the long axis |
 | Wall height | 87½ in floor to plate (7 ft 3½ in) — §4.21 |
-| Grade to peak | 247 in (20 ft 7 in) |
+| Grade to peak | 246¾ in (20 ft 6¾ in) |
 | Total pieces | 177 boards + panels |
 
 The front gable wall has a 62 × 50 in window and a 34 in doorway opening onto
@@ -102,7 +102,7 @@ Key elevations:
 | 59.34 | foot of the knee braces |
 | 98 – 107.25 | deck-level rim *and* floor joists, side and cross, all 2x10 |
 | 105.5 | top of the 6x6 posts **and the rim** — flush now, see §4.11 |
-| 107.25 – 108.25 | 1 in OSB room floor, full footprint (see §5) |
+| 105.5 – 106.21875 | 23/32 T&G room subfloor, full footprint (§5, §4.24) |
 | 108.25 | wall base — bottom plates land on top of the floor, not the bare rim |
 | 109.75 – 198.5 | side wall studs (88¾ in — grew from 87, see §4.7) |
 | 109.75 – 191.25 | gable wall studs (81½ in) |
@@ -1123,6 +1123,113 @@ The blocks were typed at 33, running X 13 – 46, but the gable rafter's near fa
 is at 46.5 — so they butted the rake rafter and stopped shy of the other end.
 Derived face-to-face now: **2x4x33½**.
 
+### 4.24 Real thicknesses, and half an inch of air at the wall
+
+Marshall, off the actual receipts: the decking is **1-5/32**, the subfloor is
+**23/32**. Both were typed at a round 1.0, and both were wrong — *in opposite
+directions*, which is the only reason the two surfaces came out dead level.
+
+```
+                       typed        real
+decking                1.000      1.15625
+subfloor               1.000      0.71875
+deck surface          106.50     106.65625
+interior subfloor     106.50     106.21875
+                      ------     ---------
+deck relative to it     level    7/16 in HIGHER
+```
+
+**The deck now sits 7/16 above the room's subfloor**, which is the wrong way
+round for water. But it is not the emergency it looks like, for two reasons.
+
+**The door does not seal at the subfloor — it seals at its sill.** A pre-hung
+exterior unit sits its sill on the rough opening, and that sill stands an inch
+or so proud. So the threshold lands:
+
+| Sill height | Threshold at | Relative to the deck |
+|---|---|---|
+| 1 in | 107.22 | **+9/16** |
+| 1¼ in | 107.47 | +13/16 |
+| 1½ in | 107.72 | +1¹⁄₁₆ |
+
+All of those are the right direction. **Measure the sill on the actual door** —
+anything under 7/16 and the joint is below the deck, which is a real problem.
+Use a sill pan either way; it is a $25 part and it is the only thing between
+wind-driven rain and the bottom plate.
+
+**And the door sits under 35 in of rake overhang** (§4.3), so the deck right
+outside it is about as sheltered as an outdoor surface gets.
+
+**If the open deck is not framed yet there is a free fix**, but a bounded one:
+drop the deck-bay and landing joists below the rim tops. The limit is the
+decking's own thickness — drop more than 1-5/32 and the rim stands proud of the
+deck surface and dams water at the perimeter. So the useful window is a **15/16
+to 1-5/32 drop, buying a 1/2 to 23/32 step down.** Past that the open deck needs
+its own lower rim, which is a genuine reframe.
+
+**The subfloor correction drops the whole building 9/32.** `WALL_BASE` is
+`DECK_TOP + FLOOR_T`, and §4.16's chain hangs off it, so the opening head, the
+plate and the peak all follow: peak 247.01 → **246.73**. Wall height is
+unaffected at 87½ — it is measured floor to plate, and both moved together.
+It also raises the stair pad 5/32 and lengthens the stair posts to 80⅞.
+
+**Half an inch of air at the front wall.** The boards used to die hard against
+the wall with no gap at all — nowhere for water to leave the joint, no room for
+1⅛ in treated stock to swell, and no way to sweep debris out. Half an inch now.
+
+**And the ripped board moved to the outer edge.** It used to land against the
+wall, which is the worst possible place for a narrow rip — unsupported on one
+side and holding water against the plate. At X −1.5 it sits square on the front
+rim, which is exactly 1.5 wide, and reads as an edge trim board:
+
+```
+X −1.5 ──[1½ rip, on the rim]── ¼ ──[5½]── ¼ ── … ──[5½]── ½ ── wall at 46.5
+                                 eight full boards
+```
+
+Still nine boards, so the order does not change. **Tape the doubled carrier**
+(X 46.5 – 49.5, directly under the front wall): that half-inch gap drains onto
+its top edge, and it is the one joist top that gets water aimed at it.
+
+### 4.25 Side window to 60 × 36
+
+Marshall: make it 60 × 36. R.O. **61 × 37** — same +1 each way as the others.
+One number, `SWIN_H` 49 → 37, and §4.15's derived framing re-solved.
+
+```
+head      188.72    unchanged — all three openings still head together (§4.16)
+sill      151.72    was 139.72, up 12
+doubled sill  148.72 – 151.72
+cripples  107.72 – 148.72   = 41 in, were 29
+```
+
+Width is untouched at 61, so the kings, jacks, header and cripple *count* are
+all exactly as they were. Only the sill and cripples moved.
+
+**The thing to decide: the two windows no longer line up at the sill.**
+Because every opening heads at the same height and this one got 12 in shorter,
+its sill rises 12 in with it:
+
+| | Sill above the floor |
+|---|---|
+| Front window (36 × 48) | 30½ in |
+| Side window (60 × 36) | **42½ in** |
+
+Heads in a line is the normal choice and it is what the model does — it reads
+tidy from outside and keeps one header elevation for the whole build. But 42½
+is chin height on a small child, and this is a fort. **If sightline matters more
+than the elevation, align the sills instead:** drop the side head 12 in to
+Y 176.72, which puts its sill back on 30½ and asks for about 15 in of cripple
+*above* its header to reach the plate. That is a real change, not a free one —
+say the word.
+
+Both heights clear the fall-protection minimum either way: IRC R312.2 wants an
+operable sill 24 in above the floor when it is more than 72 in above the ground
+outside, and 30½ and 42½ both pass.
+
+**Lumber.** The six side-window cripples go 2x4x29 → **2x4x41**, so 2x4x29 drops
+to 4 (the front window's own). Net +6 ft of 2x4; the purchase list absorbs it.
+
 ### 4.17 Side landing and stair — §9 item 5
 
 The stair runs in **X, outboard of the Z = 120 side**, parallel to that line of
@@ -1248,8 +1355,8 @@ the saw *on edge* — 3½ face against the fence, 1½ on the table — with the 
 at the pitch (36.6°). Flat on the table bevels the wrong dimension. Foot stays
 square, bearing on the header. One bevel per stud, same setting for both slopes.
 
-**Room floor is 1 in OSB, not decking** (Marshall's call). The landing keeps
-its 1x5½ decking boards; the enclosed room gets 1 in OSB sheathing instead —
+**Room floor is OSB, not decking** (Marshall's call). The landing keeps
+its 1x5½ decking boards; the enclosed room gets 23/32 T&G subfloor instead —
 laid as real 4x8 sheets, three courses, seams staggered, the same way the
 wall/roof skin is. Six cut pieces come out of five sheets; see §6 and §7.
 
@@ -1312,7 +1419,8 @@ Framing, as drawn:
 | 2x4x37 | 2 | front window sill, doubled — 36×48, 37×49 R.O. (§4.15) |
 | 2x4x37.875 | 4 | gable infill studs, inner pair — bevelled top, long point |
 | 2x4x33.5 | 4 | rake-ladder blocks — rafter face to rafter face (§4.23) |
-| 2x4x29 | 10 | cripples — 4 front window, 6 side window |
+| 2x4x29 | 4 | cripples — front window |
+| 2x4x41 | 6 | cripples — side window, 12 in longer since it went 48 → 36 (§4.25) |
 | 2x4x20 | 4 | gable infill studs, outer pair — bevelled top, long point |
 | 2x4x12.875 | 1 | front bottom plate, doorway to the corner |
 | 1x5.5x152 | 9 | deck boards — run the full length, over the side landing |
@@ -1320,10 +1428,10 @@ Framing, as drawn:
 | 2x6x32 | 28 | stair treads — two 2x6 per step |
 | 4x4x144 | 2 | side landing posts — inset, 38½ in below grade (§4.19) |
 | 2x10x32 | 3 | side landing beams × 2 + the stair mid-span beam (§4.19) |
-| 4x4x80.75 | 2 | stair mid-span posts — inset, 38½ in below grade (§4.19) |
+| 4x4x80.875 | 2 | stair mid-span posts — inset, 38½ in below grade (§4.19) |
 | 2x10x3.5 | 4 | bearing cleats at the four 4x4 posts (§4.19) |
 | OSB ¼ | 22 sheets | walls, gables, roof |
-| OSB 1 | 6 panels, cut from 5 sheets | room floor sheathing, full footprint (was 1x5.5x137.5 decking) |
+| OSB 23/32 | 6 panels, cut from 5 sheets | room subfloor, T&G, full footprint (§4.24) |
 
 Layout positions:
 
@@ -1356,9 +1464,9 @@ Layout positions:
 - Gable walls: studs 108.0 – 189.0 (81.0), top plate 189.0 – 190.5, sistered
   2x4x113 190.5 – 194.0 across the whole wall = PLATE_TOP (§4.21). Side walls
   run studs 108.0 – 192.5 (84.5) with the plate on top, same 194.0.
-- Side window R.O. X 88 – 149, Y 140.0 – 189.0 (61 × 49) on the Z = 0 wall;
+- Side window R.O. X 88 – 149, Y 151.72 – 188.72 (61 × 37) on the Z = 0 wall;
   kings at X 85 and 150.5, jacks 86.5 and 149, sistered 2x4x64 header
-  189.0 – 192.5, doubled sill 137.0 – 140.0, 6 cripples at X 88, 93.75,
+  188.72 – 192.22, doubled sill 148.72 – 151.72, 6 cripples at X 88, 93.75,
   109.75, 125.75, 141.75, 147.5
 
 ---
@@ -1412,7 +1520,7 @@ estimate and the gable triangles are where the waste goes. Re-derive it if the
 wall heights move again; the area above already grew from a stale 614½ that
 predated the §4.7 and §5 shifts.
 
-**Room floor — 1 in OSB, 4 sheets:** the floor now runs the full 144.5 × 120
+**Room floor — 23/32 T&G OSB, 4 sheets (§4.24):** the floor runs the full 144.5 × 120
 room footprint (walls stand on top of it, see §5). Six pieces and **not one of
 them ripped in X** (§4.14): 96×48, 48×48, 48×48, 96×48, 96×24, 48×24 — 120.0
 sq ft actual. 160 sq ft bought against
@@ -1840,4 +1948,27 @@ Built over one session, in this order:
     typed at 33 and never reached the gable rafter; face-to-face derived now at
     33½. Ten rafters per slope before and after, so **no lumber changes**:
     still 120 boards, 1,286 lf. Zero box-box and prism-prism clashes.
+48. **Corrected both deck thicknesses to the real materials** (§4.24) — decking
+    1-5/32, subfloor 23/32, where both had been typed at a round 1.0. They were
+    wrong in opposite directions, which is the only reason the deck and the
+    interior floor had come out dead level: the deck actually sits **7/16
+    higher** than the subfloor. Mitigated by the fact that the door seals at its
+    sill, not the subfloor — a 1 in pre-hung sill puts the threshold 9/16 above
+    the deck, the right way round — and by 35 in of rake overhang over the door.
+    Sill pan still wanted. Correcting the subfloor dropped `WALL_BASE` 9/32 and
+    the whole derived stack with it: peak 247.01 → 246.73, wall height unchanged
+    at 87½, stair posts to 80⅞. Also put **half an inch of gap between the
+    decking and the front wall** (it had none) and **moved the ripped board to
+    the outer edge**, where it lands square on the 1.5 in front rim instead of
+    sitting narrow and unsupported against the wall. Still nine boards, no
+    change to the order: 120 boards, 1,286 lf.
+49. **Side window to 60 × 36**, R.O. 61 × 37 (§4.25) — `SWIN_H` 49 → 37 and
+    §4.15's framing re-solved itself. Width untouched, so the kings, jacks,
+    header and cripple count are unchanged; the sill rose 12 in to 151.72 and
+    the six cripples went 2x4x29 → 2x4x41. Worth knowing and worth a decision:
+    because all three openings head together (§4.16), a shorter window means a
+    higher sill — the front window sits at 30½ above the floor and the side one
+    now at **42½**. Heads-in-a-line is the normal call and is what the model
+    does, but on a fort the sightline may matter more. Both clear the 24 in
+    fall-protection minimum. 120 boards, 1,286 lf.
 

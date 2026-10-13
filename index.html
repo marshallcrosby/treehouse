@@ -217,9 +217,9 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
       <div class="dims">
         <b>192 × 120 in</b> deck footprint<br>
         <b>144 × 120 in</b> enclosed room<br>
-        <b>20 ft 7 in</b> grade to peak · <b>87½ in</b> walls<br>
-        <b>107¼ in</b> deck height · <b>8.9:12</b> pitch<br>
-        <b>16 in o.c.</b> joists · <b>1 in OSB</b> room floor · <b>1x5½</b> landing decking · <b>¼</b> OSB skin
+        <b>20 ft 6¾ in</b> grade to peak · <b>87½ in</b> walls<br>
+        <b>106⅔ in</b> deck surface · <b>8.9:12</b> pitch<br>
+        <b>12 in o.c.</b> deck joists · <b>23/32</b> room subfloor · <b>1-5/32</b> decking · <b>¼</b> OSB skin
       </div>
     </div>
 
@@ -251,7 +251,7 @@ input[type=range]{width:150px;accent-color:var(--chalk)}
 
       <div class="notes">
         <p><b>Bar length is true scale</b> — the longest sticks are the 2x8x192 ridge plies; the stub is a 4½ in plate offcut. Tap any line to isolate it in the model.</p>
-        <p><b>Room floor is 1 in OSB, not decking.</b> The landing keeps its decking boards.</p>
+        <p><b>Room floor is 23/32 T&amp;G OSB, not decking.</b> The landing keeps its decking boards. Both thicknesses are the real ones now — 23/32 under foot inside, 1-5/32 decking outside (§4.24).</p>
         <p><b>The walls stand on top of the floor, not beside it.</b> Sheathing runs the full room footprint first, wall plates land on it — everything above (studs, plates, eaves, ridge, peak) moved up 1 in as a result.</p>
         <p><b>¼ in OSB is thin for this frame.</b> Studs and rafters are 24 in o.c., where sheathing is normally 7/16 in. The skin is drawn at ¼ as asked — the panel count barely changes if you step up.</p>
         <p><b>Rafters are notched at both bearings.</b> 1½ in birdsmouth on the 4x4 eave beams, 1¾ in seat over the 4x6 ridge — both under a third of the rafter depth. That was the reason the rafters ran through the ridge in the elevation.</p>
@@ -341,10 +341,13 @@ var RM_X0 = 46.5, RM_X1 = 190.5;         // room runs 46.5 -> 190.5, exactly 144
 var POST_LEN = 144, POST_BURY = 38.5;
 var POST_TOP = POST_LEN - POST_BURY;     // 105.5 above grade
 var DECK_TOP = POST_TOP;                 // rim top flush with the post tops
-var FLOOR_T = 1.0;                    // 1 in OSB room floor
+/* REAL THICKNESSES, measured off what Marshall actually bought (§4.24).
+   Both were typed at a round 1.0 and both were wrong, in opposite directions —
+   which is why the deck and the interior floor came out dead level. */
+var FLOOR_T = 23/32;                  // 0.71875 — 23/32 T&G subfloor, not 1 in
 /* landing decking — hoisted above the stair (7b), which needs DK_T to find the
    walking surface it climbs to. It used to sit down in section 8. */
-var DK_T = 1.0, DK_W = 5.5, DK_GAP = 0.25, DK_P = DK_W + DK_GAP;
+var DK_T = 1+5/32, DK_W = 5.5, DK_GAP = 0.25, DK_P = DK_W + DK_GAP;   // 1.15625
 /* THE DECK'S FRONT EDGE. The front cross rim used to be a doubled 2x10 running
    out to -3.0; it is a single now (§4.20), so the edge is the front post face
    less one rim thickness. Everything that meets the front — the cleat line, the
@@ -733,7 +736,7 @@ var PLATE_TOP    = STUD_TOP + 1.5;             // 194.0
 
    Sill lands at 140.5, the same as the front window, so all three openings line
    up top AND bottom. */
-var SWIN_W = 61, SWIN_H = 49;
+var SWIN_W = 61, SWIN_H = 37;                     // 60x36 unit, +1 each way
 var SWIN_CX = (RM_X0 + RM_X1)/2;                  // 118.5, centred on the wall
 var SWIN_X0 = SWIN_CX - SWIN_W/2, SWIN_X1 = SWIN_CX + SWIN_W/2;
 var SWIN_HEAD = OPENING_HEAD;                     // level with the front openings
@@ -1056,7 +1059,7 @@ function postScrews(axis, face, dir, across, beamLo, beamHi, postTop){
 
 var ST_RISE = 7.0, ST_RUN = 11.0, ST_FIRST = 6.75, ST_TREADS = 14;
 var ST_TREAD_T = 1.5;
-var ST_TOP_Y = DECK_TOP + DK_T;                // 106.5
+var ST_TOP_Y = DECK_TOP + DK_T;                // 106.65625
 /* landing -> tread 1 is one rise, tread 1..14 is 13 more, then the short
    first rise down to the pad. 106.5 - 14x7 - 6.75 = 1.75 */
 var ST_PAD   = ST_TOP_Y - ST_TREADS*ST_RISE - ST_FIRST;   // 1.75
@@ -1185,7 +1188,7 @@ var ST_PH   = ST_PTOP + POST_BURY;             // exact; only the label rounds
 
 /* ---------- 8. decking : 1 x 5.5 boards, 1/4 in gaps (landing only) ----------
    Boards run perpendicular to the joists in each bay, which is why the
-   plan turns the joists 90 deg at the landing. The room floor is 1 in OSB
+   plan turns the joists 90 deg at the landing. The room floor is 23/32 OSB
    instead — see 8b — swapped from decking boards at Marshall's request. */
 
 /* landing: joists run the length, so boards run across the width */
@@ -1195,15 +1198,27 @@ var ST_PH   = ST_PTOP + POST_BURY;             // exact; only the label rounds
    joists, so the two frames have to disagree about direction. 152 in wants
    14 ft stock. */
 var DK_LEN = ST_Z1;                            // 152
-for(var dx = DK_X0; dx < RM_X0 - 0.01; dx += DK_P){
-  var dw = Math.min(DK_W, RM_X0 - dx);
-  box("1x5.5x"+DK_LEN,
-      dw < DK_W ? "Deck board \u2014 rip to " + q8(dw) + " in, runs over the landing"
-                : "Deck board \u2014 \u00BC in gap, runs over the landing",
-      "decking", dx, DECK_TOP, 0, dw, DK_T, DK_LEN);
+
+/* A HALF INCH OF AIR AT THE WALL (§4.24). The boards used to die hard against
+   the front wall with no gap at all — nowhere for water to leave the joint, no
+   room for 1⅛ in treated stock to swell, and nothing to sweep debris out of.
+
+   The ripped board moves to the OUTER edge while we're here. It used to land
+   against the wall, which is the worst place for a narrow rip: unsupported on
+   one side and holding water. At X −1.5 it sits square on the front rim
+   instead, which is exactly 1.5 wide, and reads as an edge trim board. */
+var DK_WALL = 0.5;                             // gap, decking to the front wall
+var DK_RUN  = (RM_X0 - DK_WALL) - DK_X0;       // 47.5 of clear run
+var DK_N    = Math.floor((DK_RUN + DK_GAP)/DK_P);          // full-width boards
+var DK_RIP  = len8(DK_RUN - DK_N*DK_P);                    // the edge board
+box("1x5.5x"+DK_LEN,"Deck board \u2014 rip to "+q8(DK_RIP)+" in, lands on the front rim",
+    "decking", DK_X0, DECK_TOP, 0, DK_RIP, DK_T, DK_LEN);
+for(var di = 0; di < DK_N; di++){
+  box("1x5.5x"+DK_LEN,"Deck board \u2014 \u00BC in gap, runs over the landing",
+      "decking", DK_X0 + DK_RIP + DK_GAP + di*DK_P, DECK_TOP, 0, DK_W, DK_T, DK_LEN);
 }
 
-/* ---------- 8b. room floor : 1 in OSB, real 4x8 sheets, staggered joints ----------
+/* ---------- 8b. room floor : 23/32 T&G OSB, real 4x8 sheets, staggered joints ----------
    §5 — decked before the walls stand: the sheathing runs the full
    144.5 x 120 room footprint, under the wall lines too, and the wall
    plates land on top of it (WALL_BASE = DECK_TOP + FLOOR_T) instead of on
@@ -1242,7 +1257,7 @@ FL_COURSE.forEach(function(c){
   var z0=c[0], z1=c[1], brk=c[2];
   for(var k=0;k<brk.length-1;k++){
     var x0=brk[k], x1=brk[k+1], dx=x1-x0, dz=z1-z0;
-    box("OSB 1", "Room floor sheathing \u2014 cut "+q8(dx)+" \u00D7 "+q8(dz)+" in",
+    box("OSB 23/32", "Room floor sheathing \u2014 cut "+q8(dx)+" \u00D7 "+q8(dz)+" in",
         "decking", x0, DECK_TOP, z0, dx, FLOOR_T, dz);
   }
 });
@@ -1781,12 +1796,12 @@ var CUT = [
   ["2x10x46.5",9,"Deck bay joists — 12 in o.c. (\u00a74.22)"],
   ["2x10x45",3,"Side landing joists — 1\u00bd shorter since the front rim went single (\u00a74.20)"],
   ["2x10x32",3,"Side landing beams \u00d7 2 + the stair mid-span beam (§4.19)"],
-  ["OSB 1",6,"Room floor sheathing — full footprint, cut from 5 sheets"],
+  ["OSB 23/32",6,"Room floor sheathing \u2014 T&G subfloor, full footprint, from 5 sheets (\u00a74.24)"],
   ["1x5.5x152",9,"Deck boards \u2014 run the full length, over the side landing"],
   ["2x12x186.25",3,"Stair stringers — AC2 14-step PRE-CUT, Menards 1114005"],
   ["2x6x32",28,"Stair treads — two 2x6 per step"],
   ["4x4x144",2,"Side landing posts — inset, 38½ in below grade (§4.19)"],
-  ["4x4x80.75",2,"Stair mid-span posts — inset, 38½ in below grade (§4.19)"],
+  ["4x4x80.875",2,"Stair mid-span posts — inset, 38½ in below grade (§4.19)"],
   ["2x10x3.5",4,"Bearing cleats at the four 4x4 posts (§4.19)"],
   ["2x6x92",20,"Rafters, 24 in o.c."],
   ["2x6x57.5",12,"45° knee braces"],
@@ -1794,7 +1809,7 @@ var CUT = [
   ["2x4x144",4,"Side wall plates"],
   ["2x4x113",7,"Gable top plates \u00d7 2, back bottom plate, + 4 sistered gable header plies (\u00a74.21)"],
   ["2x4x84.5",13,"Side wall studs — 11 at 24 in o.c. + 2 window kings (\u00a74.21)"],
-  ["2x4x64",2,"Side window header, sistered 2x4 — 60x48 window (\u00a74.21)"],
+  ["2x4x64",2,"Side window header, sistered 2x4 \u2014 60x36 window (\u00a74.25)"],
   ["2x4x81",18,"Gable wall studs — stop under the plate: kings, jacks, corners, backs, side jacks"],
   ["4x4x81",2,"Posts under the king posts (§4.18)"],
   ["2x4x61",2,"Side window sill, doubled"],
@@ -1802,7 +1817,8 @@ var CUT = [
   ["2x4x37",2,"Front window sill, doubled — 36x48, 37x49 R.O."],
   ["2x4x37.875",4,"Gable infill studs, inner pair — bevelled top"],
   ["2x4x33.5",4,"Rake-ladder blocks \u2014 rafter face to rafter face (\u00a74.23)"],
-  ["2x4x29",10,"Cripples — 4 front window, 6 side window"],
+  ["2x4x29",4,"Cripples \u2014 front window"],
+  ["2x4x41",6,"Cripples \u2014 side window, 12 in longer since it went 48 \u2192 36 (\u00a74.25)"],
   ["2x4x20",4,"Gable infill studs, outer pair — bevelled top"],
   ["2x4x12.875",1,"Front plate past the doorway"]
 ];
